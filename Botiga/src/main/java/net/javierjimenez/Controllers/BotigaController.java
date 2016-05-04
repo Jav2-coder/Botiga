@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,12 +17,12 @@ public class BotigaController {
 	@Autowired
 	PersonaRepositori mongo;
 	
-	@RequestMapping("/saluda/{com}")
-	public String saluda(@PathVariable("com") String c){
+	@RequestMapping("/")
+	public String saluda(){
 		
-		String n = "prova"; 
+		String n = "Home"; 
 		
-		System.out.println(c + " " + n);
+		System.out.println(n);
 		
 		return "index";
 	}
