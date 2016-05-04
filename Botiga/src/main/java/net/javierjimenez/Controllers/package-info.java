@@ -5,4 +5,4 @@
  * @author alumne1daw
  *
  */
-package net.javierjimenez.controllers;
+package net.javierjimenez.Controllers;
