@@ -24,7 +24,7 @@ public class BotigaController {
 		
 		System.out.println(n);
 		
-		return "index";
+		return "home";
 	}
 	
 	/**@RequestMapping("/saluda/{com}")
@@ -37,7 +37,7 @@ public class BotigaController {
         return "index";
     }**/
 	
-	@RequestMapping(value="/login", method=RequestMethod.GET)
+	@RequestMapping(value="/register", method=RequestMethod.GET)
 	  public String login(@RequestParam(value="error",required=false) String error,
 	      HttpServletRequest request) {
 
@@ -45,6 +45,11 @@ public class BotigaController {
 	      return "redirect:/";
 	    }
 
-	    return "login";
+	    return "register";
 	  }
+	
+	@RequestMapping(value="/account")
+	public String account(){
+		return "account";
+	}
 }
