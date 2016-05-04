@@ -38,7 +38,7 @@ public class BotigaController {
     }**/
 	
 	@RequestMapping(value="/register", method=RequestMethod.GET)
-	  public String login(@RequestParam(value="error",required=false) String error,
+	  public String register(@RequestParam(value="error",required=false) String error,
 	      HttpServletRequest request) {
 
 	    if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymousUser") {
@@ -48,7 +48,7 @@ public class BotigaController {
 	    return "register";
 	  }
 	
-	@RequestMapping(value="/account")
+	@RequestMapping(value="/account", method=RequestMethod.GET)
 	public String account(){
 		return "account";
 	}
