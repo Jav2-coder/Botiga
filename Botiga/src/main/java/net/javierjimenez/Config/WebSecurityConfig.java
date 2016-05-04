@@ -1,4 +1,4 @@
-/**package net.javierjimenez.Config;
+package net.javierjimenez.Config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +16,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {    
     http
     .authorizeRequests()
-        .antMatchers("/saluda").permitAll()
+        .antMatchers("/saluda/**").permitAll()
         .anyRequest().authenticated()
         .and()
     .formLogin()
@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   /**
    * Seguretat web no necessària per les adreces de recursos bàsics: 
    * CSS, Javascript, Imatges, tipus de lletres.
-   
+   */
   @Override
     public void configure(WebSecurity web) throws Exception {
         web
@@ -44,4 +44,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     auth.inMemoryAuthentication().withUser("usuari").password("contrasenya").roles("USER");
   }
 
-}*/
+}
