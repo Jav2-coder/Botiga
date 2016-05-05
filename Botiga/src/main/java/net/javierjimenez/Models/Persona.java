@@ -11,8 +11,9 @@ public class Persona {
 	
 	public String Nom;
 	
-	public Persona(){
-		
+	public Persona(String n, Integer id){
+		this.Nom = n;
+		this.id_persona = id;
 	}
 
 	public String getNom() {

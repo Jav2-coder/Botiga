@@ -1,5 +1,7 @@
 package net.javierjimenez.Controllers;
 
+import java.util.Random;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import net.javierjimenez.Models.Persona;
 import net.javierjimenez.Repositories.PersonaRepositori;
 
 @Controller
@@ -18,11 +21,27 @@ public class BotigaController {
 	PersonaRepositori mongo;
 	
 	@RequestMapping("/")
-	public String saluda(){
+	public String home(){
 		
-		String n = "Home"; 
+		Random rnd = new Random();
 		
-		System.out.println(n);
+		Integer random = rnd.nextInt(1000000);
+		
+		mongo.save(new Persona("Pepe", random));
+		
+		System.out.println(random);
+		
+		random = rnd.nextInt(1000000);
+		
+		mongo.save(new Persona("Pep", random));
+		
+		System.out.println(random);
+		
+		random = rnd.nextInt(1000000);
+		
+		mongo.save(new Persona("Pepet", random));
+		
+		System.out.println(random);
 		
 		return "home";
 	}
@@ -52,4 +71,15 @@ public class BotigaController {
 	public String account(){
 		return "account";
 	}
+	
+	@RequestMapping(value="/wishlist", method=RequestMethod.GET)
+	public String wishlist(){
+		return "wishlist";
+	}
+	
+	@RequestMapping(value="/contact", method=RequestMethod.GET)
+	public String contact(){
+		return "contact";
+	}
+	
 }
