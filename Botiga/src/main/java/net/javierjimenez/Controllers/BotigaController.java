@@ -20,6 +20,12 @@ public class BotigaController {
 	@Autowired
 	PersonaRepositori mongo;
 	
+	@RequestMapping(value="/admin000", method=RequestMethod.GET)
+	public String admin(){
+		return "admin";
+	}
+	
+	
 	@RequestMapping("/")
 	public String home(){
 		
