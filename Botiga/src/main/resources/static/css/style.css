@@ -4,6 +4,16 @@ Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 --*/
+
+@font-face {
+   font-family: determination;
+   src: url(fonts/DTM-Mono.otf);
+}
+
+.prova_font {
+   font-family: determination;
+}
+
 body{
 	background:url(../images/back.png);
 	font-family: 'Cabin', sans-serif;
@@ -1172,9 +1182,7 @@ ul.social {
 	color:#464646;
 	font-size:1em;
 }
-.register input[type="text"],.register input[type="password"]{
-	width:60%;
-}
+
 
 .account-top input[type="submit"]{
 	background: #f02b63;
@@ -1248,7 +1256,7 @@ a.create:hover{
 	padding:1.5em 0 0;
 }
 .account-in {
-  padding: 7em 1em;
+  padding: 7em 25em;
     min-height: 550px;
 }
 .account-in h2,.register h2{

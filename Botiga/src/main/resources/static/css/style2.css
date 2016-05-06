@@ -1,0 +1,40 @@
+@font-face {
+   font-family: determination;
+   src: url(fonts/DTM-Mono.otf);
+}
+
+/*--login--*/
+
+#login{
+	background-image: url("/images/depositphotos_58422261-Be-my-retro-valentine-arcade.jpg");
+	background-repeat: no-repeat;
+	background-position: 50% 20%;
+}
+
+.prova_font, span {
+   font-family: determination;
+}
+
+#login_form {
+	position: absolute;
+	left: 27%;
+	top: 15em;
+	width: 46%;
+}
+
+#login_form h2{
+	font-size: 1.8em;
+    padding: 0 0.5em 0.5em;
+}
+
+span {
+	font-size: 1.1em;
+}
+
+.input {
+	padding: 0 5px 5px;
+}
+
+input {
+	border-radius: 5px;
+}

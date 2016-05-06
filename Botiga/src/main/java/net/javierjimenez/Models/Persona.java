@@ -7,28 +7,31 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Persona {
 
 	@Id
-	private Integer id_persona;
+	private String id_persona;
 	
-	public String Nom;
+	public String nom;
 	
-	public Persona(String n, Integer id){
-		this.Nom = n;
-		this.id_persona = id;
+	public Persona(){
+		
+	}
+		
+	public Persona(String n){
+		this.nom = n;
 	}
 
 	public String getNom() {
-		return Nom;
+		return nom;
 	}
 
 	public void setNom(String nom) {
-		Nom = nom;
+		this.nom = nom;
 	}
 	
-	public Integer getId_persona() {
+	public String getId_persona() {
 		return id_persona;
 	}
 
-	public void setId_persona(Integer id_persona) {
-		this.id_persona = id_persona;
+	public void setId_persona(String _id) {
+		this.id_persona = _id;
 	}
 }

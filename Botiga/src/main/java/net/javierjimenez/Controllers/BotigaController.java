@@ -1,7 +1,5 @@
 package net.javierjimenez.Controllers;
 
-import java.util.Random;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import net.javierjimenez.Models.Persona;
+//import net.javierjimenez.Models.Persona;
 import net.javierjimenez.Repositories.PersonaRepositori;
 
 @Controller
@@ -20,7 +18,7 @@ public class BotigaController {
 	@Autowired
 	PersonaRepositori mongo;
 	
-	@RequestMapping(value="/admin000", method=RequestMethod.GET)
+	@RequestMapping(value="/dashboard", method=RequestMethod.GET)
 	public String admin(){
 		return "admin";
 	}
@@ -29,25 +27,13 @@ public class BotigaController {
 	@RequestMapping("/")
 	public String home(){
 		
-		Random rnd = new Random();
+		/*mongo.save(new Persona("Pepe"));
+		mongo.save(new Persona("Pep"));
+		mongo.save(new Persona("Pepet"));
 		
-		Integer random = rnd.nextInt(1000000);
+		Persona p = mongo.findByNom("Pep");
 		
-		mongo.save(new Persona("Pepe", random));
-		
-		System.out.println(random);
-		
-		random = rnd.nextInt(1000000);
-		
-		mongo.save(new Persona("Pep", random));
-		
-		System.out.println(random);
-		
-		random = rnd.nextInt(1000000);
-		
-		mongo.save(new Persona("Pepet", random));
-		
-		System.out.println(random);
+		System.out.println(p.getId_persona());*/
 		
 		return "home";
 	}
@@ -62,7 +48,7 @@ public class BotigaController {
         return "index";
     }**/
 	
-	@RequestMapping(value="/register", method=RequestMethod.GET)
+	@RequestMapping(value="/login", method=RequestMethod.GET)
 	  public String register(@RequestParam(value="error",required=false) String error,
 	      HttpServletRequest request) {
 
@@ -70,7 +56,7 @@ public class BotigaController {
 	      return "redirect:/";
 	    }
 
-	    return "register";
+	    return "login";
 	  }
 	
 	@RequestMapping(value="/account", method=RequestMethod.GET)
@@ -86,6 +72,11 @@ public class BotigaController {
 	@RequestMapping(value="/contact", method=RequestMethod.GET)
 	public String contact(){
 		return "contact";
+	}
+	
+	@RequestMapping(value="/single", method=RequestMethod.GET)
+	public String single(){
+		return "single";
 	}
 	
 }

@@ -16,11 +16,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {    
     http
     .authorizeRequests()
-        .antMatchers("/", "/account", "/contact", "/wishlist", "/admin000").permitAll()
+        .antMatchers("/", "/account", "/contact", "/wishlist", "/dashboard", "/single").permitAll()
         .anyRequest().authenticated()
         .and()
     .formLogin()
-        .loginPage("/register")
+        .loginPage("/login")
         .permitAll()
         .and()
     .logout()
@@ -37,7 +37,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .ignoring()
                 .antMatchers("/js/**","/css/**","/images/**","/fonts/**");
     }
-  
   
   @Autowired
   public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
