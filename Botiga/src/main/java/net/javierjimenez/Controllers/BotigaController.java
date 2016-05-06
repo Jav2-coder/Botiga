@@ -74,6 +74,11 @@ public class BotigaController {
 		return "contact";
 	}
 	
+	@RequestMapping(value="/register", method=RequestMethod.GET)
+	public String register(){
+		return "register";
+	}
+	
 	@RequestMapping(value="/single", method=RequestMethod.GET)
 	public String single(){
 		return "single";
