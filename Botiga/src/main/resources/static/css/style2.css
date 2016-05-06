@@ -126,8 +126,8 @@ input {
 #register-button:before {
 	
   display: block;
-  content: '';
   position: absolute;
+  content: "";
   z-index: -2;
   top: -20px;
   left: -21px;
