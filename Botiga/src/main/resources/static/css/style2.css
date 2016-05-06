@@ -6,20 +6,20 @@
 /*--login--*/
 
 #login{
-	background-image: url("/images/depositphotos_58422261-Be-my-retro-valentine-arcade.jpg");
+	background-image: url("/images/arcade.jpg");
 	background-repeat: no-repeat;
 	background-position: 50% 20%;
 }
 
-.prova_font, span {
+.prova_font, span, btn, #login-button, #register-button {
    font-family: determination;
 }
 
 #login_form {
 	position: absolute;
-	left: 27%;
+	left: 31.7%;
 	top: 15em;
-	width: 46%;
+	width: 35%;
 }
 
 #login_form h2{
@@ -37,4 +37,112 @@ span {
 
 input {
 	border-radius: 5px;
+}
+
+#login-button {
+	
+  position: relative;
+  cursor: pointer;
+  width: 80px;
+  height: 83px;
+  color: black;
+  font-size: 13px;
+  -moz-border-radius: 60px;
+  -webkit-border-radius: 60px;
+  border-radius: 60px;
+  padding: 20px;
+  margin-top: 10px;
+  border: #fc2c71 1px solid;
+  background-color: #fc2c71;
+  background-position: center center;
+  background-repeat: no-repeat;
+  -moz-box-shadow: rgba(0, 0, 0, 0.8) 0 0 10px 5px, rgba(255, 255, 255, 0.7) 0 3px 3px inset, #5b011f 0 8px 10px inset, rgba(0, 0, 0, 0.3) 0 20px 10px inset, rgba(255, 255, 255, 0.5) 0 -2px 3px inset, #8d0230 0 -7px 20px inset;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.8) 0 0 10px 5px, rgba(255, 255, 255, 0.7) 0 3px 3px inset, #5b011f 0 8px 10px inset, rgba(0, 0, 0, 0.3) 0 20px 10px inset, rgba(255, 255, 255, 0.5) 0 -2px 3px inset, #8d0230 0 -7px 20px inset;
+  box-shadow: rgba(0, 0, 0, 0.8) 0 0 10px 5px, rgba(255, 255, 255, 0.7) 0 3px 3px inset, #5b011f 0 8px 10px inset, rgba(0, 0, 0, 0.3) 0 20px 10px inset, rgba(255, 255, 255, 0.5) 0 -2px 3px inset, #8d0230 0 -7px 20px inset;
+}
+
+#login-button:active {
+	
+  border-color: black;
+  -moz-box-shadow: rgba(0, 0, 0, 0.8) 0 0 10px 5px, rgba(0, 0, 0, 0.8) 0 3px 3px inset, #8d0230 0 8px 10px inset, rgba(0, 0, 0, 0.3) 0 20px 10px inset, rgba(255, 255, 255, 0.3) 0 -2px 3px inset, #8d0230 0 -7px 20px inset;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.8) 0 0 10px 5px, rgba(0, 0, 0, 0.8) 0 3px 3px inset, #8d0230 0 8px 10px inset, rgba(0, 0, 0, 0.3) 0 20px 10px inset, rgba(255, 255, 255, 0.3) 0 -2px 3px inset, #8d0230 0 -7px 20px inset;
+  box-shadow: rgba(0, 0, 0, 0.8) 0 0 10px 5px, rgba(0, 0, 0, 0.8) 0 3px 3px inset, #8d0230 0 8px 10px inset, rgba(0, 0, 0, 0.3) 0 20px 10px inset, rgba(255, 255, 255, 0.3) 0 -2px 3px inset, #8d0230 0 -7px 20px inset;
+}
+
+button {
+	display: inline-block;
+}
+
+#login-button:before {
+	
+  display: block;
+  content: '';
+  position: absolute;
+  z-index: -2;
+  top: -20px;
+  left: -21px;
+  margin: 0;
+  padding: 20px;
+  background: #f20352;
+  width: 120px;
+  height: 120px;
+  -moz-border-radius: 80px;
+  -webkit-border-radius: 80px;
+  border-radius: 80px;
+  -moz-box-shadow: #bf0341 0 4px 5px inset, rgba(255, 255, 255, 0.5) 0 12px 5px inset, #8d0230 0 -12px 5px inset, rgba(0, 0, 0, 0.8) 0 4px 8px;
+  -webkit-box-shadow: #bf0341 0 4px 5px inset, rgba(255, 255, 255, 0.5) 0 12px 5px inset, #8d0230 0 -12px 5px inset, rgba(0, 0, 0, 0.8) 0 4px 8px;
+  box-shadow: #bf0341 0 4px 5px inset, rgba(255, 255, 255, 0.5) 0 12px 5px inset, #8d0230 0 -12px 5px inset, rgba(0, 0, 0, 0.8) 0 4px 8px;
+
+}
+
+#register-button {
+	
+  position: relative;
+  cursor: pointer;
+  width: 80px;
+  height: 83px;
+  color: black;
+  font-size: 13px;
+  -moz-border-radius: 60px;
+  -webkit-border-radius: 60px;
+  border-radius: 60px;
+  padding: 20px;
+  margin-top: 10px;
+  border: #fc2c71 1px solid;
+  background-color: #fc2c71;
+  background-position: center center;
+  background-repeat: no-repeat;
+  -moz-box-shadow: rgba(0, 0, 0, 0.8) 0 0 10px 5px, rgba(255, 255, 255, 0.7) 0 3px 3px inset, #5b011f 0 8px 10px inset, rgba(0, 0, 0, 0.3) 0 20px 10px inset, rgba(255, 255, 255, 0.5) 0 -2px 3px inset, #8d0230 0 -7px 20px inset;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.8) 0 0 10px 5px, rgba(255, 255, 255, 0.7) 0 3px 3px inset, #5b011f 0 8px 10px inset, rgba(0, 0, 0, 0.3) 0 20px 10px inset, rgba(255, 255, 255, 0.5) 0 -2px 3px inset, #8d0230 0 -7px 20px inset;
+  box-shadow: rgba(0, 0, 0, 0.8) 0 0 10px 5px, rgba(255, 255, 255, 0.7) 0 3px 3px inset, #5b011f 0 8px 10px inset, rgba(0, 0, 0, 0.3) 0 20px 10px inset, rgba(255, 255, 255, 0.5) 0 -2px 3px inset, #8d0230 0 -7px 20px inset;
+}
+
+#register-button:active {
+	
+  border-color: black;
+  -moz-box-shadow: rgba(0, 0, 0, 0.8) 0 0 10px 5px, rgba(0, 0, 0, 0.8) 0 3px 3px inset, #8d0230 0 8px 10px inset, rgba(0, 0, 0, 0.3) 0 20px 10px inset, rgba(255, 255, 255, 0.3) 0 -2px 3px inset, #8d0230 0 -7px 20px inset;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.8) 0 0 10px 5px, rgba(0, 0, 0, 0.8) 0 3px 3px inset, #8d0230 0 8px 10px inset, rgba(0, 0, 0, 0.3) 0 20px 10px inset, rgba(255, 255, 255, 0.3) 0 -2px 3px inset, #8d0230 0 -7px 20px inset;
+  box-shadow: rgba(0, 0, 0, 0.8) 0 0 10px 5px, rgba(0, 0, 0, 0.8) 0 3px 3px inset, #8d0230 0 8px 10px inset, rgba(0, 0, 0, 0.3) 0 20px 10px inset, rgba(255, 255, 255, 0.3) 0 -2px 3px inset, #8d0230 0 -7px 20px inset;
+}
+
+#register-button:before {
+	
+  display: block;
+  content: '';
+  position: absolute;
+  z-index: -2;
+  top: -20px;
+  left: -21px;
+  margin: 0;
+  padding: 20px;
+  background: #f20352;
+  width: 120px;
+  height: 120px;
+  -moz-border-radius: 80px;
+  -webkit-border-radius: 80px;
+  border-radius: 80px;
+  -moz-box-shadow: #bf0341 0 4px 5px inset, rgba(255, 255, 255, 0.5) 0 12px 5px inset, #8d0230 0 -12px 5px inset, rgba(0, 0, 0, 0.8) 0 4px 8px;
+  -webkit-box-shadow: #bf0341 0 4px 5px inset, rgba(255, 255, 255, 0.5) 0 12px 5px inset, #8d0230 0 -12px 5px inset, rgba(0, 0, 0, 0.8) 0 4px 8px;
+  box-shadow: #bf0341 0 4px 5px inset, rgba(255, 255, 255, 0.5) 0 12px 5px inset, #8d0230 0 -12px 5px inset, rgba(0, 0, 0, 0.8) 0 4px 8px;
+
 }
