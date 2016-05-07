@@ -64,11 +64,6 @@ public class BotigaController {
 		return "account";
 	}
 	
-	@RequestMapping(value="/wishlist", method=RequestMethod.GET)
-	public String wishlist(){
-		return "wishlist";
-	}
-	
 	@RequestMapping(value="/contact", method=RequestMethod.GET)
 	public String contact(){
 		return "contact";
@@ -80,8 +75,17 @@ public class BotigaController {
 	}
 	
 	@RequestMapping(value="/404", method=RequestMethod.GET)
-	public String single(){
+	public String not_found(){
 		return "404";
 	}
 	
+	@RequestMapping(value="/about", method=RequestMethod.GET)
+	public String about(){
+		return "about";
+	}
+	
+	@RequestMapping(value="/product", method=RequestMethod.GET)
+	public String product(){
+		return "product";
+	}
 }

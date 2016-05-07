@@ -11,6 +11,13 @@ p {
 	text-alighn: justify;
 }
 
+/*--footer--*/
+
+footer {
+	display: block;
+	width: 100%;
+}
+
 /*--404--*/
 
 img.displayed {

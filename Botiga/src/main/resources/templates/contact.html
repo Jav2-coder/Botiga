@@ -16,12 +16,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 </head>
 <body>
 	<div class="container">
-
 		<div class="header" th:replace="fragment/header :: header"></div>
 		<div class="header-top" th:replace="fragment/header :: header-top"></div>
 		<div class="content">
 			<!---->
-			<div class="contact">
+			<div class="contact col-md-8 col-md-offset-2">
 				<div>
 					<h3>Contáctanos</h3>
 					<p>
@@ -43,10 +42,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						<input type="submit" value="Submit"></input>
 					</form>
 				</div>
-				<div class="clearfix"></div>
 			</div>
-
 		</div>
+		<div class="clearfix"></div>
 		<footer th:replace="fragment/header :: footer"></footer>
 	</div>
 </body>

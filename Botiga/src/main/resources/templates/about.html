@@ -1,21 +1,70 @@
-
-
-
-
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"></meta>
+<title>Press Start</title>
+<link href="/css/bootstrap.css" rel="stylesheet" type="text/css"
+	media="all"></link>
+<script src="/js/jquery.min.js"></script>
+<link href="/css/style2.css" rel="stylesheet" type="text/css"
+	media="all"></link>
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+<script type="application/x-javascript">
+	 addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } 
+</script>
+<script type="text/javascript" src="/js/move-top.js"></script>
+<script type="text/javascript" src="/js/easing.js"></script>
+<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		$(".scroll").click(function(event) {
+			event.preventDefault();
+			$('html,body').animate({
+				scrollTop : $(this.hash).offset().top
+			}, 1000);
+		});
+	});
+</script>
+</head>
 <body>
-	<div class="col-md-8 col-md-offset-2">
-		<h3>Info</h3>
-		<ul class="social ">
-			<li><span>C/ Arquitecte Pelai Mart�nez, 1 (Figueres,
-					GIRONA) </span></li>
-			<li><span>123 456 7890</span></li>
-			<li><a href="mailto:info@example.com">info@example.com</a></li>
-		</ul>
-
-		<div class="map">
-			<iframe
-				src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d11808.930576789753!2d2.964783!3d42.273557!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xe8dfb11cd9cdef78!2sInstitut+Cendrassos!5e0!3m2!1ses!2ses!4v1462643584341"
-				width="600" height="450" frameborder="0" style="border: 0"></iframe>
+	<div class="container">
+		<div class="header" th:replace="fragment/header :: header"></div>
+		<div class="header-top" th:replace="fragment/header :: header-top"></div>
+		<div class="col-md-8 col-md-offset-2">
+			<h3>SOBRE NOSOTROS</h3>
+			<p>Desde un principio el objetivo fue crear una tienda donde
+				tuviera cabida todo tipo de videojuegos; desde los limitados
+				cartuchos de los años 70, hasta los gigantescos formatos de nuestros
+				días. Desde el sencillo y carismático Pong, hasta la última
+				virguería técnica. Prueba de ello son las más de 30 plataformas con
+				las que trabajamos actualmente: Atari 2600, Nes, Megadrive, Super
+				Nintendo, Neo Geo, Xbox, Game Boy, Game Gear, Playstation 3 y un
+				largo etc.</p>
+			<p>En definitiva, una tienda dedicada a todos los aficionados,
+				tanto los más veteranos que recuerdan con nostalgia la época dorada
+				de los 16 bits, como los que buscan las últimas novedades al mejor
+				precio.</p>
+			<p>De esta forma, y con los años, nos hemos perfilado como un
+				gran almacén de videojuegos retro, con gran variedad de plataformas,
+				y una especialización total en el sector.</p>
+			<h3>LOCALIZACIÓN Y HORARIOS</h3>
+			<ul class="social">
+				<li>C/ Arquitecte Pelai Martínez, 1 (Figueres, GIRONA)</li>
+				<li><b>Teléfono:</b> 123 45 67 89</li>
+				<li><a href="mailto:info@example.com">info@example.com</a></li>
+				<li><b>Horarios:</b></li>
+				<li><b>Lunes-Viernes ></b> Mañanas: 10:00 a 13:00 / Tardes:
+					16:30 a 20:00</li>
+				<li><b>Sábados ></b> Sólo Mañanas 10:30 a 14:00</li>
+			</ul>
+			<div class="map">
+				<iframe
+					src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d11808.930576789753!2d2.964783!3d42.273557!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xe8dfb11cd9cdef78!2sInstitut+Cendrassos!5e0!3m2!1ses!2ses!4v1462643584341"
+					width="600" height="450" frameborder="0" style="border: 0"></iframe>
+			</div>
 		</div>
+		<div class="clearfix"></div>
+		<footer th:replace="fragment/header :: footer"></footer>
 	</div>
 </body>
+</html>

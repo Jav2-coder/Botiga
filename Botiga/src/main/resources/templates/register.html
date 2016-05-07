@@ -1,60 +1,13 @@
-<!--A Design by W3layouts 
-Author: W3layout
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
 <!DOCTYPE html>
 <html>
 <head>
-<title>Mihstore A Ecommerce Category Flat Bootstarp Resposive
-	Website Template | Account :: w3layouts</title>
+<title>Press Start</title>
 <link href="/css/bootstrap.css" rel="stylesheet" type="text/css"
 	media="all"></link>
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="/js/jquery.min.js"></script>
-<!-- Custom Theme files -->
-<!--theme-style-->
-<link href="/css/style.css" rel="stylesheet" type="text/css" media="all"></link>
-<!--//theme-style-->
+<link href="/css/style2.css" rel="stylesheet" type="text/css" media="all"></link>
 <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" ></meta>
-<script type="application/x-javascript">
-	 addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } 
-</script>
-<!--fonts-->
-<link
-	href='http://fonts.googleapis.com/css?family=Cabin:400,500,600,700'
-	rel='stylesheet' type='text/css'></link>
-<!--//fonts-->
-<!--//slider-script-->
-<script>
-	$(document).ready(function(c) {
-		$('.alert-close').on('click', function(c) {
-			$('.message').fadeOut('slow', function(c) {
-				$('.message').remove();
-			});
-		});
-	});
-</script>
-<script>
-	$(document).ready(function(c) {
-		$('.alert-close1').on('click', function(c) {
-			$('.message1').fadeOut('slow', function(c) {
-				$('.message1').remove();
-			});
-		});
-	});
-</script>
-<script>
-	$(document).ready(function(c) {
-		$('.alert-close2').on('click', function(c) {
-			$('.message2').fadeOut('slow', function(c) {
-				$('.message2').remove();
-			});
-		});
-	});
-</script>
 <script type="text/javascript" src="/js/move-top.js"></script>
 <script type="text/javascript" src="/js/easing.js"></script>
 <script type="text/javascript">
@@ -67,79 +20,36 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		});
 	});
 </script>
-<link href="/css/megamenu.css" rel="stylesheet" type="text/css"
-	media="all" />
-<script type="text/javascript" src="/js/megamenu.js"></script>
-<script>
-	$(document).ready(function() {
-		$(".megamenu").megamenu();
-	});
-</script>
 </head>
 <body>
 	<!--header-->
 	<div class="container">
-		<div class="header" id="home">
-			<div class="header-para">
-				<p>
-					The quick brown <span>fox jumps over a lazy dog. DJs flock
-						by when MTV ax quiz prog.</span>
-				</p>
-			</div>
-			<ul class="header-in">
-				<li><a href="/account">MY ACCOUNT</a></li>
-				<li><a href="/wishlist.html"> WISHLIST</a></li>
-				<li><a href="/contact.html"> CONTACT US</a></li>
-			</ul>
-			<div class="clearfix"></div>
-		</div>
-		<!---->
-		<div class="header-top">
-			<div class="logo">
-				<a href="/"><img src="/images/logo.png" alt=""></img></a>
-			</div>
-			<div class="header-top-on">
-				<ul class="social-in">
-					<li><a href="#"><i> </i></a></li>
-					<li><a href="#"><i class="ic"> </i></a></li>
-					<li><a href="#"><i class="ic1"> </i></a></li>
-					<li><a href="#"><i class="ic2"> </i></a></li>
-					<li><a href="#"><i class="ic3"> </i></a></li>
-				</ul>
-			</div>
-			<div class="clearfix"></div>
-		</div>
+		<div class="header" th:replace="fragment/header :: header"></div>
+		<div class="header-top" th:replace="fragment/header :: header-top"></div>
 		<div class="content">
 			<div class="account-in register-top">
 				<h2>Register</h2>
 				<div class=" account-top register">
 					<form>
 						<div>
-							<span>Name*</span> <input type="text"></input>
+							<span>Nombre*</span> <input type="text"></input>
 						</div>
 						<div>
 							<span>Email*</span> <input type="text"></input>
 						</div>
 						<div>
-							<span class="pass">Password*</span> <input type="password"></input>
+							<span class="pass">Contraseña*</span> <input type="password"></input>
+						</div>
+						<div>
+							<span>Dirección*</span> <input type="text"></input>
 						</div>
 						<input type="submit" value="Submit"></input>
 					</form>
 				</div>
 			</div>
 		</div>
+		<div class="clearfix"></div>
 		<footer th:replace="fragment/header :: footer"></footer>
-		<!--
-		<div class="footer">
-			<p class="footer-class">
-				© 2015 Mihstore All Rights Reserved | Template by <a
-					href="http://w3layouts.com/" target="_blank">W3layouts</a>
-			</p>
-
-			<a href="#home" class="scroll to-Top"> GO TO TOP!</a>
-			<div class="clearfix"></div>
-		</div>-->
 	</div>
-	<!---->
 </body>
 </html>

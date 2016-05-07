@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"></meta>
+<title>Press Start</title>
+<link href="/css/bootstrap.css" rel="stylesheet" type="text/css"
+	media="all"></link>
+<script src="/js/jquery.min.js"></script>
+<link href="/css/style2.css" rel="stylesheet" type="text/css"
+	media="all"></link>
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+<script type="text/javascript" src="/js/move-top.js"></script>
+<script type="text/javascript" src="/js/easing.js"></script>
+<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		$(".scroll").click(function(event) {
+			event.preventDefault();
+			$('html,body').animate({
+				scrollTop : $(this.hash).offset().top
+			}, 1000);
+		});
+	});
+</script>
+</head>
+<body>
+	<div class="container">
+		<div class="header" th:replace="fragment/header :: header"></div>
+		<div class="header-top" th:replace="fragment/header :: header-top"></div>
+		<div class="header-bottom"
+			th:replace="fragment/header :: header-bottom"></div>
+		<div class="content">
+			<h3>Nombre Producto</h3>
+			<div class="col-md-7">
+				<img src="/images/dummy.jpg"></img>
+			</div>
+			<div class="col-md-5">
+				<table>
+					<tbody>
+						<tr>
+							<td>Género</td>
+							<td><div class="genre">X</div></td>
+						</tr>
+						<tr>
+							<td>Distribuidora</td>
+							<td><div class="publisher">X</div></td>
+						</tr>
+						<tr>
+							<td>Plataforma</td>
+							<td><div class="platform">X</div></td>
+						</tr>
+						<tr>
+							<td>Edad Rec.</td>
+							<td><div class="age">X</div></td>
+						</tr>
+					</tbody>
+				</table>
+				<div>
+					<p id="quantity_wanted_p">
+						<a href="#" data-field-qty="qty"
+							class="btn btn-default button-minus"> </a>
+						<input style="border: 1px solid rgb(189, 194, 201);" name="qty"
+							id="quantity_wanted" class="text" value="1" type="text"></input>
+						<a href="#" data-field-qty="qty"
+							class="btn btn-default button-plus"> </a>
+					</p>
+					<p id="add_to_cart" class="buttons_bottom_block">
+						<button type="submit" name="Submit" class="exclusive btn">
+							<span>Añadir al carrito</span>
+						</button>
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<footer th:replace="fragment/header :: footer"></footer>
+	</div>
+</body>
+</html>

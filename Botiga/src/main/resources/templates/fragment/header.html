@@ -10,14 +10,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
 </head>
 <body>
-	<div class="header" th:fragment="header">
+	<div id="top" class="header" th:fragment="header">
 		<ul class="header-links">
 			<li><a href="/">Home</a></li>
 			<li><a href="/register">Register</a></li>
 			<li><a href="/account">Account</a></li>
 			<li><a href="/contact">Contact Us</a></li>
 			<li><a href="/about">About Us</a></li>
-			<li><a href="/faq">FAQ</a></li>
 		</ul>
 		<div class="clearfix"></div>
 	</div>
@@ -49,8 +48,8 @@
 		</div>
 	</div>
 
-	<footer class="footer" th:fragment="footer">
-		<a href="#" class="scroll to-Top"> GO TO TOP!</a>
+	<footer th:fragment="footer">
+		<a href="#top" class="scroll to-Top"> GO TO TOP!</a>
 		<div class="clearfix"></div>
 	</footer>
 </body>
