@@ -79,9 +79,9 @@ public class BotigaController {
 		return "register";
 	}
 	
-	@RequestMapping(value="/single", method=RequestMethod.GET)
+	@RequestMapping(value="/404", method=RequestMethod.GET)
 	public String single(){
-		return "single";
+		return "404";
 	}
 	
 }

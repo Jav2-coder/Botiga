@@ -3,16 +3,35 @@
    src: url(fonts/DTM-Mono.otf);
 }
 
+.prova_font, #register-button, span {
+   font-family: determination;
+}
+
+p {
+	text-alighn: justify;
+}
+
+/*--404--*/
+
+img.displayed {
+	display: block;
+    margin: 0 auto;
+    margin-top: 3%;
+	border: solid 3px;
+	border-radius: 20px;
+}
+
+.go_back{
+	text-align: center;
+	font-size: 1.8em;
+}
+
 /*--login--*/
 
 #login{
 	background-image: url("/images/arcade.jpg");
 	background-repeat: no-repeat;
 	background-position: 50% 20%;
-}
-
-.prova_font, span, #login-button, #register-button {
-   font-family: determination;
 }
 
 #login_form {

@@ -4,31 +4,54 @@
 <title>Press Star</title>
 <link href="/css/bootstrap.css" rel="stylesheet" type="text/css"
 	media="all"></link>
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="/js/jquery.min.js"></script>
-<!-- Custom Theme files -->
-<!--theme-style-->
 <link href="/css/style2.css" rel="stylesheet" type="text/css"
 	media="all"></link>
-<!--//theme-style-->
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
 </head>
 <body>
-	<nav class="navbar navbar-inverse navbar-fixed-top navbar-custom"
-		role="navigation" th:fragment="header">
-		<div class="container">
-			<div class="header" id="home">
-				<ul class="header-links">
-					<li><a href="/">Home</a></li>
-					<li><a href="/register">Register</a></li>
-					<li><a href="/account">Account</a></li>
-					<li><a href="/contact">Contact Us</a></li>
-					<li><a href="/about">About Us</a></li>
-					<li><a href="/faq">FAQ</a></li>
-				</ul>
-				<div class="clearfix"></div>
-			</div>
+	<div class="header" th:fragment="header">
+		<ul class="header-links">
+			<li><a href="/">Home</a></li>
+			<li><a href="/register">Register</a></li>
+			<li><a href="/account">Account</a></li>
+			<li><a href="/contact">Contact Us</a></li>
+			<li><a href="/about">About Us</a></li>
+			<li><a href="/faq">FAQ</a></li>
+		</ul>
+		<div class="clearfix"></div>
+	</div>
+
+	<div class="header-top" th:fragment="header-top">
+		<div class="logo">
+			<a href="/"><img src="/images/logo.png" alt=""></img></a>
 		</div>
-	</nav>
+		<div class="clearfix"></div>
+	</div>
+
+	<div class="header-bottom" th:fragment="header-bottom">
+		<div class="top-nav">
+			<ul class="megamenu">
+				<li>Plataforma</li>
+			</ul>
+		</div>
+		<div class="cart">
+			<h6>
+				Shopping Cart: <span class="item">X items</span> <span class="rate">X€</span>
+				<li><a href="#" class="round"> </a>
+					<ul class="sub-icon1 list">
+						<h3>Recently added items(X)</h3>
+						<div class="shopping_cart">
+							<div class="cart_box"></div>
+						</div>
+					</ul></li>
+			</h6>
+		</div>
+	</div>
+
+	<footer class="footer" th:fragment="footer">
+		<a href="#" class="scroll to-Top"> GO TO TOP!</a>
+		<div class="clearfix"></div>
+	</footer>
 </body>
 </html>
