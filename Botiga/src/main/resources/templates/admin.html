@@ -7,37 +7,7 @@
 </head>
 <body>
 <!-- Header -->
-<div id="header">
-	<div class="shell">
-		<!-- Logo + Top Nav -->
-		<div id="top">
-			<h1><a href="#">SpringTime</a></h1>
-			<div id="top-navigation">
-				Welcome <a href="#"><strong>Administrator</strong></a>
-				<span>|</span>
-				<a href="#">Help</a>
-				<span>|</span>
-				<a href="#">Profile Settings</a>
-				<span>|</span>
-				<a href="#">Log out</a>
-			</div>
-		</div>
-		<!-- End Logo + Top Nav -->
-		
-		<!-- Main Nav -->
-		<div id="navigation">
-			<ul>
-			    <li><a href="#" class="active"><span>Dashboard</span></a></li>
-			    <li><a href="#"><span>New Articles</span></a></li>
-			    <li><a href="#"><span>User Management</span></a></li>
-			    <li><a href="#"><span>Photo Gallery</span></a></li>
-			    <li><a href="#"><span>Products</span></a></li>
-			    <li><a href="#"><span>Services Control</span></a></li>
-			</ul>
-		</div>
-		<!-- End Main Nav -->
-	</div>
-</div>
+<div class="header" th:replace="fragment/dashboard_header :: header"></div>
 <!-- End Header -->
 
 <!-- Container -->
@@ -229,46 +199,6 @@
 
 			</div>
 			<!-- End Content -->
-			
-			<!-- Sidebar -->
-			<div id="sidebar">
-				
-				<!-- Box -->
-				<div class="box">
-					
-					<!-- Box Head -->
-					<div class="box-head">
-						<h2>Management</h2>
-					</div>
-					<!-- End Box Head-->
-					
-					<div class="box-content">
-						<a href="#" class="add-button"><span>Add new Article</span></a>
-						<div class="cl">&nbsp;</div>
-						
-						<p class="select-all"><input type="checkbox" class="checkbox"></input><label>select all</label></p>
-						<p><a href="#">Delete Selected</a></p>
-						
-						<!-- Sort -->
-						<div class="sort">
-							<label>Sort by</label>
-							<select class="field">
-								<option value="">Title</option>
-							</select>
-							<select class="field">
-								<option value="">Date</option>
-							</select>
-							<select class="field">
-								<option value="">Author</option>
-							</select>
-						</div>
-						<!-- End Sort -->
-						
-					</div>
-				</div>
-				<!-- End Box -->
-			</div>
-			<!-- End Sidebar -->
 			
 			<div class="cl">&nbsp;</div>			
 		</div>

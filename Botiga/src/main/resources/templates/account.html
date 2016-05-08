@@ -5,12 +5,10 @@
 <link href="/css/bootstrap.css" rel="stylesheet" type="text/css"
 	media="all"></link>
 <script src="/js/jquery.min.js"></script>
-<link href="/css/style.css" rel="stylesheet" type="text/css" media="all"></link>
+<link href="/css/style2.css" rel="stylesheet" type="text/css"
+	media="all"></link>
 <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
-<script type="application/x-javascript">
-	 addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } 
-</script>
 <script type="text/javascript" src="/js/move-top.js"></script>
 <script type="text/javascript" src="/js/easing.js"></script>
 <script type="text/javascript">
@@ -26,9 +24,30 @@
 </head>
 <body>
 	<div class="container">
-	
-	
-	
+		<div class="header" th:replace="fragment/header :: header"></div>
+		<div class="header-top" th:replace="fragment/header :: header-top"></div>
+		<div class="header-bottom"
+			th:replace="fragment/header :: header-bottom"></div>
+		<div class="content">
+			<table>
+				<tbody>
+					<tr>
+						<td>Nom:</td>
+						<td><div class="name_user">X</div></td>
+					</tr>
+					<tr>
+						<td>Email:</td>
+						<td><div class="email_user">X</div></td>
+					</tr>
+					<tr>
+						<td>Dirección:</td>
+						<td><div class="address_user">X</div></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="clearfix"></div>
+		<footer th:replace="fragment/header :: footer"></footer>
 	</div>
 </body>
 </html>
