@@ -1,16 +1,19 @@
 package net.javierjimenez.Controllers;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Base64;
+import java.nio.charset.Charset;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
-import net.javierjimenez.Models.Client;
+import net.javierjimenez.Models.Usuari;
 import net.javierjimenez.Repositories.PersonaRepositori;
 
 @Controller
@@ -25,7 +28,8 @@ public class BotigaController {
 	}
 
 	// Revisar estos enlaces https://www.youtube.com/watch?v=DRADZUzdFYQ -
-	// http://www.baeldung.com/spring-security-registration - https://www.youtube.com/watch?v=wKHL3gmhsBY
+	// http://www.baeldung.com/spring-security-registration -
+	// https://www.youtube.com/watch?v=wKHL3gmhsBY
 
 	@RequestMapping("/")
 	public String home() throws UnsupportedEncodingException {
@@ -51,20 +55,27 @@ public class BotigaController {
 	 * System.out.println(c + " " + n); //mongo.findByNom(n));
 	 * 
 	 * return "index"; }
-	 * @throws UnsupportedEncodingException 
+	 * 
+	 * @throws UnsupportedEncodingException
 	 **/
 
-	@RequestMapping(value = "/success", method = RequestMethod.GET)
+	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	public String register() {
+		return "register";
+	}
+	
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String saveUser(@RequestParam("nombre") String name, @RequestParam("email") String mail,
-			@RequestParam("passwd") String password, @RequestParam("direccion") String adress) throws UnsupportedEncodingException {
+			@RequestParam("passwd") String password, @RequestParam("direccion") String adress) {
 
-		String passwdEncoded = Base64.getEncoder().encodeToString(password.getBytes("utf-8"));
-		
-		mongo.save(new Client(name, mail, passwdEncoded, adress));
-		
-		System.out.println(name + " " + mail + " " + passwdEncoded + " " + adress);
-		
-		return "/";
+		String p = base64Encode(password);
+		String a = base64Encode(adress);
+
+		mongo.save(new Usuari(name, mail, p, a, 0));
+
+		System.out.println("Nombre: " + name + " | Email: " + mail + " | Contraseña: " + p + " | Dirección: " + a);
+
+		return "home";
 	}
 
 	@RequestMapping(value = "/account", method = RequestMethod.GET)
@@ -77,11 +88,6 @@ public class BotigaController {
 		return "contact";
 	}
 
-	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public String register() {
-		return "register";
-	}
-
 	@RequestMapping(value = "/about", method = RequestMethod.GET)
 	public String about() {
 		return "about";
@@ -90,5 +96,27 @@ public class BotigaController {
 	@RequestMapping(value = "/product", method = RequestMethod.GET)
 	public String product() {
 		return "product";
+	}
+	
+	@RequestMapping(value="/login", method=RequestMethod.GET)
+	  public String loginRequest(@RequestParam(value="error",required=false) String error,
+	      HttpServletRequest request) {
+
+	    if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymousUser") {
+	      return "redirect:/register";
+	    }
+
+	    return "login";
+	  }
+
+
+	public static String base64Encode(String token) {
+		byte[] encodedBytes = Base64.encode(token.getBytes());
+		return new String(encodedBytes, Charset.forName("UTF-8"));
+	}
+
+	public static String base64Decode(String token) {
+		byte[] decodedBytes = Base64.decode(token.getBytes());
+		return new String(decodedBytes, Charset.forName("UTF-8"));
 	}
 }

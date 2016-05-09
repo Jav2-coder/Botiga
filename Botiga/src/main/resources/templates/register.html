@@ -30,7 +30,7 @@
 			<div class="account-in register-top">
 				<h2>Register</h2>
 				<div class=" account-top register">
-					<form action="/success" method="GET">
+					<form method="POST" th:action="@{/register}">
 						<div>
 							<span>Nombre*</span><input name="nombre" type="text"></input>
 						</div>

@@ -11,36 +11,31 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-  
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {    
-    http
-    .authorizeRequests()
-        .antMatchers("/", "/success", "/account", "/contact", "/dashboard", "/about", "/register", "/404", "/product").permitAll()
-        .anyRequest().authenticated()
-        .and()
-    .formLogin()
-        .loginPage("/login")
-        .defaultSuccessUrl( "/" )
-        .permitAll()
-        .and()
-    .logout()
-        .permitAll();
-  }
-  
-  /**
-   * Seguretat web no necessària per les adreces de recursos bàsics: 
-   * CSS, Javascript, Imatges, tipus de lletres.
-   */
-  @Override
-    public void configure(WebSecurity web) throws Exception {
-        web
-            .ignoring()
-                .antMatchers("/js/**","/css/**","/images/**","/fonts/**");
-    }
-  
-  @Autowired
-  public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    auth.inMemoryAuthentication().withUser("usuari").password("contrasenya").roles("USER");
-  }
+
+	@Autowired
+	private MongoAuthenticationProvider mongoAuthenticationProvider;
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.authorizeRequests()
+				.antMatchers("/", "/login", "/contact", "/dashboard", "/about", "/register", "/404",
+						"/product")
+				.permitAll().anyRequest().authenticated().and().formLogin().loginPage("/login").defaultSuccessUrl("/")
+				.permitAll().and().logout().permitAll();
+	}
+
+	/**
+	 * Seguretat web no necessària per les adreces de recursos bàsics: CSS,
+	 * Javascript, Imatges, tipus de lletres.
+	 */
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers("/js/**", "/css/**", "/images/**", "/fonts/**");
+	}
+
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth.inMemoryAuthentication().withUser("usuari").password("contrasenya").roles("USER");
+		auth.authenticationProvider(mongoAuthenticationProvider);
+	}
 }

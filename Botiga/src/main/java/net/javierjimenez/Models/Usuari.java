@@ -3,8 +3,8 @@ package net.javierjimenez.Models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "clients")
-public class Client {
+@Document(collection = "users")
+public class Usuari {
 
 	@Id
 	private String id_persona;
@@ -13,16 +13,17 @@ public class Client {
 	private String email;
 	private String password;
 	private String direccion;
+	private Integer rol;
 	
-	public Client(){
-		
+	public Usuari(){	
 	}
 		
-	public Client(String n, String e, String p, String d){
+	public Usuari(String n, String e, String p, String d, Integer r){
 		nombre = n;
 		email = e;
 		password = p;
 		direccion = d;
+		rol = r;
 	}
 
 	public String getNom() {
@@ -63,5 +64,13 @@ public class Client {
 
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
+	}
+
+	public Integer getRol() {
+		return rol;
+	}
+
+	public void setRol(Integer r) {
+		this.rol = r;
 	}
 }
