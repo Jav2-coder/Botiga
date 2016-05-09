@@ -2,10 +2,10 @@ package net.javierjimenez.Repositories;
 
 import org.springframework.data.repository.CrudRepository;
 
-import net.javierjimenez.Models.Persona;
+import net.javierjimenez.Models.Client;
 
-public interface PersonaRepositori extends CrudRepository<Persona, String>{
+public interface PersonaRepositori extends CrudRepository<Client, String>{
 
-	public Persona findByNom(String Nom);
+	public Client findByNom(String Nom);
 	
 }
