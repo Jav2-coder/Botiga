@@ -1,30 +1,59 @@
 package net.javierjimenez.Repositories;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.nio.charset.Charset;
 
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.codec.Base64;
+import org.springframework.stereotype.Service;
 
 import net.javierjimenez.Models.Usuari;
 
-public interface UsuariService extends CrudRepository<Usuari, String> {
+@Service
+public class UsuariService {
 
-	public Usuari findByNom(String Nom);
+	@Autowired
+	UsuariRepositori user;
 
-	public default List<GrantedAuthority> getPermisos(Integer role) {
-		List<GrantedAuthority> authList = new ArrayList<GrantedAuthority>();
+	public Usuari crearUsuari(String username, String password, String email, String address) {
+		
+		if (user.findByNom(username) != null) return null;
+		
+		if (user.findByEmail(email) != null) return null;
 
-		switch (role.intValue()) {
+		Usuari newUser = new Usuari();
+		newUser.setNom(username);
+		newUser.setPassword(base64Encode(password));
+		newUser.setEmail(email);
+		newUser.setDireccion(base64Encode(address));
+		
+		return user.save(newUser);
+	}
 
-		case 0:
-			authList.add(new SimpleGrantedAuthority("ROLE_USER"));
-			break;
-		case 1:
-			authList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+	public Usuari buscaUsuari(String nom) {
+		return user.findByNom(nom);
+	}
+
+	public Usuari identifica(String n, String p) {
+
+		Usuari userFound = user.findByNom(n);
+		if (userFound == null) {
+			return null;
 		}
 
-		return authList;
+		if (!p.equals(base64Decode(userFound.getPassword()))) {
+			return null;
+		}
+
+		return userFound;
+	}
+
+	public static String base64Encode(String token) {
+		byte[] encodedBytes = Base64.encode(token.getBytes());
+		return new String(encodedBytes, Charset.forName("UTF-8"));
+	}
+
+	public static String base64Decode(String token) {
+		byte[] decodedBytes = Base64.decode(token.getBytes());
+		return new String(decodedBytes, Charset.forName("UTF-8"));
 	}
 }

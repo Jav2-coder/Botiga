@@ -12,6 +12,11 @@
 	media="all"></link>
 <!--//theme-style-->
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+<script type="text/javascript">
+					function redirect() {
+						window.location.assign("http://www.google.com")
+					}
+				</script>
 </head>
 <body id="login">
 	<div id="login_form">
@@ -19,25 +24,19 @@
 		<div>
 			<form class="form-horizontal" th:action="@{/login}">
 				<div class="form-group">
-					<span class="col-md-2">NAME</span> <input class="col-md-10"
+					<span class="col-md-2">NAME</span><input class="col-md-10"
 						type="text"></input>
 				</div>
 				<div class="form-group">
-					<span class="pass col-md-2">PASSWORD</span> <input
+					<span class="pass col-md-2">PASSWORD</span><input
 						class="col-md-10" type="password"></input>
 				</div>
 				<button id="login-button" class="col-md-offset-2">
 					<span class="text_btn">LOG</span>
 				</button>
-				<input id="register-button" type="button" class="col-md-offset-5"
-					onclick="redirect()" value="REG"></input>
-				<script type="text/javascript">
-					function redirect() {
-						window.location = "/register"
-
-					}
-				</script>
 			</form>
+			<button id="register-button" class="col-md-offset-5" 
+				onclick="redirect()">REG</button>
 		</div>
 	</div>
 </body>

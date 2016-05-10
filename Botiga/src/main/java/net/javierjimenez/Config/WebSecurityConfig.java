@@ -13,12 +13,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	private MongoAuthenticationProvider mongoAuthenticationProvider;
+	private MongoAuthenticatorProvider mongoAuthenticationProvider;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/", "/login", "/contact", "/dashboard", "/about", "/register", "/404",
+				.antMatchers("/", "/account", "/login", "/contact", "/dashboard", "/about", "/register", "/404",
 						"/product")
 				.permitAll().anyRequest().authenticated().and().formLogin().loginPage("/login").defaultSuccessUrl("/")
 				.permitAll().and().logout().permitAll();
