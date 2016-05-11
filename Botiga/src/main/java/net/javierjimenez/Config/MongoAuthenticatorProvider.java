@@ -32,33 +32,29 @@ public class MongoAuthenticatorProvider implements AuthenticationProvider {
 	}
 
 	@Override
-	  public Authentication authenticate(final Authentication authentication) 
-	      throws AuthenticationException {
-	    String nomUsuari = authentication.getName();
-	    String textContrasenya = authentication.getCredentials().toString();
-	    
-	    // No ha posat la contrasenya
-	    if (!StringUtils.hasText(textContrasenya)) {
-	      return null;
-	    }
-	    // Localitza l'usuari
-	    Usuari usuariIdentificat = userService.identifica(nomUsuari, textContrasenya);
-	    if (usuariIdentificat == null) {
+	public Authentication authenticate(final Authentication authentication) throws AuthenticationException {
+		String nomUsuari = authentication.getName();
+		String textContrasenya = authentication.getCredentials().toString();
+		// No ha posat la contrasenya
+		if (!StringUtils.hasText(textContrasenya)) {
+			return null;
+		}
+		// Localitza l'usuari
+		Usuari usuariIdentificat = userService.identifica(nomUsuari, textContrasenya);
+		if (usuariIdentificat == null) {
 
-	      return null;
-	    }
+			return null;
+		}
 
-	    List<GrantedAuthority> grantedAuths = usuariIdentificat.getAutorizacion();   
-	    
-	    Authentication auth = new UsernamePasswordAuthenticationToken(
-	        usuariIdentificat.getNom(), 
-	        usuariIdentificat.getPassword(), 
-	        grantedAuths);
-	    return auth;
-	  }
+		List<GrantedAuthority> grantedAuths = usuariIdentificat.getAutorizacion();
 
-	  @Override
-	  public boolean supports(Class<?> authentication) {
-	    return authentication.equals(UsernamePasswordAuthenticationToken.class);
-	  }
+		Authentication auth = new UsernamePasswordAuthenticationToken(usuariIdentificat.getNom(),
+				usuariIdentificat.getPassword(), grantedAuths);
+		return auth;
 	}
+
+	@Override
+	public boolean supports(Class<?> authentication) {
+		return authentication.equals(UsernamePasswordAuthenticationToken.class);
+	}
+}

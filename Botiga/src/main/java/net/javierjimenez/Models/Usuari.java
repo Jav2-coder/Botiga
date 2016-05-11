@@ -1,5 +1,6 @@
 package net.javierjimenez.Models;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,9 +9,10 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.codec.Base64;
 
 @Document(collection = "users")
-public class Usuari {
+public class Usuari{
 
 	@Id
 	private String id_persona;
@@ -25,11 +27,11 @@ public class Usuari {
 		roles = Arrays.asList("ROLE_USER");
 	}
 
-	public Usuari(String n, String e, String p, String d, List<String> r) {
+	public Usuari(String n, String e, String p, List<String> r) {
 		nom = n;
 		email = e;
 		password = p;
-		direccion = d;
+		direccion = "";
 		roles = r;
 	}
 
@@ -66,11 +68,15 @@ public class Usuari {
 	}
 
 	public String getDireccion() {
-		return direccion;
+		
+		byte[] decodedBytes = Base64.decode(direccion.getBytes());
+		return new String(decodedBytes, Charset.forName("UTF-8"));
 	}
 
 	public void setDireccion(String direccion) {
-		this.direccion = direccion;
+		
+		byte[] encodedBytes = Base64.encode(direccion.getBytes());
+		this.direccion = new String(encodedBytes, Charset.forName("UTF-8"));
 	}
 
 	public List<String> getRol() {

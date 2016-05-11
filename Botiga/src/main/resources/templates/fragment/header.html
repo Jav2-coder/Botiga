@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
 <title>Press Star</title>
 <link href="/css/bootstrap.css" rel="stylesheet" type="text/css"
@@ -17,6 +19,17 @@
 			<li><a href="/account">Account</a></li>
 			<li><a href="/contact">Contact Us</a></li>
 			<li><a href="/about">About Us</a></li>
+			<!-- ><ul class="nav navbar-nav navbar-right">
+				<li th:classappend="${menu=='login'}?active"
+					sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Login</a></li>
+				<li sec:authorize="isAuthenticated()">
+					<p class="navbar-text" sec:authentication="name"></p>
+					<form class="navbar-form pull-right" action="/logout"
+						th:action="@{/logout}" method="post">
+						<button class="btn btn-default navbar-btn">Logout</button>
+					</form>
+				</li>
+			</ul> -->
 		</ul>
 		<div class="clearfix"></div>
 	</div>

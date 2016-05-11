@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,9 +22,42 @@ public class BotigaController {
 	@Autowired
 	UsuariService userservice;
 
+	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-	public String admin() {
-		return "admin";
+	public String dashboard() {
+		return "dashboard";
+	}
+
+	@Secured("ROLE_ADMIN")
+	@RequestMapping(value = "/addproduct", method = RequestMethod.GET)
+	public String newProd() {
+		return "new_product";
+	}
+
+	@Secured("ROLE_ADMIN")
+	@RequestMapping(value = "/newAdmin", method = RequestMethod.GET)
+	public String newAdmin() {
+		return "newAdmin";
+	}
+
+	@Secured("ROLE_ADMIN")
+	@RequestMapping(value = "/newAdmin", method = RequestMethod.POST)
+	public String saveAdmin(@RequestParam("username") String name, @RequestParam("passwd") String password,
+			@RequestParam("email") String email, Model model) {
+
+		Usuari result = userservice.crearAdmin(name, password, email);
+
+		if (result == null) {
+
+			// String error = "<div class='msg msg-error'><p><strong>Error: El
+			// nombre/correo ya estan en uso!</strong></p></div>";
+
+			String error = "NOPE";
+
+			model.addAttribute("error", error);
+			return "newAdmin";
+		}
+		return "redirect:/dashboard";
 	}
 
 	// Revisar estos enlaces https://www.youtube.com/watch?v=DRADZUzdFYQ -
@@ -53,31 +87,32 @@ public class BotigaController {
 	public String register() {
 		return "register";
 	}
-	
+
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String saveUser(@RequestParam("nombre") String name, @RequestParam("email") String mail,
-			@RequestParam("passwd") String password, @RequestParam("direccion") String address) {
+			@RequestParam("passwd") String password, @RequestParam("direccion") String address, Model model) {
 
-		userservice.crearUsuari(name, password, mail, address);
+		Usuari result = userservice.crearUsuari(name, password, mail, address);
 
+		if (result == null) {
+
+			String error = "Error: El nombre/correo ya existe!";
+
+			model.addAttribute("error", error);
+			return "register";
+		}
 		return "redirect:/";
 	}
 
+	@Secured("ROLE_USER")
 	@RequestMapping(value = "/account", method = RequestMethod.GET)
 	public String account(Model model) {
-		
-		System.out.println("NOPE");
-		
-		if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymousUser") {
-	       
-			String nom = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-			Usuari usuariRecuperat = userservice.buscaUsuari(nom);
-			model.addAttribute("usuario", usuariRecuperat);
-			
-			return "account";
-	    }
-		
-		return "redirect:/login";
+
+		String nom = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+		Usuari usuariRecuperat = userservice.buscaUsuari(nom);
+		model.addAttribute("usuario", usuariRecuperat);
+
+		return "account";
 	}
 
 	@RequestMapping(value = "/contact", method = RequestMethod.GET)
@@ -94,15 +129,15 @@ public class BotigaController {
 	public String product() {
 		return "product";
 	}
-	
-	@RequestMapping(value="/login", method=RequestMethod.GET)
-	  public String loginRequest(@RequestParam(value="error",required=false) String error,
-	      HttpServletRequest request) {
+
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String loginRequest(@RequestParam(value = "error", required = false) String error,
+			HttpServletRequest request) {
 
 		if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymousUser") {
-	      return "redirect:/";
-	    }
+			return "redirect:/account";
+		}
 
-	    return "login";
-	  }
+		return "login";
+	}
 }

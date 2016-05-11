@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="ca" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
 <title>Press Start</title>
 <link href="/css/bootstrap.css" rel="stylesheet" type="text/css"
@@ -13,29 +15,30 @@
 <!--//theme-style-->
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
 <script type="text/javascript">
-					function redirect() {
-						window.location.assign("http://www.google.com")
-					}
-				</script>
+	function redirect() {
+		window.location.assign("http://localhost:8080/register")
+	}
+</script>
 </head>
 <body id="login">
 	<div id="login_form">
 		<h2 class="prova_font">LOGIN</h2>
-		<div>
-			<form class="form-horizontal" th:action="@{/login}">
+		<div class="row">
+			<form id="btn_form" method="POST" class="form-horizontal" th:action="@{/login}">
 				<div class="form-group">
 					<span class="col-md-2">NAME</span><input class="col-md-10"
-						type="text"></input>
+						name="username" type="text" required="required" ></input>
 				</div>
 				<div class="form-group">
-					<span class="pass col-md-2">PASSWORD</span><input
-						class="col-md-10" type="password"></input>
+					<span class="pass col-md-2">PASSWORD</span><input class="col-md-10"
+						name="password" type="password" required="required" ></input>
 				</div>
-				<button id="login-button" class="col-md-offset-2">
-					<span class="text_btn">LOG</span>
-				</button>
 			</form>
-			<button id="register-button" class="col-md-offset-5" 
+			<button type="submit" id="login-button" class="col-md-offset-2"
+				form="btn_form">
+				<span class="text_btn">LOG</span>
+			</button>
+			<button id="register-button" class="col-md-offset-5"
 				onclick="redirect()">REG</button>
 		</div>
 	</div>

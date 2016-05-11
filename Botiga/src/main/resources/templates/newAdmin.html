@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<title>Press Start - Admin Zone</title>
+<link rel="stylesheet" href="/css/styleAdmin.css" type="text/css"
+	media="all" />
+</head>
+<body>
+	<!-- Header -->
+	<div class="header" th:replace="fragment/dashboard_header :: header"></div>
+	<!-- End Header -->
+
+	<div id="container">
+		<div class="shell">
+			<div id="main">
+				<div id="content">
+					<div th:text="${error}"></div>
+					<div class="box">
+						<div class="box-head">Nuevo Administrador</div>
+						<div class="table">
+							<form class="form" method="POST" th:action="@{/newAdmin}">
+								<p>
+									<label>Nombre <span>(Campo Requerido)</span>
+									</label><input type="text" name="username" class="field size1"></input>
+								</p>
+								<p>
+									<label>Email <span>(Campo Requerido)</span></label><input
+										name="email" class="field size1" type="text"></input>
+								</p>
+								<p>
+									<label>Contraseña <span>(Campo Requerido)</span></label><input
+										name="passwd" class="field size1" type="password"></input>
+								</p>
+								<input type="submit" value="Submit"></input>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<div class="footer" th:replace="fragment/dashboard_header :: footer"></div>
+	<!-- End Footer -->
+</body>
+</html>
