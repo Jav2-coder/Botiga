@@ -7,14 +7,30 @@
    font-family: determination;
 }
 
+body {
+	background-image: url("/images/top-banner.png");
+	background-repeat: repeat-x;
+	background-color: #000000;
+}
+
 p {
-	text-alighn: justify;
+	text-align: justify;
+	color: #337ab7;
+}
+
+ul, h3 {
+	color: #337ab7;
 }
 
 /*--header--*/
 
+.logo {
+	margin-top: 10px;
+}
+
 div#top {
 	right: 0;
+	height: 150px;
 }
 
 .nav {

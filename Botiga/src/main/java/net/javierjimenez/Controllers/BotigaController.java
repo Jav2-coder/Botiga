@@ -29,7 +29,7 @@ public class BotigaController {
 	public String dashboard() {
 		return "dashboard";
 	}
-	
+
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/listClients", method = RequestMethod.GET)
 	public String listClients() {
@@ -46,13 +46,13 @@ public class BotigaController {
 	@RequestMapping(value = "/addproduct", method = RequestMethod.POST)
 	public String saveProduct(@RequestParam("name") String n, @RequestParam("total") String t) {
 
-		if(ProducteService.isNumeric(t)){
+		if (ProducteService.isNumeric(t)) {
 			Integer tot = Integer.parseInt(t);
 			System.out.println(n + " | " + tot);
 		} else {
 			System.out.println("Mal: Valor no numérico");
 		}
-		
+
 		return "redirect:/dashboard";
 	}
 
@@ -73,6 +73,11 @@ public class BotigaController {
 
 			// String error = "<div class='msg msg-error'><p><strong>Error: El
 			// nombre/correo ya estan en uso!</strong></p></div>";
+			/*
+			 * https://github.com/MichalGasiorowski/java-spring-tutorial/blob/
+			 * master/spring-tutorial-114/src/main/java/com/goose/spring/web/
+			 * controllers/ErrorHandler.java
+			 */
 
 			String error = "NOPE";
 

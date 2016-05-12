@@ -162,14 +162,11 @@ h3 a {
 }
 
 #top-navigation {
+	display: inline-block;
 	float: right;
 	white-space: nowrap;
 	color: #fff;
 	padding-top: 15px;
-}
-
-#top-navigation a {
-	color: #fff;
 }
 
 #top-navigation span {
