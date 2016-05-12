@@ -4,32 +4,27 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
 <title>Press Star</title>
-<link href="/css/bootstrap.css" rel="stylesheet" type="text/css"
-	media="all"></link>
-<script src="/js/jquery.min.js"></script>
-<link href="/css/style2.css" rel="stylesheet" type="text/css"
-	media="all"></link>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
 </head>
 <body>
 	<div id="top" class="header" th:fragment="header">
-		<ul class="header-links">
+		<ul class="header-links nav navbar-nav navbar-right">
+			<li sec:authorize="isAuthenticated()">
+					    <p class="navbar-text" sec:authentication="name">username</p>
+						<form class="navbar-form pull-right" action="/logout" th:action="@{/logout}" method="post">						    
+							<button class="btn btn-default navbar-btn">Logout</button>
+						</form>
+			</li>
 			<li><a href="/">Home</a></li>
-			<li><a href="/register">Register</a></li>
+			<li th:classappend="${menu=='login'}?active"
+						sec:authorize="!isAuthenticated()">
+						<a th:href="@{/register}">Register</a></li>
+			<li th:classappend="${menu=='login'}?active"
+						sec:authorize="!isAuthenticated()">
+						<a th:href="@{/login}">Login</a></li>
 			<li><a href="/account">Account</a></li>
 			<li><a href="/contact">Contact Us</a></li>
 			<li><a href="/about">About Us</a></li>
-			<!-- ><ul class="nav navbar-nav navbar-right">
-				<li th:classappend="${menu=='login'}?active"
-					sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Login</a></li>
-				<li sec:authorize="isAuthenticated()">
-					<p class="navbar-text" sec:authentication="name"></p>
-					<form class="navbar-form pull-right" action="/logout"
-						th:action="@{/logout}" method="post">
-						<button class="btn btn-default navbar-btn">Logout</button>
-					</form>
-				</li>
-			</ul> -->
 		</ul>
 		<div class="clearfix"></div>
 	</div>
@@ -42,22 +37,26 @@
 	</div>
 
 	<div class="header-bottom" th:fragment="header-bottom">
-		<div class="top-nav">
-			<ul class="megamenu">
-				<li>Plataforma</li>
+		<div class="collapse navbar-collapse">
+			<ul class="nav navbar-nav">
+				<li class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown" href="#" id="themes">Plataformas<span
+						class="caret"></span></a>
+					<ul></ul>
+				</li>
 			</ul>
-		</div>
-		<div class="cart">
-			<h6>
-				Shopping Cart: <span class="item">X items</span> <span class="rate">X€</span>
-				<li><a href="#" class="round"> </a>
-					<ul class="sub-icon1 list">
-						<h3>Recently added items(X)</h3>
-						<div class="shopping_cart">
-							<div class="cart_box"></div>
-						</div>
-					</ul></li>
-			</h6>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown"><a href="#"
+					class="dropdown-toggle" data-toggle="dropdown">Carrito: <span class="item">X items</span>
+	<span class="rate">X€</span></a>
+					<ul class="dropdown-menu">
+						<li class="sub-icon1 list">Recently added items(X)<div class="shopping_cart">
+								<div class="cart_box"></div>
+							</div>
+						</li>
+					</ul>
+				</li>
+			</ul>
 		</div>
 	</div>
 

@@ -11,6 +11,16 @@ p {
 	text-alighn: justify;
 }
 
+/*--header--*/
+
+div#top {
+	right: 0;
+}
+
+.nav {
+	list-style: none;
+}
+
 /*--footer--*/
 
 footer {
