@@ -29,7 +29,7 @@ public class UsuariService {
 		newUser.setPassword(base64Encode(password));
 		newUser.setEmail(email);
 		newUser.setDireccion(base64Encode(address));
-
+		
 		return user.save(newUser);
 	}
 

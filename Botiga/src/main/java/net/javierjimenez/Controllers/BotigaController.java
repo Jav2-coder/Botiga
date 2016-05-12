@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import net.javierjimenez.Models.Usuari;
+import net.javierjimenez.Repositories.ProducteService;
 import net.javierjimenez.Repositories.UsuariService;
 
 @Controller
@@ -21,17 +22,38 @@ public class BotigaController {
 
 	@Autowired
 	UsuariService userservice;
+	ProducteService productservice;
 
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
 	public String dashboard() {
 		return "dashboard";
 	}
+	
+	@Secured("ROLE_ADMIN")
+	@RequestMapping(value = "/listClients", method = RequestMethod.GET)
+	public String listClients() {
+		return "listClients";
+	}
 
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/addproduct", method = RequestMethod.GET)
 	public String newProd() {
 		return "new_product";
+	}
+
+	@Secured("ROLE_ADMIN")
+	@RequestMapping(value = "/addproduct", method = RequestMethod.POST)
+	public String saveProduct(@RequestParam("name") String n, @RequestParam("total") String t) {
+
+		if(ProducteService.isNumeric(t)){
+			Integer tot = Integer.parseInt(t);
+			System.out.println(n + " | " + tot);
+		} else {
+			System.out.println("Mal: Valor no numérico");
+		}
+		
+		return "redirect:/dashboard";
 	}
 
 	@Secured("ROLE_ADMIN")

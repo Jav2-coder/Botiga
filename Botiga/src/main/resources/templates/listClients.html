@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 <title>Press Start - Admin Zone</title>
@@ -11,11 +11,18 @@
 	<div class="header" th:replace="fragment/dashboard_header :: header"></div>
 	<!-- End Header -->
 
+	<!-- Container -->
 	<div id="container">
 		<div class="shell">
+
+			<!-- Main -->
 			<div id="main">
+				<div class="cl">&nbsp;</div>
+
+				<!-- Content -->
 				<div id="content">
-					<div th:text="${error}"></div>
+
+					<!-- Box -->
 					<div class="box">
 						<!-- Box Head -->
 						<div class="box-head">
@@ -34,25 +41,16 @@
 								<tr>
 									<th width="13"><input type="checkbox" class="checkbox" /></th>
 									<th>Nombre</th>
-									<th>Plataforma</th>
-									<th>Distribuidor</th>
-									<th>Cantidad</th>
-									<th>Activado</th>
-									<th>Añadido por</th>
+									<th>Email</th>
+									<th>Dirección</th>
 									<th width="110" class="ac">Content Control</th>
 								</tr>
 								<tr>
 									<td><input type="checkbox" class="checkbox" /></td>
-									<td><h3>
-											<a href="#">Lorem ipsum dolor sit amet, consectetur.</a>
-										</h3></td>
-									<td>Plataforma</td>
-									<td>Distribuidor</td>
-									<td>Cantidad</td>
-									<td>Activado/No activado</td>
-									<td><a href="#">Administrator</a></td>
-									<td><a href="#" class="ico del">Delete</a><a href="#"
-										class="ico edit">Edit</a></td>
+									<td><h3>Lorem ipsum dolor sit amet, consectetur.</h3></td>
+									<td>email</td>
+									<td>dirección</td>
+									<td><a href="#" class="ico del">Delete</a></td>
 								</tr>
 							</table>
 
@@ -70,37 +68,13 @@
 						</div>
 						<!-- Table -->
 					</div>
-					<div class="box">
-						<div class="box-head">Nuevo Administrador</div>
-						<div class="table">
-							<form method="POST" th:action="@{/newAdmin}">
-								<div class="form">
-									<p>
-										<label>Nombre <span>(Campo Requerido)</span>
-										</label><input type="text" name="username" class="field size1"></input>
-									</p>
-									<p>
-										<label>Email <span>(Campo Requerido)</span></label><input
-											name="email" class="field size1" type="text"></input>
-									</p>
-									<p>
-										<label>Contraseña <span>(Campo Requerido)</span></label><input
-											name="passwd" class="field size1" type="password"></input>
-									</p>
-								</div>
-								<div class="buttons">
-									<input type="submit" class="button" value="submit"></input>
-								</div>
-							</form>
-						</div>
-					</div>
+					<!-- End Box -->
 				</div>
 			</div>
 		</div>
+		<!-- Footer -->
+		<div class="footer" th:replace="fragment/dashboard_header :: footer"></div>
+		<!-- End Footer -->
 	</div>
-
-	<!-- Footer -->
-	<div class="footer" th:replace="fragment/dashboard_header :: footer"></div>
-	<!-- End Footer -->
 </body>
 </html>
