@@ -2,6 +2,7 @@ package net.javierjimenez.Repositories;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,13 @@ public class UsuariService {
 		return user.save(newUser);
 	}
 
+	public void eliminarUsuari(String username){
+		
+		Usuari del = user.findByNom(username);
+		
+		user.delete(del);
+	}
+	
 	public Usuari crearAdmin(String username, String password, String email) {
 
 		if (user.findByNom(username) != null)
@@ -50,6 +58,24 @@ public class UsuariService {
 
 	public Usuari buscaUsuari(String nom) {
 		return user.findByNom(nom);
+	}
+
+	public List<Usuari> buscarClients() {
+
+		List<Usuari> usuarios = user.findAll();
+
+		Iterator<Usuari> userIterator = usuarios.iterator();
+
+		while (userIterator.hasNext()) {
+			
+			if (userIterator.next().getRol().contains("ROLE_ADMIN")) {
+
+				userIterator.remove();
+			}
+		}
+
+		return usuarios;
+
 	}
 
 	public Usuari identifica(String n, String p) {

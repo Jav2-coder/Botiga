@@ -154,15 +154,19 @@
 							<h2>Editar Artículo</h2>
 						</div>
 						<!-- End Box Head -->
-						<form th:action="@{/dashboard}" method="post" >
+						<form th:action="@{/dashboard}" method="post">
 							<!-- Form -->
 							<div class="form">
 								<p>
 									<label>Nombre Artículo <span>(Campo Requerido)</span>
-									</label><input name="name" type="text" class="field size1" required="required"></input>
+									</label><input name="name" type="text" class="field size1"
+										required="required"></input>
 								</p>
+								<div id="select0">
+									<label>Precio</label><input name="price" type="text" value="0"></input>
+								</div>
 								<div id="select1">
-									<label>Género</label> <select th:field="*{generos}">
+									<label>Género</label><select th:field="*{generos}">
 										<option th:each="genero : ${generos}" th:value="${genero}"
 											th:text="${genero}">x</option>
 									</select>
@@ -175,8 +179,7 @@
 									</select>
 								</div>
 								<div id="select3">
-									<label>Plataforma</label><select
-										th:field="*{plataformas}">
+									<label>Plataforma</label><select th:field="*{plataformas}">
 										<option th:each="plataforma : ${plataformas}"
 											th:value="${plataforma}" th:text="${plataforma}">x</option>
 									</select>

@@ -75,8 +75,7 @@ public class Usuari{
 
 	public void setDireccion(String direccion) {
 		
-		byte[] encodedBytes = Base64.encode(direccion.getBytes());
-		this.direccion = new String(encodedBytes, Charset.forName("UTF-8"));
+		this.direccion = direccion;
 	}
 
 	public List<String> getRol() {

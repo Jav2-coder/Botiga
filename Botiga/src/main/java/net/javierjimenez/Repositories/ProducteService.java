@@ -33,7 +33,7 @@ public class ProducteService {
 	
 	public static boolean isNumeric(String cadena){
 		try {
-			Integer.parseInt(cadena);
+			Double.parseDouble(cadena);
 			return true;
 		} catch (NumberFormatException nfe){
 			return false;

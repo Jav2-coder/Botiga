@@ -1,6 +1,9 @@
 package net.javierjimenez.Controllers;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -49,28 +52,45 @@ public class BotigaController {
 	
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/dashboard", method = RequestMethod.POST)
-	public String editProduct(@RequestParam("name") String n, @RequestParam("total") String t, Model model) {
+	public String editProduct(@RequestParam("price") String p, @RequestParam("name") String n, @RequestParam("total") String t, Model model) {
 		
 		model.addAttribute("generos", generos);
 		model.addAttribute("distribuidoras", distribuidoras);
 		model.addAttribute("plataformas", plataformas);
 		
-		if (ProducteService.isNumeric(t)) {
-			Integer tot = Integer.parseInt(t);
-			System.out.println(n + " | " + tot);
+		if (ProducteService.isNumeric(t) && ProducteService.isNumeric(p)) {
+			Integer tot = (int) Double.parseDouble(t);
+			Double preu = round(Double.parseDouble(p), 2);
+			System.out.println(n + " | " + tot + " | " +  preu);
 		} else {
 			System.out.println("Mal: Valor no numérico");
 		}
 		
-		return "dashboard";
+		return "redirect:/dashboard";
 		
 	}
 
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/listClients", method = RequestMethod.GET)
-	public String listClients() {
+	public String listClients(Model model) {
+		
+		List<Usuari> clientes = u_service.buscarClients();
+		
+		model.addAttribute("clientes", clientes);
+		
 		return "listClients";
 	}
+	
+	@Secured("ROLE_ADMIN")
+	@RequestMapping(value = "/listClients", method = RequestMethod.POST)
+	public String delClient(@RequestParam("nom_user") String n) {
+	
+		u_service.eliminarUsuari(n);
+		
+		return "redirect:/listClients";
+		
+	}
+	
 
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/addproduct", method = RequestMethod.GET)
@@ -133,19 +153,6 @@ public class BotigaController {
 		return "home";
 	}
 
-	/**
-	 * @RequestMapping("/saluda/{com}") public String
-	 * saluda(@RequestParam("nom") String n, @PathVariable("com") String c) {
-	 * 
-	 * n = "prova";
-	 * 
-	 * System.out.println(c + " " + n); //mongo.findByNom(n));
-	 * 
-	 * return "index"; }
-	 * 
-	 * @throws UnsupportedEncodingException
-	 **/
-
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String register() {
 		return "register";
@@ -202,5 +209,13 @@ public class BotigaController {
 		}
 
 		return "login";
+	}
+	
+	private double round(double value, int places) {
+	    if (places < 0) throw new IllegalArgumentException();
+
+	    BigDecimal bd = new BigDecimal(value);
+	    bd = bd.setScale(places, RoundingMode.HALF_UP);
+	    return bd.doubleValue();
 	}
 }

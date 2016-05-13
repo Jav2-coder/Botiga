@@ -26,12 +26,7 @@
 					<div class="box">
 						<!-- Box Head -->
 						<div class="box-head">
-							<h2 class="left">Artículos actuales</h2>
-							<div class="right">
-								<label>search articles</label> <input type="text"
-									class="field small-field"></input> <input type="submit"
-									class="button" value="search"></input>
-							</div>
+							<h2 class="left">Clientes Registrados</h2>
 						</div>
 						<!-- End Box Head -->
 
@@ -39,18 +34,18 @@
 						<div class="table">
 							<table width="100%" border="0" cellspacing="0" cellpadding="0">
 								<tr>
-									<th width="13"><input type="checkbox" class="checkbox" /></th>
 									<th>Nombre</th>
 									<th>Email</th>
 									<th>Dirección</th>
 									<th width="110" class="ac">Content Control</th>
 								</tr>
-								<tr>
-									<td><input type="checkbox" class="checkbox" /></td>
-									<td><h3>Lorem ipsum dolor sit amet, consectetur.</h3></td>
-									<td>email</td>
-									<td>dirección</td>
-									<td><a href="#" class="ico del">Delete</a></td>
+								<tr th:field="*{clientes}" th:each="cliente : ${clientes}">
+									<td th:text="${cliente.nom}">x</td>
+									<td th:text="${cliente.email}">x</td>
+									<td th:text="${cliente.direccion}">x</td>
+									<td><form th:action="@{/listClients}" method="post">
+											<button class="btn btn-default navbar-btn">Eliminar</button>
+										</form></td>
 								</tr>
 							</table>
 
