@@ -45,6 +45,7 @@
 									<th>Distribuidor</th>
 									<th>Cantidad</th>
 									<th>Activado</th>
+									<th>Precio</th>
 									<th>Añadido por</th>
 									<th width="110" class="ac">Content Control</th>
 								</tr>
@@ -55,6 +56,7 @@
 									<td>Distribuidor</td>
 									<td>Cantidad</td>
 									<td>Si/No</td>
+									<td>Preu</td>
 									<td>Administrator</td>
 									<td><a href="#" class="ico del">Delete</a><a href="#"
 										class="ico edit">Edit</a></td>
@@ -66,6 +68,7 @@
 									<td>Distribuidor</td>
 									<td>Cantidad</td>
 									<td>Si/No</td>
+									<td>Preu</td>
 									<td>Administrator</td>
 									<td><a href="#" class="ico del">Delete</a><a href="#"
 										class="ico edit">Edit</a></td>
@@ -77,6 +80,7 @@
 									<td>Distribuidor</td>
 									<td>Cantidad</td>
 									<td>Si/No</td>
+									<td>Preu</td>
 									<td>Administrator</td>
 									<td><a href="#" class="ico del">Delete</a><a href="#"
 										class="ico edit">Edit</a></td>
@@ -88,6 +92,7 @@
 									<td>Distribuidor</td>
 									<td>Cantidad</td>
 									<td>Si/No</td>
+									<td>Preu</td>
 									<td>Administrator</td>
 									<td><a href="#" class="ico del">Delete</a><a href="#"
 										class="ico edit">Edit</a></td>
@@ -99,6 +104,7 @@
 									<td>Distribuidor</td>
 									<td>Cantidad</td>
 									<td>Si/No</td>
+									<td>Preu</td>
 									<td>Administrator</td>
 									<td><a href="#" class="ico del">Delete</a><a href="#"
 										class="ico edit">Edit</a></td>
@@ -110,6 +116,7 @@
 									<td>Distribuidor</td>
 									<td>Cantidad</td>
 									<td>Si/No</td>
+									<td>Preu</td>
 									<td>Administrator</td>
 									<td><a href="#" class="ico del">Delete</a><a href="#"
 										class="ico edit">Edit</a></td>
@@ -121,6 +128,7 @@
 									<td>Distribuidor</td>
 									<td>Cantidad</td>
 									<td>Si/No</td>
+									<td>Preu</td>
 									<td>Administrator</td>
 									<td><a href="#" class="ico del">Delete</a><a href="#"
 										class="ico edit">Edit</a></td>
@@ -146,47 +154,44 @@
 							<h2>Editar Artículo</h2>
 						</div>
 						<!-- End Box Head -->
-						<form action="" method="post">
+						<form th:action="@{/dashboard}" method="post" >
 							<!-- Form -->
 							<div class="form">
 								<p>
 									<label>Nombre Artículo <span>(Campo Requerido)</span>
-									</label><input type="text" class="field size1" required="required"></input>
+									</label><input name="name" type="text" class="field size1" required="required"></input>
 								</p>
 								<div id="select1">
-									<label>Género</label> <select>
-										<option value="volvo">Volvo</option>
-										<option value="saab">Saab</option>
-										<option value="opel">Opel</option>
-										<option value="audi">Audi</option>
+									<label>Género</label> <select th:field="*{generos}">
+										<option th:each="genero : ${generos}" th:value="${genero}"
+											th:text="${genero}">x</option>
 									</select>
 								</div>
 								<div id="select2">
-									<label>Distribuidor</label><select>
-										<option value="volvo">Volvo</option>
-										<option value="saab">Saab</option>
-										<option value="opel">Opel</option>
-										<option value="audi">Audi</option>
+									<label>Distribuidor</label> <select
+										th:field="*{distribuidoras}">
+										<option th:each="distribuidora : ${distribuidoras}"
+											th:value="${distribuidora}" th:text="${distribuidora}">x</option>
 									</select>
 								</div>
 								<div id="select3">
-									<label>Plataforma</label> <select>
-										<option value="volvo">Volvo</option>
-										<option value="saab">Saab</option>
-										<option value="opel">Opel</option>
-										<option value="audi">Audi</option>
+									<label>Plataforma</label><select
+										th:field="*{plataformas}">
+										<option th:each="plataforma : ${plataformas}"
+											th:value="${plataforma}" th:text="${plataforma}">x</option>
 									</select>
 								</div>
 								<div id="select4">
 									<label>Edad Recomendada</label> <select>
-										<option value="volvo">Volvo</option>
-										<option value="saab">Saab</option>
-										<option value="opel">Opel</option>
-										<option value="audi">Audi</option>
+										<option value="tres">3+</option>
+										<option value="siete">7+</option>
+										<option value="doce">12+</option>
+										<option value="dieciseis">16+</option>
+										<option value="dieciocho">18+</option>
 									</select>
 								</div>
 								<div id="select5">
-									<label>Cantidad</label><input type="text" value="9"></input>
+									<label>Cantidad</label><input name="total" type="text" value=""></input>
 								</div>
 								<div id="select6">
 									<label>Activar</label> <select>

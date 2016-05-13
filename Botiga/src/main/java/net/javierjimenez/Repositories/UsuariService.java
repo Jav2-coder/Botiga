@@ -29,21 +29,22 @@ public class UsuariService {
 		newUser.setPassword(base64Encode(password));
 		newUser.setEmail(email);
 		newUser.setDireccion(base64Encode(address));
-		
+
 		return user.save(newUser);
 	}
 
 	public Usuari crearAdmin(String username, String password, String email) {
 
-		if (user.findByNom(username) != null) return null;
-		
+		if (user.findByNom(username) != null)
+			return null;
+
 		if (user.findByEmail(email) != null)
 			return null;
 
 		List<String> roles = Arrays.asList("ROLE_USER", "ROLE_ADMIN");
-		
+
 		Usuari newAdmin = new Usuari(username, email, base64Encode(password), roles);
-		
+
 		return user.save(newAdmin);
 	}
 

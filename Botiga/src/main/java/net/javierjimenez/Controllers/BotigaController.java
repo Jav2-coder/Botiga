@@ -20,14 +20,50 @@ import net.javierjimenez.Repositories.UsuariService;
 @Controller
 public class BotigaController {
 
+	private String [] generos = {"Acción-aventura", "Agilidad mental", "Arcade", "Aventura gráfica",
+			"Beat 'em up", "Carreras", "Deporte", "Educación", "FPS", "IF", "Lucha", "Musical",
+			"Party games", "Plataformas", "RPG", "RTS", "Sandbox", "Shoot 'em up", "Sigilo", 
+			"Simulador", "Survival Horror", "TBS", "TPS"};
+	
+	private String [] distribuidoras = {"Sony", "Nintendo", "Electronic Arts", "Bethesda Softworks",
+			"Ubisoft", "Konami", "Sega", "Atlus", "505 Games"};
+	
+	private String [] plataformas = {"PlayStation", "NES", "Master System", "Game Boy", "PlayStation 2", "Xbox", "Atari 2600", "NeoGeo CD", "ColecoVision", "Magnavox Odyssey", "Sega Saturn"};
+	
 	@Autowired
-	UsuariService userservice;
-	ProducteService productservice;
-
+	UsuariService u_service;
+	
+	@Autowired
+	ProducteService p_service;
+	
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-	public String dashboard() {
+	public String dashboard(Model model) {
+		
+		model.addAttribute("generos", generos);
+		model.addAttribute("distribuidoras", distribuidoras);
+		model.addAttribute("plataformas", plataformas);
+		
 		return "dashboard";
+	}
+	
+	@Secured("ROLE_ADMIN")
+	@RequestMapping(value = "/dashboard", method = RequestMethod.POST)
+	public String editProduct(@RequestParam("name") String n, @RequestParam("total") String t, Model model) {
+		
+		model.addAttribute("generos", generos);
+		model.addAttribute("distribuidoras", distribuidoras);
+		model.addAttribute("plataformas", plataformas);
+		
+		if (ProducteService.isNumeric(t)) {
+			Integer tot = Integer.parseInt(t);
+			System.out.println(n + " | " + tot);
+		} else {
+			System.out.println("Mal: Valor no numérico");
+		}
+		
+		return "dashboard";
+		
 	}
 
 	@Secured("ROLE_ADMIN")
@@ -67,7 +103,7 @@ public class BotigaController {
 	public String saveAdmin(@RequestParam("username") String name, @RequestParam("passwd") String password,
 			@RequestParam("email") String email, Model model) {
 
-		Usuari result = userservice.crearAdmin(name, password, email);
+		Usuari result = u_service.crearAdmin(name, password, email);
 
 		if (result == null) {
 
@@ -119,7 +155,7 @@ public class BotigaController {
 	public String saveUser(@RequestParam("nombre") String name, @RequestParam("email") String mail,
 			@RequestParam("passwd") String password, @RequestParam("direccion") String address, Model model) {
 
-		Usuari result = userservice.crearUsuari(name, password, mail, address);
+		Usuari result = u_service.crearUsuari(name, password, mail, address);
 
 		if (result == null) {
 
@@ -136,7 +172,7 @@ public class BotigaController {
 	public String account(Model model) {
 
 		String nom = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-		Usuari usuariRecuperat = userservice.buscaUsuari(nom);
+		Usuari usuariRecuperat = u_service.buscaUsuari(nom);
 		model.addAttribute("usuario", usuariRecuperat);
 
 		return "account";

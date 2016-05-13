@@ -1,9 +1,11 @@
 package net.javierjimenez.Repositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import net.javierjimenez.Models.Producte;
 
+@Service
 public class ProducteService {
 	
 	@Autowired
