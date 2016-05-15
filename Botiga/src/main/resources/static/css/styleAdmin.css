@@ -4,6 +4,10 @@
 	outline: 0;
 }
 
+form.btn_prod{
+	display: inline-block;
+}
+
 body {
 	background: #f9ebae;
 	font-family: Verdana, sans-serif;
@@ -52,8 +56,14 @@ textarea {
 	top: 2px;
 }
 
+input#btn_1, input#btn_2{
+	display: inline-block;
+	width: 35%;
+	text-align: center;
+}
+
 .button {
-	background: #eee url(images/button.gif) repeat-x 0 0;
+	background: #eee repeat-x 0 0;
 	border: solid 1px #b1a874;
 	color: #7f7f7f;
 	font-size: 11px;

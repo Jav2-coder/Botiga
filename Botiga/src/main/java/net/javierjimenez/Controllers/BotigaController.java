@@ -1,8 +1,15 @@
 package net.javierjimenez.Controllers;
 
+/*import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;*/
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,74 +30,66 @@ import net.javierjimenez.Repositories.UsuariService;
 @Controller
 public class BotigaController {
 
-	private String [] generos = {"Acción-aventura", "Agilidad mental", "Arcade", "Aventura gráfica",
-			"Beat 'em up", "Carreras", "Deporte", "Educación", "FPS", "IF", "Lucha", "Musical",
-			"Party games", "Plataformas", "RPG", "RTS", "Sandbox", "Shoot 'em up", "Sigilo", 
-			"Simulador", "Survival Horror", "TBS", "TPS"};
-	
-	private String [] distribuidoras = {"Sony", "Nintendo", "Electronic Arts", "Bethesda Softworks",
-			"Ubisoft", "Konami", "Sega", "Atlus", "505 Games"};
-	
-	private String [] plataformas = {"PlayStation", "NES", "Master System", "Game Boy", "PlayStation 2", "Xbox", "Atari 2600", "NeoGeo CD", "ColecoVision", "Magnavox Odyssey", "Sega Saturn"};
-	
 	@Autowired
 	UsuariService u_service;
-	
+
 	@Autowired
 	ProducteService p_service;
-	
+
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
 	public String dashboard(Model model) {
-		
-		model.addAttribute("generos", generos);
-		model.addAttribute("distribuidoras", distribuidoras);
-		model.addAttribute("plataformas", plataformas);
-		
+
+		model.addAttribute("juegos", p_service.allProducts());
+
+		model.addAttribute("generos", listaOrdenada("genero"));
+		model.addAttribute("distribuidoras", listaOrdenada("distribuidora"));
+		model.addAttribute("plataformas", listaOrdenada("plataforma"));
+
 		return "dashboard";
 	}
-	
+
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/dashboard", method = RequestMethod.POST)
-	public String editProduct(@RequestParam("price") String p, @RequestParam("name") String n, @RequestParam("total") String t, Model model) {
-		
-		model.addAttribute("generos", generos);
-		model.addAttribute("distribuidoras", distribuidoras);
-		model.addAttribute("plataformas", plataformas);
-		
+	public String editProduct(@RequestParam("price") String p, @RequestParam("name") String n,
+			@RequestParam("total") String t, Model model) {
+
+		model.addAttribute("generos", listaOrdenada("genero"));
+		model.addAttribute("distribuidoras", listaOrdenada("distribuidora"));
+		model.addAttribute("plataformas", listaOrdenada("plataforma"));
+
 		if (ProducteService.isNumeric(t) && ProducteService.isNumeric(p)) {
 			Integer tot = (int) Double.parseDouble(t);
 			Double preu = round(Double.parseDouble(p), 2);
-			System.out.println(n + " | " + tot + " | " +  preu);
+			System.out.println(n + " | " + tot + " | " + preu);
 		} else {
 			System.out.println("Mal: Valor no numérico");
 		}
-		
+
 		return "redirect:/dashboard";
-		
+
 	}
 
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/listClients", method = RequestMethod.GET)
 	public String listClients(Model model) {
-		
-		List<Usuari> clientes = u_service.buscarClients();
-		
+
+		List<Usuari> clientes = u_service.listUsuaris("");
+
 		model.addAttribute("clientes", clientes);
-		
+
 		return "listClients";
 	}
-	
+
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/listClients", method = RequestMethod.POST)
 	public String delClient(@RequestParam("nom_user") String n) {
-	
+
 		u_service.eliminarUsuari(n);
-		
+
 		return "redirect:/listClients";
-		
+
 	}
-	
 
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/addproduct", method = RequestMethod.GET)
@@ -114,7 +113,12 @@ public class BotigaController {
 
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/newAdmin", method = RequestMethod.GET)
-	public String newAdmin() {
+	public String newAdmin(Model model) {
+
+		List<Usuari> admins = u_service.listUsuaris("ROLE_ADMIN");
+
+		model.addAttribute("admins", admins);
+
 		return "newAdmin";
 	}
 
@@ -148,8 +152,40 @@ public class BotigaController {
 	// https://www.youtube.com/watch?v=wKHL3gmhsBY
 
 	@RequestMapping("/")
-	public String home() throws UnsupportedEncodingException {
+	public String home(Model model) throws UnsupportedEncodingException {
 
+		model.addAttribute("generos", listaOrdenada("genero"));
+		model.addAttribute("distribuidoras", listaOrdenada("distribuidora"));
+		model.addAttribute("plataformas", listaOrdenada("plataforma"));
+
+		/*BufferedReader br = null;
+		
+		String line = "";
+		
+		try {
+			
+			br = new BufferedReader(new FileReader("C:\\Users\\Surrui\\Desktop\\fdghdfhdfghfhgfdhdghfhghfhdfh.csv"));
+			
+			while ((line = br.readLine()) != null) {
+				
+				System.out.println(line);
+
+			}
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}*/
+		
 		return "home";
 	}
 
@@ -210,12 +246,27 @@ public class BotigaController {
 
 		return "login";
 	}
-	
-	private double round(double value, int places) {
-	    if (places < 0) throw new IllegalArgumentException();
 
-	    BigDecimal bd = new BigDecimal(value);
-	    bd = bd.setScale(places, RoundingMode.HALF_UP);
-	    return bd.doubleValue();
+	private List<String> listaOrdenada(String x) {
+
+		List<String> listaOrdenada = new ArrayList<String>();
+		HashSet<String> lista = p_service.listarProductos(x);
+
+		for (String s : lista) {
+			listaOrdenada.add(s);
+		}
+
+		Collections.sort(listaOrdenada);
+
+		return listaOrdenada;
+	}
+
+	private double round(double value, int places) {
+		if (places < 0)
+			throw new IllegalArgumentException();
+
+		BigDecimal bd = new BigDecimal(value);
+		bd = bd.setScale(places, RoundingMode.HALF_UP);
+		return bd.doubleValue();
 	}
 }

@@ -11,11 +11,12 @@ public class Producte {
 
 	private String nom;
 	private String genero;
-	private String distribuidor;
+	private String distribuidora;
 	private String plataforma;
 	private String edad;
 	private Integer cantidad;
 	private String activado;
+	private Double precio;
 	
 	public Producte(){
 		
@@ -43,14 +44,6 @@ public class Producte {
 
 	public void setGenero(String genero) {
 		this.genero = genero;
-	}
-
-	public String getDistribuidor() {
-		return distribuidor;
-	}
-
-	public void setDistribuidor(String distribuidor) {
-		this.distribuidor = distribuidor;
 	}
 
 	public String getPlataforma() {
@@ -83,6 +76,22 @@ public class Producte {
 
 	public void setActivado(String activado) {
 		this.activado = activado;
+	}
+
+	public String getDistribuidora() {
+		return distribuidora;
+	}
+
+	public void setDistribuidora(String distribuidora) {
+		this.distribuidora = distribuidora;
+	}
+
+	public Double getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(Double precio) {
+		this.precio = precio;
 	}
 	
 }

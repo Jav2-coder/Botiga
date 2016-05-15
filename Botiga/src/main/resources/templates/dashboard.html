@@ -39,99 +39,28 @@
 						<div class="table">
 							<table width="100%" border="0" cellspacing="0" cellpadding="0">
 								<tr>
-									<th width="13"><input type="checkbox" class="checkbox" /></th>
 									<th>Nombre</th>
+									<th>Género</th>
+									<th>Distribuidora</th>
 									<th>Plataforma</th>
-									<th>Distribuidor</th>
+									<th>Edad</th>
 									<th>Cantidad</th>
 									<th>Activado</th>
 									<th>Precio</th>
-									<th>Añadido por</th>
 									<th width="110" class="ac">Content Control</th>
 								</tr>
-								<tr>
-									<td><input type="checkbox" class="checkbox" /></td>
-									<td><h3>Lorem ipsum dolor sit amet, consectetur.</h3></td>
-									<td>Plataforma</td>
-									<td>Distribuidor</td>
-									<td>Cantidad</td>
-									<td>Si/No</td>
-									<td>Preu</td>
-									<td>Administrator</td>
-									<td><a href="#" class="ico del">Delete</a><a href="#"
-										class="ico edit">Edit</a></td>
-								</tr>
-								<tr>
-									<td><input type="checkbox" class="checkbox" /></td>
-									<td><h3>Lorem ipsum dolor sit amet, consectetur.</h3></td>
-									<td>Plataforma</td>
-									<td>Distribuidor</td>
-									<td>Cantidad</td>
-									<td>Si/No</td>
-									<td>Preu</td>
-									<td>Administrator</td>
-									<td><a href="#" class="ico del">Delete</a><a href="#"
-										class="ico edit">Edit</a></td>
-								</tr>
-								<tr>
-									<td><input type="checkbox" class="checkbox" /></td>
-									<td><h3>Lorem ipsum dolor sit amet, consectetur.</h3></td>
-									<td>Plataforma</td>
-									<td>Distribuidor</td>
-									<td>Cantidad</td>
-									<td>Si/No</td>
-									<td>Preu</td>
-									<td>Administrator</td>
-									<td><a href="#" class="ico del">Delete</a><a href="#"
-										class="ico edit">Edit</a></td>
-								</tr>
-								<tr>
-									<td><input type="checkbox" class="checkbox" /></td>
-									<td><h3>Lorem ipsum dolor sit amet, consectetur.</h3></td>
-									<td>Plataforma</td>
-									<td>Distribuidor</td>
-									<td>Cantidad</td>
-									<td>Si/No</td>
-									<td>Preu</td>
-									<td>Administrator</td>
-									<td><a href="#" class="ico del">Delete</a><a href="#"
-										class="ico edit">Edit</a></td>
-								</tr>
-								<tr>
-									<td><input type="checkbox" class="checkbox" /></td>
-									<td><h3>Lorem ipsum dolor sit amet, consectetur.</h3></td>
-									<td>Plataforma</td>
-									<td>Distribuidor</td>
-									<td>Cantidad</td>
-									<td>Si/No</td>
-									<td>Preu</td>
-									<td>Administrator</td>
-									<td><a href="#" class="ico del">Delete</a><a href="#"
-										class="ico edit">Edit</a></td>
-								</tr>
-								<tr>
-									<td><input type="checkbox" class="checkbox" /></td>
-									<td><h3>Lorem ipsum dolor sit amet, consectetur.</h3></td>
-									<td>Plataforma</td>
-									<td>Distribuidor</td>
-									<td>Cantidad</td>
-									<td>Si/No</td>
-									<td>Preu</td>
-									<td>Administrator</td>
-									<td><a href="#" class="ico del">Delete</a><a href="#"
-										class="ico edit">Edit</a></td>
-								</tr>
-								<tr>
-									<td><input type="checkbox" class="checkbox" /></td>
-									<td><h3>Lorem ipsum dolor sit amet, consectetur.</h3></td>
-									<td>Plataforma</td>
-									<td>Distribuidor</td>
-									<td>Cantidad</td>
-									<td>Si/No</td>
-									<td>Preu</td>
-									<td>Administrator</td>
-									<td><a href="#" class="ico del">Delete</a><a href="#"
-										class="ico edit">Edit</a></td>
+								<tr th:field="*{juegos}" th:each="juego : ${juegos}">
+									<td th:text="${juego.nom}">x</td>
+									<td th:text="${juego.genero}">x</td>
+									<td th:text="${juego.distribuidora}">x</td>
+									<td th:text="${juego.plataforma}">x</td>
+									<td th:text="${juego.edad}">x</td>
+									<td th:text="${juego.cantidad}">x</td>
+									<td th:text="${juego.activado}">x</td>
+									<td th:text="${juego.precio}">x</td>
+									<td width="150" style="text-align: center;"><input
+										id="btn_1" class="button" value="Editar"></input> <input
+										id="btn_2" class="button" value="Eliminar"></input></td>
 								</tr>
 							</table>
 							<!-- Pagging -->

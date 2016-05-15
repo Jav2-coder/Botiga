@@ -19,12 +19,7 @@
 					<div class="box">
 						<!-- Box Head -->
 						<div class="box-head">
-							<h2 class="left">Artículos actuales</h2>
-							<div class="right">
-								<label>search articles</label> <input type="text"
-									class="field small-field"></input> <input type="submit"
-									class="button" value="search"></input>
-							</div>
+							<h2 class="left">Lista de Administradores</h2>
 						</div>
 						<!-- End Box Head -->
 
@@ -32,30 +27,18 @@
 						<div class="table">
 							<table width="100%" border="0" cellspacing="0" cellpadding="0">
 								<tr>
-									<th width="13"><input type="checkbox" class="checkbox" /></th>
 									<th>Nombre</th>
-									<th>Plataforma</th>
-									<th>Distribuidor</th>
-									<th>Cantidad</th>
-									<th>Activado</th>
-									<th>Añadido por</th>
+									<th>Email</th>
 									<th width="110" class="ac">Content Control</th>
 								</tr>
-								<tr>
-									<td><input type="checkbox" class="checkbox" /></td>
-									<td><h3>
-											<a href="#">Lorem ipsum dolor sit amet, consectetur.</a>
-										</h3></td>
-									<td>Plataforma</td>
-									<td>Distribuidor</td>
-									<td>Cantidad</td>
-									<td>Activado/No activado</td>
-									<td><a href="#">Administrator</a></td>
-									<td><a href="#" class="ico del">Delete</a><a href="#"
-										class="ico edit">Edit</a></td>
+								<tr th:field="*{admins}" th:each="admin : ${admins}">
+									<td th:text="${admin.nom}">x</td>
+									<td th:text="${admin.email}">x</td>
+									<td><form th:action="@{/newAdmin}" method="post">
+											<button class="btn btn-default navbar-btn">Eliminar</button>
+										</form></td>
 								</tr>
 							</table>
-
 
 							<!-- Pagging -->
 							<div class="pagging">
@@ -71,7 +54,7 @@
 						<!-- Table -->
 					</div>
 					<div class="box">
-						<div class="box-head">Nuevo Administrador</div>
+						<div class="box-head"><h2 class="left">Nuevo Administrador</h2></div>
 						<div class="table">
 							<form method="POST" th:action="@{/newAdmin}">
 								<div class="form">

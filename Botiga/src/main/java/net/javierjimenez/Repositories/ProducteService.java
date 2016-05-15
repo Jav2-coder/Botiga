@@ -1,5 +1,8 @@
 package net.javierjimenez.Repositories;
 
+import java.util.HashSet;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +21,7 @@ public class ProducteService {
 		Producte newProduct = new Producte();
 		newProduct.setNom(n);
 		newProduct.setGenero(g);
-		newProduct.setDistribuidor(d);
+		newProduct.setDistribuidora(d);
 		newProduct.setPlataforma(p);
 		newProduct.setEdad(e);
 		newProduct.setCantidad(c);
@@ -27,8 +30,33 @@ public class ProducteService {
 		
 	}
 	
-	public Producte buscaProducte(String nom) {
-		return product.findByNom(nom);
+	public Producte buscaProducte(String name) {
+			return product.findByNom(name);
+	}
+	
+	public List<Producte> allProducts(){
+		return product.findAll();
+	}
+	
+	public HashSet<String> listarProductos(String x){
+		
+		HashSet<String> listProducts = new HashSet<String>();
+		List<Producte> products = product.findAll();
+		
+		if(x == "genero"){
+			for (Producte p : products){	
+				listProducts.add(p.getGenero());
+			}
+		} else if(x == "plataforma") {
+			for (Producte p : products){	
+				listProducts.add(p.getPlataforma());
+			}
+		} else {
+			for (Producte p : products){	
+				listProducts.add(p.getDistribuidora());
+			}
+		}
+		return listProducts;
 	}
 	
 	public static boolean isNumeric(String cadena){

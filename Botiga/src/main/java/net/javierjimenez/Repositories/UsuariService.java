@@ -21,7 +21,6 @@ public class UsuariService {
 
 		if (user.findByNom(username) != null)
 			return null;
-
 		if (user.findByEmail(email) != null)
 			return null;
 
@@ -45,12 +44,10 @@ public class UsuariService {
 
 		if (user.findByNom(username) != null)
 			return null;
-
 		if (user.findByEmail(email) != null)
 			return null;
 
 		List<String> roles = Arrays.asList("ROLE_USER", "ROLE_ADMIN");
-
 		Usuari newAdmin = new Usuari(username, email, base64Encode(password), roles);
 
 		return user.save(newAdmin);
@@ -60,35 +57,37 @@ public class UsuariService {
 		return user.findByNom(nom);
 	}
 
-	public List<Usuari> buscarClients() {
+	public List<Usuari> listUsuaris(String rol) {
 
 		List<Usuari> usuarios = user.findAll();
-
 		Iterator<Usuari> userIterator = usuarios.iterator();
-
-		while (userIterator.hasNext()) {
-			
-			if (userIterator.next().getRol().contains("ROLE_ADMIN")) {
-
-				userIterator.remove();
+		
+		if(rol == "ROLE_ADMIN"){
+			while (userIterator.hasNext()) {
+				if (!userIterator.next().getRol().contains(rol)) {
+					userIterator.remove();
+				}
+			}
+		} else {
+			while (userIterator.hasNext()) {		
+				if (userIterator.next().getRol().contains("ROLE_ADMIN")) {
+					userIterator.remove();
+				}
 			}
 		}
-
 		return usuarios;
-
 	}
 
 	public Usuari identifica(String n, String p) {
 
 		Usuari userFound = user.findByNom(n);
+		
 		if (userFound == null) {
 			return null;
 		}
-
 		if (!p.equals(base64Decode(userFound.getPassword()))) {
 			return null;
 		}
-
 		return userFound;
 	}
 

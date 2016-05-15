@@ -10,4 +10,8 @@ public interface ProducteRepositori extends MongoRepository<Producte, String>{
 	
 	public Producte findByPlataforma(String plataforma);
 	
+	public Producte findByGenero(String genero);
+	
+	public Producte findByDistribuidora(String distribuidora);
+	
 }
