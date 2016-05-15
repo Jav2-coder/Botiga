@@ -19,10 +19,12 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import net.javierjimenez.Models.Producte;
 import net.javierjimenez.Models.Usuari;
 import net.javierjimenez.Repositories.ProducteService;
 import net.javierjimenez.Repositories.UsuariService;
@@ -147,10 +149,35 @@ public class BotigaController {
 		return "redirect:/dashboard";
 	}
 
-	// Revisar estos enlaces https://www.youtube.com/watch?v=DRADZUzdFYQ -
-	// http://www.baeldung.com/spring-security-registration -
-	// https://www.youtube.com/watch?v=wKHL3gmhsBY
+	@Secured("ROLE_USER")
+	@RequestMapping(value = "/account", method = RequestMethod.GET)
+	public String account(Model model) {
+		
+		model.addAttribute("generos", listaOrdenada("genero"));
+		model.addAttribute("distribuidoras", listaOrdenada("distribuidora"));
+		model.addAttribute("plataformas", listaOrdenada("plataforma"));
 
+		String nom = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+		Usuari usuariRecuperat = u_service.buscaUsuari(nom);
+		model.addAttribute("usuario", usuariRecuperat);
+
+		return "account";
+	}
+	
+	@RequestMapping(value = "/product/{product_nom}", method = RequestMethod.GET)
+	public String product(@PathVariable String product_nom, Model model) {
+		
+		model.addAttribute("generos", listaOrdenada("genero"));
+		model.addAttribute("distribuidoras", listaOrdenada("distribuidora"));
+		model.addAttribute("plataformas", listaOrdenada("plataforma"));
+		
+		Producte product = p_service.buscaProducte(product_nom);
+		
+		model.addAttribute("product", product);
+		
+		return "product";
+	}
+	
 	@RequestMapping("/")
 	public String home(Model model) throws UnsupportedEncodingException {
 
@@ -210,30 +237,24 @@ public class BotigaController {
 		return "redirect:/";
 	}
 
-	@Secured("ROLE_USER")
-	@RequestMapping(value = "/account", method = RequestMethod.GET)
-	public String account(Model model) {
-
-		String nom = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-		Usuari usuariRecuperat = u_service.buscaUsuari(nom);
-		model.addAttribute("usuario", usuariRecuperat);
-
-		return "account";
-	}
-
 	@RequestMapping(value = "/contact", method = RequestMethod.GET)
-	public String contact() {
+	public String contact(Model model) {
+		
+		model.addAttribute("generos", listaOrdenada("genero"));
+		model.addAttribute("distribuidoras", listaOrdenada("distribuidora"));
+		model.addAttribute("plataformas", listaOrdenada("plataforma"));
+		
 		return "contact";
 	}
 
 	@RequestMapping(value = "/about", method = RequestMethod.GET)
-	public String about() {
+	public String about(Model model) {
+		
+		model.addAttribute("generos", listaOrdenada("genero"));
+		model.addAttribute("distribuidoras", listaOrdenada("distribuidora"));
+		model.addAttribute("plataformas", listaOrdenada("plataforma"));
+		
 		return "about";
-	}
-
-	@RequestMapping(value = "/product", method = RequestMethod.GET)
-	public String product() {
-		return "product";
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
