@@ -152,7 +152,7 @@ public class BotigaController {
 	@Secured("ROLE_USER")
 	@RequestMapping(value = "/account", method = RequestMethod.GET)
 	public String account(Model model) {
-		
+
 		model.addAttribute("generos", listaOrdenada("genero"));
 		model.addAttribute("distribuidoras", listaOrdenada("distribuidora"));
 		model.addAttribute("plataformas", listaOrdenada("plataforma"));
@@ -163,21 +163,33 @@ public class BotigaController {
 
 		return "account";
 	}
-	
-	@RequestMapping(value = "/product/{product_nom}", method = RequestMethod.GET)
+
+	@RequestMapping(value = "/producto/{product_nom}", method = RequestMethod.GET)
 	public String product(@PathVariable String product_nom, Model model) {
-		
+
 		model.addAttribute("generos", listaOrdenada("genero"));
 		model.addAttribute("distribuidoras", listaOrdenada("distribuidora"));
 		model.addAttribute("plataformas", listaOrdenada("plataforma"));
-		
+
 		Producte product = p_service.buscaProducte(product_nom);
-		
+
 		model.addAttribute("product", product);
-		
+
 		return "product";
 	}
-	
+
+	@RequestMapping(value = "/{category_type}/{category_name}", method = RequestMethod.GET)
+	public String category(@PathVariable String category_type, @PathVariable String category_name, Model model) {
+
+		model.addAttribute("generos", listaOrdenada("genero"));
+		model.addAttribute("distribuidoras", listaOrdenada("distribuidora"));
+		model.addAttribute("plataformas", listaOrdenada("plataforma"));
+
+		p_service.listarProductos(category_type, category_name);
+
+		return "category";
+	}
+
 	@RequestMapping("/")
 	public String home(Model model) throws UnsupportedEncodingException {
 
@@ -185,34 +197,28 @@ public class BotigaController {
 		model.addAttribute("distribuidoras", listaOrdenada("distribuidora"));
 		model.addAttribute("plataformas", listaOrdenada("plataforma"));
 
-		/*BufferedReader br = null;
-		
-		String line = "";
-		
-		try {
-			
-			br = new BufferedReader(new FileReader("C:\\Users\\Surrui\\Desktop\\fdghdfhdfghfhgfdhdghfhghfhdfh.csv"));
-			
-			while ((line = br.readLine()) != null) {
-				
-				System.out.println(line);
+		/*
+		 * BufferedReader br = null;
+		 * 
+		 * String line = "";
+		 * 
+		 * try {
+		 * 
+		 * br = new BufferedReader(new FileReader(
+		 * "C:\\Users\\Surrui\\Desktop\\fdghdfhdfghfhgfdhdghfhghfhdfh.csv"));
+		 * 
+		 * while ((line = br.readLine()) != null) {
+		 * 
+		 * System.out.println(line);
+		 * 
+		 * }
+		 * 
+		 * } catch (FileNotFoundException e) { e.printStackTrace(); } catch
+		 * (IOException e) { e.printStackTrace(); } finally { if (br != null) {
+		 * try { br.close(); } catch (IOException e) { e.printStackTrace(); } }
+		 * }
+		 */
 
-			}
-			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (br != null) {
-				try {
-					br.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}*/
-		
 		return "home";
 	}
 
@@ -239,21 +245,21 @@ public class BotigaController {
 
 	@RequestMapping(value = "/contact", method = RequestMethod.GET)
 	public String contact(Model model) {
-		
+
 		model.addAttribute("generos", listaOrdenada("genero"));
 		model.addAttribute("distribuidoras", listaOrdenada("distribuidora"));
 		model.addAttribute("plataformas", listaOrdenada("plataforma"));
-		
+
 		return "contact";
 	}
 
 	@RequestMapping(value = "/about", method = RequestMethod.GET)
 	public String about(Model model) {
-		
+
 		model.addAttribute("generos", listaOrdenada("genero"));
 		model.addAttribute("distribuidoras", listaOrdenada("distribuidora"));
 		model.addAttribute("plataformas", listaOrdenada("plataforma"));
-		
+
 		return "about";
 	}
 
@@ -271,7 +277,7 @@ public class BotigaController {
 	private List<String> listaOrdenada(String x) {
 
 		List<String> listaOrdenada = new ArrayList<String>();
-		HashSet<String> lista = p_service.listarProductos(x);
+		HashSet<String> lista = p_service.listarAllProd(x);
 
 		for (String s : lista) {
 			listaOrdenada.add(s);
