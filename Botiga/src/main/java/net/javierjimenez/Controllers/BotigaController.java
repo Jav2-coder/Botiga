@@ -178,7 +178,7 @@ public class BotigaController {
 		return "product";
 	}
 
-	@RequestMapping(value = "/{category_type}/{category_name}", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/{category_type}/{category_name}", method = RequestMethod.GET)
 	public String category(@PathVariable String category_type, @PathVariable String category_name, Model model) {
 
 		model.addAttribute("generos", listaOrdenada("genero"));
@@ -188,7 +188,7 @@ public class BotigaController {
 		p_service.listarProductos(category_type, category_name);
 
 		return "category";
-	}
+	}*/
 
 	@RequestMapping("/")
 	public String home(Model model) throws UnsupportedEncodingException {
