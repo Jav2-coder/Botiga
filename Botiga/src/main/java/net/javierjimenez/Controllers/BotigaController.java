@@ -7,14 +7,13 @@ import java.io.IOException;*/
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.data.domain.Page;
+//import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -26,11 +25,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import net.javierjimenez.Models.Producte;
 import net.javierjimenez.Models.Usuari;
+import net.javierjimenez.Repositories.ProducteRepositori;
 import net.javierjimenez.Repositories.ProducteService;
+import net.javierjimenez.Repositories.UsuariRepositori;
 import net.javierjimenez.Repositories.UsuariService;
 
 @Controller
 public class BotigaController {
+
+	ProducteRepositori producteRepositori;
+	UsuariRepositori usuarirepositori;
 
 	@Autowired
 	UsuariService u_service;
@@ -39,16 +43,51 @@ public class BotigaController {
 	ProducteService p_service;
 
 	@Secured("ROLE_ADMIN")
-	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-	public String dashboard(Model model) {
+	@RequestMapping("/dashboard")
+	public String dashboard(@RequestParam(required = false) String keyword,
+			@RequestParam(required = false) Integer page, Model model) {
+
+		/*
+		 * List<Producte> productos = null; Page<Producte> pagina = null;
+		 */
 
 		model.addAttribute("juegos", p_service.allProducts());
 
-		model.addAttribute("generos", listaOrdenada("genero"));
-		model.addAttribute("distribuidoras", listaOrdenada("distribuidora"));
-		model.addAttribute("plataformas", listaOrdenada("plataforma"));
+		model.addAttribute("generos", p_service.ordenarLista(p_service.listarAllProd("genero")));
+		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
+		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
+
+
+		/*
+		 * if (page == null) page = 0;
+		 * 
+		 * if (keyword == null) {
+		 * 
+		 * pagina = producteRepositori.findAll(new PageRequest(page, 5));
+		 * 
+		 * } else {
+		 * 
+		 * muere aqui -> pagina = producteRepositori.findByNom(keyword, new
+		 * PageRequest(page, 5));
+		 * 
+		 * }
+		 * 
+		 * productos = pagina.getContent();
+		 * 
+		 * model.addAttribute("pagina", page); model.addAttribute("productos",
+		 * productos);
+		 */
 
 		return "dashboard";
+	}
+
+	@Secured("ROLE_ADMIN")
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+	public String eliminar(@PathVariable("id") String id) {
+
+		p_service.eliminarProd(id);
+
+		return "redirect:/dashboard";
 	}
 
 	@Secured("ROLE_ADMIN")
@@ -56,9 +95,9 @@ public class BotigaController {
 	public String editProduct(@RequestParam("price") String p, @RequestParam("name") String n,
 			@RequestParam("total") String t, Model model) {
 
-		model.addAttribute("generos", listaOrdenada("genero"));
-		model.addAttribute("distribuidoras", listaOrdenada("distribuidora"));
-		model.addAttribute("plataformas", listaOrdenada("plataforma"));
+		model.addAttribute("generos", p_service.ordenarLista(p_service.listarAllProd("genero")));
+		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
+		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
 
 		if (ProducteService.isNumeric(t) && ProducteService.isNumeric(p)) {
 			Integer tot = (int) Double.parseDouble(t);
@@ -133,14 +172,6 @@ public class BotigaController {
 
 		if (result == null) {
 
-			// String error = "<div class='msg msg-error'><p><strong>Error: El
-			// nombre/correo ya estan en uso!</strong></p></div>";
-			/*
-			 * https://github.com/MichalGasiorowski/java-spring-tutorial/blob/
-			 * master/spring-tutorial-114/src/main/java/com/goose/spring/web/
-			 * controllers/ErrorHandler.java
-			 */
-
 			String error = "NOPE";
 
 			model.addAttribute("error", error);
@@ -153,9 +184,9 @@ public class BotigaController {
 	@RequestMapping(value = "/account", method = RequestMethod.GET)
 	public String account(Model model) {
 
-		model.addAttribute("generos", listaOrdenada("genero"));
-		model.addAttribute("distribuidoras", listaOrdenada("distribuidora"));
-		model.addAttribute("plataformas", listaOrdenada("plataforma"));
+		model.addAttribute("generos", p_service.ordenarLista(p_service.listarAllProd("genero")));
+		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
+		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
 
 		String nom = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
 		Usuari usuariRecuperat = u_service.buscaUsuari(nom);
@@ -164,12 +195,22 @@ public class BotigaController {
 		return "account";
 	}
 
+	@RequestMapping(value = "/categoria/{category}/{cat_name}")
+	public String categoriaProd(@PathVariable String category, @PathVariable String cat_name, Model model) {
+
+		List<Producte> juegos = p_service.buscarProductosCat(category, cat_name);
+		
+		model.addAttribute("juegos", juegos);
+		
+		return "category";
+	}
+
 	@RequestMapping(value = "/producto/{product_nom}", method = RequestMethod.GET)
 	public String product(@PathVariable String product_nom, Model model) {
 
-		model.addAttribute("generos", listaOrdenada("genero"));
-		model.addAttribute("distribuidoras", listaOrdenada("distribuidora"));
-		model.addAttribute("plataformas", listaOrdenada("plataforma"));
+		model.addAttribute("generos", p_service.ordenarLista(p_service.listarAllProd("genero")));
+		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
+		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
 
 		Producte product = p_service.buscaProducte(product_nom);
 
@@ -178,24 +219,12 @@ public class BotigaController {
 		return "product";
 	}
 
-	/*@RequestMapping(value = "/{category_type}/{category_name}", method = RequestMethod.GET)
-	public String category(@PathVariable String category_type, @PathVariable String category_name, Model model) {
-
-		model.addAttribute("generos", listaOrdenada("genero"));
-		model.addAttribute("distribuidoras", listaOrdenada("distribuidora"));
-		model.addAttribute("plataformas", listaOrdenada("plataforma"));
-
-		p_service.listarProductos(category_type, category_name);
-
-		return "category";
-	}*/
-
 	@RequestMapping("/")
 	public String home(Model model) throws UnsupportedEncodingException {
 
-		model.addAttribute("generos", listaOrdenada("genero"));
-		model.addAttribute("distribuidoras", listaOrdenada("distribuidora"));
-		model.addAttribute("plataformas", listaOrdenada("plataforma"));
+		model.addAttribute("generos", p_service.ordenarLista(p_service.listarAllProd("genero")));
+		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
+		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
 
 		/*
 		 * BufferedReader br = null;
@@ -246,9 +275,9 @@ public class BotigaController {
 	@RequestMapping(value = "/contact", method = RequestMethod.GET)
 	public String contact(Model model) {
 
-		model.addAttribute("generos", listaOrdenada("genero"));
-		model.addAttribute("distribuidoras", listaOrdenada("distribuidora"));
-		model.addAttribute("plataformas", listaOrdenada("plataforma"));
+		model.addAttribute("generos", p_service.ordenarLista(p_service.listarAllProd("genero")));
+		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
+		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
 
 		return "contact";
 	}
@@ -256,9 +285,9 @@ public class BotigaController {
 	@RequestMapping(value = "/about", method = RequestMethod.GET)
 	public String about(Model model) {
 
-		model.addAttribute("generos", listaOrdenada("genero"));
-		model.addAttribute("distribuidoras", listaOrdenada("distribuidora"));
-		model.addAttribute("plataformas", listaOrdenada("plataforma"));
+		model.addAttribute("generos", p_service.ordenarLista(p_service.listarAllProd("genero")));
+		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
+		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
 
 		return "about";
 	}
@@ -274,28 +303,14 @@ public class BotigaController {
 		return "login";
 	}
 
-	private List<String> listaOrdenada(String x) {
-
-		List<String> listaOrdenada = new ArrayList<String>();
-		HashSet<String> lista = p_service.listarAllProd(x);
-
-		for (String s : lista) {
-			listaOrdenada.add(s);
-		}
-
-		Collections.sort(listaOrdenada);
-
-		return listaOrdenada;
-	}
-
 	private double round(double value, int places) {
-		
+
 		if (places < 0)
 			throw new IllegalArgumentException();
 
 		BigDecimal bd = new BigDecimal(value);
 		bd = bd.setScale(places, RoundingMode.HALF_UP);
-		
+
 		return bd.doubleValue();
 	}
 }

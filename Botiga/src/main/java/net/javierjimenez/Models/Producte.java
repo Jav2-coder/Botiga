@@ -7,9 +7,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Producte {
 
 	@Id
-	private String id_product;
+	private String id;
 
 	private String nom;
+	private String imagen;
 	private String genero;
 	private String distribuidora;
 	private String plataforma;
@@ -20,14 +21,6 @@ public class Producte {
 	
 	public Producte(){
 		
-	}
-
-	public String getId_product() {
-		return id_product;
-	}
-
-	public void setId_product(String id_product) {
-		this.id_product = id_product;
 	}
 
 	public String getNom() {
@@ -92,6 +85,22 @@ public class Producte {
 
 	public void setPrecio(Double precio) {
 		this.precio = precio;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
 	}
 	
 }

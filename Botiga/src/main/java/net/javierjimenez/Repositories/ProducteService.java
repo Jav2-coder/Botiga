@@ -1,5 +1,7 @@
 package net.javierjimenez.Repositories;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -14,7 +16,7 @@ public class ProducteService {
 	@Autowired
 	ProducteRepositori product;
 
-	public Producte crearProducte(String n, String g, String d, String p, String e, Integer c) {
+	public Producte crearProducte(String n, String g, String d, String p, String e, Integer c, Double m, String a) {
 
 		if (product.findByNom(n) != null && product.findByPlataforma(p) != null)
 			return null;
@@ -26,6 +28,8 @@ public class ProducteService {
 		newProduct.setPlataforma(p);
 		newProduct.setEdad(e);
 		newProduct.setCantidad(c);
+		newProduct.setActivado(a);
+		newProduct.setPrecio(m);
 
 		return product.save(newProduct);
 
@@ -35,56 +39,68 @@ public class ProducteService {
 		return product.findByNom(name);
 	}
 
+	public Producte buscarProdId(String id) {
+		return product.findById(id);
+	}
+	
+	public void eliminarProd(String id){
+		Producte p = product.findById(id);
+		product.delete(p);
+	}
+	
 	public List<Producte> allProducts() {
-		return product.findAll();
+		return (List<Producte>) product.findAll();
 	}
 
 	public HashSet<String> listarAllProd(String x) {
 
-		HashSet<String> listProducts = new HashSet<String>();
-		List<Producte> products = product.findAll();
+		List<Producte> products = (List<Producte>) product.findAll();
+		HashSet<String> listaOrdenada = new HashSet<String>();
 
 		if (x == "genero") {
 			for (Producte p : products) {
-				listProducts.add(p.getGenero());
+				listaOrdenada.add(p.getGenero());
 			}
 		} else if (x == "plataforma") {
 			for (Producte p : products) {
-				listProducts.add(p.getPlataforma());
+				listaOrdenada.add(p.getPlataforma());
 			}
 		} else {
 			for (Producte p : products) {
-				listProducts.add(p.getDistribuidora());
+				listaOrdenada.add(p.getDistribuidora());
 			}
 		}
-		return listProducts;
+		
+		return listaOrdenada;
 	}
 
-	public HashSet<String> listarProductos(String x, String y) {
+	public List<Producte> buscarProductosCat(String category, String cat_name) {
 
-		HashSet<String> listProducts = new HashSet<String>();
-		List<Producte> products = product.findAll();
+		List<Producte> lista = null;
 
-		if (x == "genero") {
-			for (Producte p : products) {
-				if (p.getGenero() == y) {
-					listProducts.add(p.getGenero());
-				}
-			}
-		} else if (x == "plataforma") {
-			for (Producte p : products) {
-				if (p.getPlataforma() == y) {
-					listProducts.add(p.getPlataforma());
-				}
-			}
+		if (category.equals("Genero")) {	
+			lista = product.findByGenero(cat_name);
+		} else if (category.equals("Plataforma")) {
+			lista = product.findByPlataforma(cat_name);
 		} else {
-			for (Producte p : products) {
-				if (p.getDistribuidora() == y) {
-					listProducts.add(p.getDistribuidora());
-				}
-			}
+			lista = product.findByDistribuidora(cat_name);
 		}
-		return listProducts;
+		
+		return lista;
+	}
+	
+	public List<String> ordenarLista(HashSet<String> juegos){
+		
+		List<String> listaOrdenada = new ArrayList<String>();
+		
+		for(String juego : juegos){
+			listaOrdenada.add(juego);
+		}
+		
+		Collections.sort(listaOrdenada);
+		
+		return listaOrdenada;
+		
 	}
 
 	public static boolean isNumeric(String cadena) {

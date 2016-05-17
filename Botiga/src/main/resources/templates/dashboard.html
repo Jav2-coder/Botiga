@@ -49,7 +49,7 @@
 									<th>Precio</th>
 									<th width="110" class="ac">Content Control</th>
 								</tr>
-								<tr th:field="*{juegos}" th:each="juego : ${juegos}">
+								<tr th:each="juego : ${juegos}">
 									<td th:text="${juego.nom}">x</td>
 									<td th:text="${juego.genero}">x</td>
 									<td th:text="${juego.distribuidora}">x</td>
@@ -58,21 +58,24 @@
 									<td th:text="${juego.cantidad}">x</td>
 									<td th:text="${juego.activado}">x</td>
 									<td th:text="${juego.precio}">x</td>
-									<td width="150" style="text-align: center;"><input
-										id="btn_1" class="button" value="Editar"></input> <input
-										id="btn_2" class="button" value="Eliminar"></input></td>
+									<td style="text-align: center;">
+										<form>
+											<button>Editar</button>
+										</form>
+										<form th:action="@{'/delete/'+${juego.id}}" method="post">
+											<button type="submit">Eliminar</button>
+										</form>
+									</td>
 								</tr>
 							</table>
-							<!-- Pagging -->
+							<!-- Pagging 
 							<div class="pagging">
-								<div class="left">Showing 1-12 of 44</div>
-								<div class="right">
-									<a href="#">Previous</a> <a href="#">1</a> <a href="#">2</a> <a
-										href="#">3</a> <a href="#">4</a> <a href="#">245</a> <span>...</span>
-									<a href="#">Next</a> <a href="#">View all</a>
-								</div>
+								<a th:if="${pagina > 0}" href="/dashboard"
+									th:href="@{'/dashboard?page=' + ${pagina - 1}}">Anterior</a> 
+								<a th:if="${#lists.size(productos) == 5}" href="/dashboard"
+									th:href="@{'/dashboard?page=' + ${pagina + 1}}">Siguiente</a>
 							</div>
-							<!-- End Pagging -->
+							End Pagging -->
 						</div>
 						<!-- Table -->
 					</div>

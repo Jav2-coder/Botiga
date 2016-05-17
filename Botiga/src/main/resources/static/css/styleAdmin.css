@@ -367,15 +367,6 @@ a.ico:hover {
 	color: #333;
 }
 
-a.del {
-	background-image: url(/images/del.gif)
-}
-
-a.edit {
-	background-image: url(/images/edit.gif);
-	margin-left: 14px;
-}
-
 .form {
 	padding: 15px 10px 5px 10px;
 }
@@ -515,7 +506,6 @@ textarea.size1 {
 
 .msg {
 	position: relative;
-	padding-right: 35px;
 	margin-bottom: 10px;
 }
 
@@ -524,18 +514,6 @@ textarea.size1 {
 	font-size: 12px;
 	background-repeat: no-repeat;
 	background-position: 10px 5px;
-}
-
-.msg a.close {
-	font-size: 0;
-	line-height: 0;
-	position: absolute;
-	top: 0;
-	right: 0;
-	width: 34px;
-	height: 34px;
-	background: url(/images/close.gif);
-	text-indent: -4000px;
 }
 
 .msg-ok p {
