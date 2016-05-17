@@ -41,22 +41,22 @@
 				<li class="dropdown"><a class="dropdown-toggle"
 					data-toggle="dropdown" href="#">Plataforma<span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li th:field="*{plataformas}" th:each="plataforma : ${plataformas}" >
-							<a href="#" th:text="${plataforma}" >x</a>
+						<li th:each="plataforma : ${plataformas}" >
+							<a th:href="'/categoria/Plataforma/' + @{${plataforma}}" th:text="${plataforma}" >x</a>
 						</li>
 					</ul></li>
 				<li class="dropdown"><a class="dropdown-toggle"
 					data-toggle="dropdown" href="#">Género<span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li th:field="*{generos}" th:each="genero : ${generos}" >
-							<a href="#" th:text="${genero}" >x</a>
+						<li th:each="genero : ${generos}" >
+							<a th:href="'/categoria/Genero/' + @{${genero}}" th:text="${genero}" >x</a>
 						</li>
 					</ul></li>
 				<li class="dropdown"><a class="dropdown-toggle"
 					data-toggle="dropdown" href="#">Distribuidora<span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li th:field="*{distribuidoras}" th:each="distribuidora : ${distribuidoras}" >
-							<a href="#" th:text="${distribuidora}" >x</a>
+						<li th:each="distribuidora : ${distribuidoras}" >
+							<a th:href="@{'/categoria/Distribuidora/' + ${distribuidora}}" th:text="${distribuidora}" >x</a>
 						</li>
 					</ul></li>
 			</ul>

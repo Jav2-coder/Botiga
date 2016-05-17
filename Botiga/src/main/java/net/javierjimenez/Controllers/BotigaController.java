@@ -82,15 +82,6 @@ public class BotigaController {
 	}
 
 	@Secured("ROLE_ADMIN")
-	@RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-	public String eliminar(@PathVariable("id") String id) {
-
-		p_service.eliminarProd(id);
-
-		return "redirect:/dashboard";
-	}
-
-	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/dashboard", method = RequestMethod.POST)
 	public String editProduct(@RequestParam("price") String p, @RequestParam("name") String n,
 			@RequestParam("total") String t, Model model) {
@@ -112,7 +103,16 @@ public class BotigaController {
 	}
 
 	@Secured("ROLE_ADMIN")
-	@RequestMapping(value = "/listClients", method = RequestMethod.GET)
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+	public String eliminar(@PathVariable("id") String id) {
+
+		p_service.eliminarProd(id);
+
+		return "redirect:/dashboard";
+	}
+
+	@Secured("ROLE_ADMIN")
+	@RequestMapping("/listClients")
 	public String listClients(Model model) {
 
 		List<Usuari> clientes = u_service.listUsuaris("");
@@ -153,7 +153,7 @@ public class BotigaController {
 	}
 
 	@Secured("ROLE_ADMIN")
-	@RequestMapping(value = "/newAdmin", method = RequestMethod.GET)
+	@RequestMapping("/newAdmin")
 	public String newAdmin(Model model) {
 
 		List<Usuari> admins = u_service.listUsuaris("ROLE_ADMIN");
@@ -181,7 +181,7 @@ public class BotigaController {
 	}
 
 	@Secured("ROLE_USER")
-	@RequestMapping(value = "/account", method = RequestMethod.GET)
+	@RequestMapping("/account")
 	public String account(Model model) {
 
 		model.addAttribute("generos", p_service.ordenarLista(p_service.listarAllProd("genero")));
@@ -198,6 +198,10 @@ public class BotigaController {
 	@RequestMapping(value = "/categoria/{category}/{cat_name}")
 	public String categoriaProd(@PathVariable String category, @PathVariable String cat_name, Model model) {
 
+		model.addAttribute("generos", p_service.ordenarLista(p_service.listarAllProd("genero")));
+		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
+		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
+		
 		List<Producte> juegos = p_service.buscarProductosCat(category, cat_name);
 		
 		model.addAttribute("juegos", juegos);
@@ -251,7 +255,7 @@ public class BotigaController {
 		return "home";
 	}
 
-	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	@RequestMapping("/register")
 	public String register() {
 		return "register";
 	}
@@ -272,7 +276,7 @@ public class BotigaController {
 		return "redirect:/";
 	}
 
-	@RequestMapping(value = "/contact", method = RequestMethod.GET)
+	@RequestMapping("/contact")
 	public String contact(Model model) {
 
 		model.addAttribute("generos", p_service.ordenarLista(p_service.listarAllProd("genero")));
@@ -282,7 +286,7 @@ public class BotigaController {
 		return "contact";
 	}
 
-	@RequestMapping(value = "/about", method = RequestMethod.GET)
+	@RequestMapping("/about")
 	public String about(Model model) {
 
 		model.addAttribute("generos", p_service.ordenarLista(p_service.listarAllProd("genero")));

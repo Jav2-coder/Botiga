@@ -37,9 +37,10 @@
 		<div class="header-bottom"
 			th:replace="fragment/header :: header-bottom"></div>
 		<div class="content">
-			<div class="col-md-4"  th:each="juego : ${juegos}">
-				<img th:src="@{/juego.imagen}" />
-				<p th:text="${juego.nom}" />
+			<div class="col-md-4 prod_game" th:each="juego : ${juegos}">
+				<a th:href="@{'/producto/'+${juego.nom}}"> <img
+					th:src="@{${juego.imagen}}" />
+					<p th:text="${juego.nom}" /></a>
 			</div>
 		</div>
 	</div>

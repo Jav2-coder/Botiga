@@ -22,6 +22,12 @@ ul, h3 {
 	color: #337ab7;
 }
 
+/*--category--*/
+
+div#prod_game img {
+	width: 100%;
+}
+
 /*--home--*/
 .carousel-inner>.item>img, .carousel-inner>.item>a>img {
 	width: 70%;
