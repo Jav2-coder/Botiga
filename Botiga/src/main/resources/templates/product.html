@@ -7,7 +7,8 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
 	integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
 	crossorigin="anonymous"></link>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
 	integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
@@ -18,6 +19,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
 <script type="text/javascript" src="/js/move-top.js"></script>
 <script type="text/javascript" src="/js/easing.js"></script>
+<script type="text/javascript" src="/js/buttons.js"></script>
 <script type="text/javascript">
 	jQuery(document).ready(function($) {
 		$(".scroll").click(function(event) {
@@ -36,54 +38,47 @@
 		<div class="header-bottom"
 			th:replace="fragment/header :: header-bottom"></div>
 		<div class="content">
-			<h3 th:text="${product.nom}">Nombre Producto</h3>
-			<div class="col-md-7">
-				<img src="/images/dummy.jpg"></img>
-			</div>
-			<div class="col-md-5">
-				<table>
-					<tbody>
-						<tr>
-							<td>Precio</td>
-							<td><div th:text="${product.precio}">X</div></td>
-						</tr>
-						<tr>
-							<td>Género</td>
-							<td><div th:text="${product.genero}">X</div></td>
-						</tr>
-						<tr>
-							<td>Distribuidora</td>
-							<td><div th:text="${product.distribuidora}">X</div></td>
-						</tr>
-						<tr>
-							<td>Plataforma</td>
-							<td><div th:text="${product.plataforma}">X</div></td>
-						</tr>
-						<tr>
-							<td>PEGI</td>
-							<td><div th:text="${product.edad}">X</div></td>
-						</tr>
-					</tbody>
-				</table>
-				<div>
-					<p>
-						<a href="#" data-field-qty="qty"
-							class="btn btn-default button-minus"> </a>
-						<input style="border: 1px solid rgb(189, 194, 201);" name="qty"
-							id="quantity_wanted" class="text" value="1" type="text"></input>
-						<a href="#" data-field-qty="qty"
-							class="btn btn-default button-plus"> </a>
-					</p>
-					<p>
-						<button type="submit" name="Submit" class="exclusive btn">
-							<span>Añadir al carrito</span>
-						</button>
-					</p>
+			<form>
+				<h3 th:text="${product.nom}">Nombre Producto</h3>
+				<div class="col-md-7">
+					<img src="/images/dummy.jpg"></img>
 				</div>
-			</div>
+				<div class="col-md-5">
+					<table>
+						<tbody>
+							<tr>
+								<td>Precio</td>
+								<td><div th:text="${product.precio}">X</div></td>
+							</tr>
+							<tr>
+								<td>Género</td>
+								<td><div th:text="${product.genero}">X</div></td>
+							</tr>
+							<tr>
+								<td>Distribuidora</td>
+								<td><div th:text="${product.distribuidora}">X</div></td>
+							</tr>
+							<tr>
+								<td>Plataforma</td>
+								<td><div th:text="${product.plataforma}">X</div></td>
+							</tr>
+							<tr>
+								<td>PEGI</td>
+								<td><div th:text="${product.edad}">X</div></td>
+							</tr>
+						</tbody>
+					</table>
+					<input type='button' value='-' class='qtyminus' field='quantity' />
+					<input type='text' name='quantity' value='0' class='qty' /> 
+					<input type='button' value='+' class='qtyplus' field='quantity' />
+					<button type="submit" name="Submit" class="exclusive btn">
+						<span>Añadir al carrito</span>
+					</button>
+				</div>
+			</form>
 		</div>
 		<div class="clearfix"></div>
-		<footer th:replace="fragment/header :: footer"></footer>
+	<footer th:replace="fragment/header :: footer"></footer>
 	</div>
 </body>
 </html>

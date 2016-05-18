@@ -5,6 +5,7 @@
 <title>Press Start - Admin Zone</title>
 <link rel="stylesheet" href="/css/styleAdmin.css" type="text/css"
 	media="all" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 <script type="text/javascript" src="/js/edit.js"></script>
 </head>
 <body>
@@ -60,7 +61,7 @@
 									<td th:text="${juego.activado}">x</td>
 									<td th:text="${juego.precio}">x</td>
 									<td style="text-align: center;">
-										<button ng-click="editProd()" >Editar</button>
+										<button class="editBtn">Editar</button>
 										<form th:action="@{'/delete/'+${juego.id}}" method="post">
 											<button type="submit">Eliminar</button>
 										</form>
@@ -89,7 +90,7 @@
 							<!-- Form -->
 							<div class="form" >
 								<p>
-									<label>Nombre Artículo</label><input name="name" type="text" class="field size1"
+									<label>Nombre Artículo</label><input name="name" type="text" class="field"
 										required="required"></input>
 								</p>
 								<div id="select0">
