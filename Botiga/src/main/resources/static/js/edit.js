@@ -13,16 +13,16 @@ jQuery(document).ready(function(){
 		var cantidad = $(this).closest("tr").children(":nth-child(6)").html();
 		var activar = $(this).closest("tr").children(":nth-child(7)").html();
 		
-		console.log(nombre)
+		console.log(edad)
 		
 		$("#nom_juego").append(nombre);
 		$("#pre_juego").append(precio);
 		$("#generos").append(genero);
 		$("#distribuidoras").append(distribuidora);
-		$("input#pre_juego").append(precio);
-		$("input#pre_juego").append(precio);
-		$("input#pre_juego").append(precio);
-		$("input#pre_juego").append(precio);
+		$("#plataformas").append(plataforma);
+		$("#edad_rec").append(edad);
+		$("#cant_juego").append(cantidad);
+		$("#activar_juego").append(activar);
 		
 	});
 });
