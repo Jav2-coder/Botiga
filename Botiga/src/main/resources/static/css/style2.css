@@ -30,6 +30,8 @@ div.prod_game {
 	border-style: solid;
 	border-color: #0052CC;
 	background-color: #003D99;
+	margin-right: 30px;
+	margin-bottom: 30px;
 }
 
 div.prod_game img {

@@ -5,6 +5,7 @@
 <title>Press Start - Admin Zone</title>
 <link rel="stylesheet" href="/css/styleAdmin.css" type="text/css"
 	media="all" />
+<script type="text/javascript" src="/js/edit.js"></script>
 </head>
 <body>
 	<!-- Header -->
@@ -59,9 +60,7 @@
 									<td th:text="${juego.activado}">x</td>
 									<td th:text="${juego.precio}">x</td>
 									<td style="text-align: center;">
-										<form>
-											<button>Editar</button>
-										</form>
+										<button ng-click="editProd()" >Editar</button>
 										<form th:action="@{'/delete/'+${juego.id}}" method="post">
 											<button type="submit">Eliminar</button>
 										</form>
@@ -88,33 +87,40 @@
 						<!-- End Box Head -->
 						<form th:action="@{/dashboard}" method="post">
 							<!-- Form -->
-							<div class="form">
+							<div class="form" >
 								<p>
-									<label>Nombre Artículo <span>(Campo Requerido)</span>
-									</label><input name="name" type="text" class="field size1"
+									<label>Nombre Artículo</label><input name="name" type="text" class="field size1"
 										required="required"></input>
 								</p>
 								<div id="select0">
-									<label>Precio</label><input name="price" type="text" value="0"></input>
+									<label>Precio</label><input class="field" name="price" type="text" required="required"></input>
 								</div>
 								<div id="select1">
-									<label>Género</label><select th:field="*{generos}">
+									<label>Género</label>
+									<input class="field" list="generos" name="generos">
+									<datalist id="generos">
 										<option th:each="genero : ${generos}" th:value="${genero}"
-											th:text="${genero}">x</option>
-									</select>
+										th:text="${genero}">x</option>
+									</datalist>
+									</input>
 								</div>
 								<div id="select2">
-									<label>Distribuidor</label> <select
-										th:field="*{distribuidoras}">
+									<label>Distribuidor</label>
+									<input class="field" list="distribuidoras" name="distribuidoras">
+									<datalist id="distribuidoras">
 										<option th:each="distribuidora : ${distribuidoras}"
 											th:value="${distribuidora}" th:text="${distribuidora}">x</option>
-									</select>
+									</datalist>
+									</input>
 								</div>
 								<div id="select3">
-									<label>Plataforma</label><select th:field="*{plataformas}">
+									<label>Plataforma</label>
+									<input class="field" list="plataformas" name="plataformas">
+									<datalist id="plataformas">
 										<option th:each="plataforma : ${plataformas}"
 											th:value="${plataforma}" th:text="${plataforma}">x</option>
-									</select>
+									</datalist>
+									</input>
 								</div>
 								<div id="select4">
 									<label>Edad Recomendada</label> <select>
@@ -126,7 +132,7 @@
 									</select>
 								</div>
 								<div id="select5">
-									<label>Cantidad</label><input name="total" type="text" value=""></input>
+									<label>Cantidad</label><input class="field" name="total" type="text" required="required"></input>
 								</div>
 								<div id="select6">
 									<label>Activar</label> <select>

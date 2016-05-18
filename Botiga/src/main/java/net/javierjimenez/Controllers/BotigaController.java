@@ -1,12 +1,15 @@
 package net.javierjimenez.Controllers;
 
 /*import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;*/
+import java.io.IOException;
+/*import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;*/
 import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +25,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import net.javierjimenez.Models.Producte;
 import net.javierjimenez.Models.Usuari;
@@ -57,7 +62,6 @@ public class BotigaController {
 		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
 		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
 
-
 		/*
 		 * if (page == null) page = 0;
 		 * 
@@ -92,7 +96,7 @@ public class BotigaController {
 
 		if (ProducteService.isNumeric(t) && ProducteService.isNumeric(p)) {
 			Integer tot = (int) Double.parseDouble(t);
-			Double preu = round(Double.parseDouble(p), 2);
+			Double preu = Double.parseDouble(p);
 			System.out.println(n + " | " + tot + " | " + preu);
 		} else {
 			System.out.println("Mal: Valor no numérico");
@@ -102,6 +106,10 @@ public class BotigaController {
 
 	}
 
+	// Mirar https://ide.c9.io/andreurp/desemvolupament-cli
+	
+	
+	
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
 	public String eliminar(@PathVariable("id") String id) {
@@ -133,20 +141,108 @@ public class BotigaController {
 	}
 
 	@Secured("ROLE_ADMIN")
-	@RequestMapping(value = "/addproduct", method = RequestMethod.GET)
-	public String newProd() {
+	@RequestMapping("/addproduct")
+	public String newProd(Model model) {
+
+		model.addAttribute("generos", p_service.ordenarLista(p_service.listarAllProd("genero")));
+		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
+		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
+
 		return "new_product";
 	}
 
 	@Secured("ROLE_ADMIN")
-	@RequestMapping(value = "/addproduct", method = RequestMethod.POST)
-	public String saveProduct(@RequestParam("name") String n, @RequestParam("total") String t) {
+	@RequestMapping(value = "/uploadcsv", method = RequestMethod.POST)
+	public String saveCSV(@RequestParam("file") String name, @RequestParam("file") MultipartFile file,
+			RedirectAttributes redirectAttributes) throws IllegalStateException, IOException {
 
-		if (ProducteService.isNumeric(t)) {
-			Integer tot = Integer.parseInt(t);
-			System.out.println(n + " | " + tot);
+		System.out.println("Entra");
+		
+		/*if (!file.isEmpty()) {
+
+			BufferedReader br = null;
+
+			File convFile = new File(file.getOriginalFilename());
+			file.transferTo(convFile);
+
+			String line = "";
+
+			try {
+
+				br = new BufferedReader(new FileReader(convFile));
+
+				while ((line = br.readLine()) != null) {
+
+					System.out.println(line);
+
+				}
+
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (br != null) {
+					try {
+						br.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
 		} else {
-			System.out.println("Mal: Valor no numérico");
+			redirectAttributes.addFlashAttribute("message",
+					"You failed to upload " + name + " because the file was empty");
+		}*/
+
+		return "redirect:/dashboard";
+
+	}
+
+	@Secured("ROLE_ADMIN")
+	@RequestMapping(value = "/singleProd", method = RequestMethod.POST)
+	public String saveProduct(@RequestParam("name") String nombre, @RequestParam("price") String price,
+			@RequestParam("total") String quantity, @RequestParam("generos") String genero,
+			@RequestParam("distribuidoras") String distribuidora, @RequestParam("plataformas") String plataforma,
+			@RequestParam("edad") String edad, @RequestParam("imagen") String imagen,
+			@RequestParam("activar") String activar, Model model) {
+
+		model.addAttribute("generos", p_service.ordenarLista(p_service.listarAllProd("genero")));
+		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
+		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
+
+		Double precio = null;
+		Integer cantidad = null;
+
+		try {
+
+			precio = Double.parseDouble(price);
+			cantidad = Integer.parseInt(quantity);
+
+		} catch (Exception e) {
+
+			String error = "NOPE";
+			model.addAttribute("error_number", error);
+			return "new_product";
+		}
+
+		if (!imagen.contains(".")) {
+
+			String error = "NOPE";
+			model.addAttribute("error_img", error);
+			return "new_product";
+
+		} else {
+			imagen = "/images/" + imagen;
+		}
+
+		Producte newProd = p_service.crearProducte(nombre, genero, distribuidora, plataforma, edad, cantidad, precio,
+				activar, imagen);
+
+		if (newProd == null) {
+			String error = "NOPE";
+			model.addAttribute("error_product", error);
+			return "new_product";
 		}
 
 		return "redirect:/dashboard";
@@ -201,11 +297,11 @@ public class BotigaController {
 		model.addAttribute("generos", p_service.ordenarLista(p_service.listarAllProd("genero")));
 		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
 		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
-		
+
 		List<Producte> juegos = p_service.buscarProductosCat(category, cat_name);
-		
+
 		model.addAttribute("juegos", juegos);
-		
+
 		return "category";
 	}
 
@@ -229,28 +325,6 @@ public class BotigaController {
 		model.addAttribute("generos", p_service.ordenarLista(p_service.listarAllProd("genero")));
 		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
 		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
-
-		/*
-		 * BufferedReader br = null;
-		 * 
-		 * String line = "";
-		 * 
-		 * try {
-		 * 
-		 * br = new BufferedReader(new FileReader(
-		 * "C:\\Users\\Surrui\\Desktop\\fdghdfhdfghfhgfdhdghfhghfhdfh.csv"));
-		 * 
-		 * while ((line = br.readLine()) != null) {
-		 * 
-		 * System.out.println(line);
-		 * 
-		 * }
-		 * 
-		 * } catch (FileNotFoundException e) { e.printStackTrace(); } catch
-		 * (IOException e) { e.printStackTrace(); } finally { if (br != null) {
-		 * try { br.close(); } catch (IOException e) { e.printStackTrace(); } }
-		 * }
-		 */
 
 		return "home";
 	}
@@ -305,16 +379,5 @@ public class BotigaController {
 		}
 
 		return "login";
-	}
-
-	private double round(double value, int places) {
-
-		if (places < 0)
-			throw new IllegalArgumentException();
-
-		BigDecimal bd = new BigDecimal(value);
-		bd = bd.setScale(places, RoundingMode.HALF_UP);
-
-		return bd.doubleValue();
 	}
 }

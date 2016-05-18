@@ -16,24 +16,22 @@
 	<!-- Container -->
 	<div id="container">
 		<div class="shell">
-
-			<!-- Message OK -->
-			<div class="msg msg-ok">
+			<div th:if="${error_number}" class="msg msg-error">
 				<p>
-					<strong>Your file was uploaded succesifully!</strong>
+					<strong>Error: El precio/la cantidad ha de ser un valor numérico!</strong>
 				</p>
 			</div>
-			<!-- End Message OK -->
-
-			<!-- Message Error -->
-			<div class="msg msg-error">
+			<div th:if="${error_product}" class="msg msg-error">
 				<p>
-					<strong>You must select a file to upload first!</strong>
+					<strong>Error: El producto ya existe!</strong>
 				</p>
 			</div>
-			<!-- End Message Error -->
+			<div th:if="${error_img}" class="msg msg-error">
+				<p>
+					<strong>Error: Se ha de escribir el formato de la imagen!</strong>
+				</p>
+			</div>
 			<br />
-
 			<!-- Box -->
 			<div class="box">
 				<!-- Box Head -->
@@ -41,51 +39,63 @@
 					<h2>Nuevo Artículo</h2>
 				</div>
 				<!-- End Box Head -->
-				<form th:action="@{/addproduct}" method="post">
+				<form th:action="@{/singleProd}" method="post">
 					<!-- Form -->
 					<div class="form">
 						<p>
-							<label>Nombre Artículo <span>(Campo Requerido)</span>
-							</label><input name="name" type="text" class="field size1"
-								required="required"></input>
+							<label>Nombre Artículo</label><input name="name" type="text"
+								class="field size1" required="required"></input>
 						</p>
+						<div id="select0">
+							<label>Precio</label><input class="field" name="price"
+								type="text" required="required"></input>
+						</div>
 						<div id="select1">
-							<label>Género</label> <select>
-								<option value="volvo">Volvo</option>
-								<option value="saab">Saab</option>
-								<option value="opel">Opel</option>
-								<option value="audi">Audi</option>
-							</select>
+							<label>Género</label> <input class="field" list="generos"
+								name="generos">
+							<datalist id="generos">
+								<option th:each="genero : ${generos}" th:value="${genero}"
+									th:text="${genero}">x</option>
+							</datalist>
+							</input>
 						</div>
 						<div id="select2">
-							<label>Distribuidor</label><select>
-								<option value="volvo">Volvo</option>
-								<option value="saab">Saab</option>
-								<option value="opel">Opel</option>
-								<option value="audi">Audi</option>
-							</select>
+							<label>Distribuidor</label> <input class="field"
+								list="distribuidoras" name="distribuidoras">
+							<datalist id="distribuidoras">
+								<option th:each="distribuidora : ${distribuidoras}"
+									th:value="${distribuidora}" th:text="${distribuidora}">x</option>
+							</datalist>
+							</input>
 						</div>
 						<div id="select3">
-							<label>Plataforma</label> <select>
-								<option value="volvo">Volvo</option>
-								<option value="saab">Saab</option>
-								<option value="opel">Opel</option>
-								<option value="audi">Audi</option>
-							</select>
+							<label>Plataforma</label> <input class="field" list="plataformas"
+								name="plataformas">
+							<datalist id="plataformas">
+								<option th:each="plataforma : ${plataformas}"
+									th:value="${plataforma}" th:text="${plataforma}">x</option>
+							</datalist>
+							</input>
 						</div>
 						<div id="select4">
-							<label>Edad Recomendada</label> <select>
-								<option value="volvo">Volvo</option>
-								<option value="saab">Saab</option>
-								<option value="opel">Opel</option>
-								<option value="audi">Audi</option>
+							<label>Edad Recomendada</label> <select name="edad">
+								<option>3+</option>
+								<option>7+</option>
+								<option>12+</option>
+								<option>16+</option>
+								<option>18+</option>
 							</select>
 						</div>
 						<div id="select5">
-							<label>Cantidad</label><input name="total" type="text" value="9"></input>
+							<label>Cantidad</label><input class="field" name="total"
+								type="text" required="required"></input>
 						</div>
 						<div id="select6">
-							<label>Activar</label> <select>
+							<label>Imagen<span> (No olvidar formato)</span></label><input
+								class="field" name="imagen" type="text" required="required" />
+						</div>
+						<div id="select7">
+							<label>Activar</label> <select name="activar">
 								<option value="si">Si</option>
 								<option value="no">No</option>
 							</select>
@@ -104,7 +114,7 @@
 				<div class="box-head">
 					<h2>Subir CSV</h2>
 				</div>
-				<form method="POST" action="upload" enctype="multipart/form-data">
+				<form method="post" th:action="@{/uploadcsv}" enctype="multipart/form-data">
 					<div class="form">
 						<label>Archivo</label><input type="file" name="file" id="file" />
 					</div>
