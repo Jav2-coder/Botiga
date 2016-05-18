@@ -37,10 +37,13 @@
 		<div class="header-bottom"
 			th:replace="fragment/header :: header-bottom"></div>
 		<div class="content">
-			<div class="col-md-4 prod_game" th:each="juego : ${juegos}">
-				<a th:href="@{'/producto/'+${juego.nom}}"> <img
-					th:src="@{${juego.imagen}}" />
-					<p th:text="${juego.nom}" /></a>
+			<div class="row" th:each="juego : ${juegos}">
+				<div class="col-md-3 prod_game">
+					<a th:href="@{'/producto/'+${juego.nom}}"> <img width="250"
+						th:src="@{${juego.imagen}}" /><br /> <span
+						th:text="${juego.nom}" /><br /> <span>Precio: </span><strong><span
+								th:text="${juego.precio}" /><span> €</span></strong></a>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -24,8 +24,17 @@ ul, h3 {
 
 /*--category--*/
 
-div#prod_game img {
-	width: 100%;
+div.prod_game {
+	text-align: center;
+	padding-bottom: 10px;
+	border-style: solid;
+	border-color: #0052CC;
+	background-color: #003D99;
+}
+
+div.prod_game img {
+	margin-top: 15px;
+	margin-bottom: 5px;
 }
 
 /*--home--*/

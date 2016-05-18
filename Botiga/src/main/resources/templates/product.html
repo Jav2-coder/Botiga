@@ -36,17 +36,13 @@
 		<div class="header-bottom"
 			th:replace="fragment/header :: header-bottom"></div>
 		<div class="content">
-			<h3>Nombre Producto</h3>
+			<h3 th:text="${product.nom}">Nombre Producto</h3>
 			<div class="col-md-7">
 				<img src="/images/dummy.jpg"></img>
 			</div>
 			<div class="col-md-5">
 				<table>
 					<tbody>
-						<tr>
-							<td>Nombre</td>
-							<td><div th:text="${product.nom}">X</div></td>
-						</tr>
 						<tr>
 							<td>Precio</td>
 							<td><div th:text="${product.precio}">X</div></td>
