@@ -38,8 +38,7 @@
 		<div class="header-bottom"
 			th:replace="fragment/header :: header-bottom"></div>
 		<div class="content">
-			<form>
-				<h3 th:text="${product.nom}">Nombre Producto</h3>
+			<h3 id="prod_nombre" th:text="${product.nom}">Nombre Producto</h3>
 				<div class="col-md-7">
 					<img src="/images/dummy.jpg"></img>
 				</div>
@@ -48,37 +47,38 @@
 						<tbody>
 							<tr>
 								<td>Precio</td>
-								<td><div th:text="${product.precio}">X</div></td>
+								<td><div id="prod_precio" th:text="${product.precio}">X</div></td>
 							</tr>
 							<tr>
 								<td>Género</td>
-								<td><div th:text="${product.genero}">X</div></td>
+								<td><div id="prod_genero" th:text="${product.genero}">X</div></td>
 							</tr>
 							<tr>
 								<td>Distribuidora</td>
-								<td><div th:text="${product.distribuidora}">X</div></td>
+								<td><div id="prod_distr" th:text="${product.distribuidora}">X</div></td>
 							</tr>
 							<tr>
 								<td>Plataforma</td>
-								<td><div th:text="${product.plataforma}">X</div></td>
+								<td><div id="prod_plat" th:text="${product.plataforma}">X</div></td>
 							</tr>
 							<tr>
 								<td>PEGI</td>
-								<td><div th:text="${product.edad}">X</div></td>
+								<td><div id="prod_edad" th:text="${product.edad}">X</div></td>
 							</tr>
 						</tbody>
 					</table>
 					<input type='button' value='-' class='qtyminus' field='quantity' />
-					<input type='text' name='quantity' value='0' class='qty' /> 
+					<input id="prod_cuant" type='text' name='quantity' value='1' class='qty' /> 
 					<input type='button' value='+' class='qtyplus' field='quantity' />
-					<button type="submit" name="Submit" class="exclusive btn">
+					<br />
+					<button class="exclusive btn añadir_carrito">
 						<span>Añadir al carrito</span>
 					</button>
 				</div>
-			</form>
 		</div>
 		<div class="clearfix"></div>
 	<footer th:replace="fragment/header :: footer"></footer>
 	</div>
+<script type="text/javascript" src="/js/operations.js"></script>
 </body>
 </html>

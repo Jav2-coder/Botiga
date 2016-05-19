@@ -12,17 +12,17 @@ jQuery(document).ready(function(){
 		var edad = $(this).closest("tr").children(":nth-child(5)").html();
 		var cantidad = $(this).closest("tr").children(":nth-child(6)").html();
 		var activar = $(this).closest("tr").children(":nth-child(7)").html();
+		var id = $(this).closest("tr").data("id");
 		
-		console.log(edad)
-		
-		$("#nom_juego").append(nombre);
-		$("#pre_juego").append(precio);
-		$("#generos").append(genero);
-		$("#distribuidoras").append(distribuidora);
-		$("#plataformas").append(plataforma);
-		$("#edad_rec").append(edad);
-		$("#cant_juego").append(cantidad);
-		$("#activar_juego").append(activar);
+		$("#nom_juego").val(nombre);
+		$("#pre_juego").val(precio);
+		$("#gen_juego").val(genero);
+		$("#dist_juego").val(distribuidora);
+		$("#plat_juego").val(plataforma);
+		$("#edad_rec").val(edad);
+		$("#cant_juego").val(cantidad);
+		$("#activar_juego").val(activar);
+		$("#hidden_id").val(id);
 		
 	});
 });

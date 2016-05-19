@@ -106,10 +106,35 @@ public class BotigaController {
 
 	}
 
-	// Mirar https://ide.c9.io/andreurp/desemvolupament-cli
-	
-	
-	
+	@Secured("ROLE_ADMIN")
+	@RequestMapping(value = "/editProd", method = RequestMethod.POST)
+	public String editar(@RequestParam("_hidden_id") String id, @RequestParam("name") String nombre, @RequestParam("price") String price,
+			@RequestParam("total") String quantity, @RequestParam("generos") String genero,
+			@RequestParam("distribuidoras") String distribuidora, @RequestParam("plataformas") String plataforma,
+			@RequestParam("edad") String edad, @RequestParam("activar") String activar,
+			Model model/* , final RedirectAttributes redirectAttributes */) {
+
+		Double precio = null;
+		Integer cantidad = null;
+
+		try {
+
+			precio = Double.parseDouble(price);
+			cantidad = Integer.parseInt(quantity);
+
+		} catch (Exception e) {
+
+			String error = "NOPE";
+			model.addAttribute("error_number", error);
+
+			return "redirect:/dashboard";
+		}
+		
+		p_service.editarProd(id, nombre, precio, cantidad, genero, distribuidora, plataforma, edad, activar);
+		
+		return "redirect:/dashboard";
+	}
+
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
 	public String eliminar(@PathVariable("id") String id) {
@@ -157,50 +182,40 @@ public class BotigaController {
 			RedirectAttributes redirectAttributes) throws IllegalStateException, IOException {
 
 		System.out.println("Entra");
-		
-		/*if (!file.isEmpty()) {
 
-			BufferedReader br = null;
-
-			File convFile = new File(file.getOriginalFilename());
-			file.transferTo(convFile);
-
-			String line = "";
-
-			try {
-
-				br = new BufferedReader(new FileReader(convFile));
-
-				while ((line = br.readLine()) != null) {
-
-					System.out.println(line);
-
-				}
-
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				if (br != null) {
-					try {
-						br.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		} else {
-			redirectAttributes.addFlashAttribute("message",
-					"You failed to upload " + name + " because the file was empty");
-		}*/
+		/*
+		 * if (!file.isEmpty()) {
+		 * 
+		 * BufferedReader br = null;
+		 * 
+		 * File convFile = new File(file.getOriginalFilename());
+		 * file.transferTo(convFile);
+		 * 
+		 * String line = "";
+		 * 
+		 * try {
+		 * 
+		 * br = new BufferedReader(new FileReader(convFile));
+		 * 
+		 * while ((line = br.readLine()) != null) {
+		 * 
+		 * System.out.println(line);
+		 * 
+		 * }
+		 * 
+		 * } catch (FileNotFoundException e) { e.printStackTrace(); } catch
+		 * (IOException e) { e.printStackTrace(); } finally { if (br != null) {
+		 * try { br.close(); } catch (IOException e) { e.printStackTrace(); } }
+		 * } } else { redirectAttributes.addFlashAttribute("message",
+		 * "You failed to upload " + name + " because the file was empty"); }
+		 */
 
 		return "redirect:/dashboard";
 
 	}
 
 	@Secured("ROLE_ADMIN")
-	@RequestMapping(value = "/singleProd", method = RequestMethod.POST)
+	@RequestMapping(value = "/addproduct", method = RequestMethod.POST)
 	public String saveProduct(@RequestParam("name") String nombre, @RequestParam("price") String price,
 			@RequestParam("total") String quantity, @RequestParam("generos") String genero,
 			@RequestParam("distribuidoras") String distribuidora, @RequestParam("plataformas") String plataforma,
@@ -300,19 +315,25 @@ public class BotigaController {
 
 		List<Producte> juegos = p_service.buscarProductosCat(category, cat_name);
 
+		for(Producte p : juegos){
+			if(p.getNom().length() > 20){
+				p.setNom(p.getNom().substring(0, 20) + "...");
+			}
+		}
+		
 		model.addAttribute("juegos", juegos);
 
 		return "category";
 	}
 
-	@RequestMapping(value = "/producto/{product_nom}", method = RequestMethod.GET)
-	public String product(@PathVariable String product_nom, Model model) {
+	@RequestMapping(value = "/producto/{product_id}", method = RequestMethod.GET)
+	public String product(@PathVariable String product_id, Model model) {
 
 		model.addAttribute("generos", p_service.ordenarLista(p_service.listarAllProd("genero")));
 		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
 		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
 
-		Producte product = p_service.buscaProducte(product_nom);
+		Producte product = p_service.buscarProdId(product_id);
 
 		model.addAttribute("product", product);
 

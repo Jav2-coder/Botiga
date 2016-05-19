@@ -34,14 +34,18 @@
 	<div class="container">
 		<div class="header" th:replace="fragment/header :: header"></div>
 		<div class="header-top" th:replace="fragment/header :: header-top"></div>
-		<div class="header-bottom" th:replace="fragment/header :: header-bottom"></div>
+		<div class="header-bottom"
+			th:replace="fragment/header :: header-bottom"></div>
 		<div class="content">
-			<div class="col-md-3 prod_game" th:each="juego : ${juegos}" th:if="${juego.activado} == 'Si'" >
-				<a th:href="@{'/producto/'+${juego.nom}}"> 
-					<img width="250" th:src="@{${juego.imagen}}" /><br />
-					<span th:text="${juego.nom}" /><br />
-					<span>Precio: </span><strong><span th:text="${juego.precio}" /><span> €</span></strong>
-				</a>
+			<div class="row">
+				<div class="col-md-3 prod_game" th:each="juego : ${juegos}"
+					th:if="${juego.activado} == 'Si'">
+					<a th:href="@{'/producto/'+${juego.id}}"> <img width="250"
+						th:src="@{${juego.imagen}}" /><br /> <span
+						th:text="${juego.nom}" /><br /> <span>Precio: </span><strong><span
+							th:text="${juego.precio}" /><span> €</span></strong>
+					</a>
+				</div>
 			</div>
 		</div>
 		<div class="clearfix"></div>

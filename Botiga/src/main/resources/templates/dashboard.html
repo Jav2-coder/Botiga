@@ -14,7 +14,13 @@
 	<!-- Container -->
 	<div id="container">
 		<div class="shell">
-
+			<div th:if="${error_number}" class="msg msg-error">
+				<p>
+					<strong>Error: El precio/la cantidad ha de ser un valor
+						numérico!</strong>
+				</p>
+			</div>
+			<br />
 			<!-- Main -->
 			<div id="main">
 				<div class="cl">&nbsp;</div>
@@ -49,7 +55,7 @@
 									<th>Precio</th>
 									<th width="110" class="ac">Content Control</th>
 								</tr>
-								<tr th:each="juego : ${juegos}">
+								<tr th:each="juego : ${juegos}" th:attr="data-id=${juego.id}" >
 									<td th:text="${juego.nom}">x</td>
 									<td th:text="${juego.genero}">x</td>
 									<td th:text="${juego.distribuidora}">x</td>
@@ -78,13 +84,20 @@
 						<!-- Table -->
 					</div>
 					<!-- End Box -->
+					<div th:if="${error_number}" class="msg msg-error">
+						<p>
+							<strong>Error: El precio/la cantidad ha de ser un valor
+								numérico!</strong>
+						</p>
+					</div>
+					<br />
 					<div class="box">
 						<!-- Box Head -->
 						<div class="box-head">
 							<h2>Editar Artículo</h2>
 						</div>
 						<!-- End Box Head -->
-						<form th:action="@{/dashboard}" method="post">
+						<form th:action="@{/editProd}" method="post">
 							<!-- Form -->
 							<div class="form">
 								<p>
@@ -97,29 +110,31 @@
 								</div>
 								<div id="select1">
 									<label>Género</label> <input class="field" list="generos"
-										name="generos"> <datalist id="generos">
+										name="generos" id="gen_juego" required="required"> <datalist
+											id="generos">
 										<option th:each="genero : ${generos}" th:value="${genero}"
 											th:text="${genero}">x</option>
 										</datalist> </input>
 								</div>
 								<div id="select2">
-									<label>Distribuidor</label> <input class="field"
-										list="distribuidoras" name="distribuidoras"> <datalist
-											id="distribuidoras">
+									<label>Distribuidor</label> <input id="dist_juego"
+										class="field" list="distribuidoras" name="distribuidoras"
+										required="required"> <datalist id="distribuidoras">
 										<option th:each="distribuidora : ${distribuidoras}"
 											th:value="${distribuidora}" th:text="${distribuidora}">x</option>
 										</datalist> </input>
 								</div>
 								<div id="select3">
 									<label>Plataforma</label> <input class="field"
-										list="plataformas" name="plataformas"> <datalist
-											id="plataformas">
+										list="plataformas" name="plataformas" id="plat_juego"
+										required="required"> <datalist id="plataformas">
 										<option th:each="plataforma : ${plataformas}"
 											th:value="${plataforma}" th:text="${plataforma}">x</option>
 										</datalist> </input>
 								</div>
 								<div id="select4">
-									<label>Edad Recomendada</label> <select id="edad_rec">
+									<label>Edad Recomendada</label> <select id="edad_rec"
+										name="edad">
 										<option value="3+">3+</option>
 										<option value="7+">7+</option>
 										<option value="12+">12+</option>
@@ -128,15 +143,17 @@
 									</select>
 								</div>
 								<div id="select5">
-									<label>Cantidad</label><input id="cant_juego" class="field" name="total"
-										type="text" required="required"></input>
+									<label>Cantidad</label><input id="cant_juego" class="field"
+										name="total" type="text" required="required"></input>
 								</div>
 								<div id="select6">
-									<label>Activar</label> <select id="activar_juego">
-										<option value="si">Si</option>
-										<option value="no">No</option>
+									<label>Activar</label> <select id="activar_juego"
+										name="activar">
+										<option value="Si">Si</option>
+										<option value="No">No</option>
 									</select>
 								</div>
+								<input id="hidden_id" name="_hidden_id" type="hidden" />
 							</div>
 							<!-- End Form -->
 
