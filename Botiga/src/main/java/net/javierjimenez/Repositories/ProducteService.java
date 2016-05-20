@@ -16,7 +16,7 @@ public class ProducteService {
 	@Autowired
 	ProducteRepositori product;
 
-	public Producte crearProducte(String n, String g, String d, String p, String e, Integer c, Double m, String a, String i) {
+	public Producte crearProducte(String n, String g, String d, String p, String e, Integer c, Double m, String a, String [] i) {
 
 		if (product.findByNom(n) != null && product.findByPlataforma(p) != null)
 			return null;
@@ -30,7 +30,8 @@ public class ProducteService {
 		newProduct.setCantidad(c);
 		newProduct.setActivado(a);
 		newProduct.setPrecio(m);
-		newProduct.setImagen(i);
+		newProduct.setPortada(i[0]);
+		newProduct.setImagenes(i);
 
 		return product.save(newProduct);
 

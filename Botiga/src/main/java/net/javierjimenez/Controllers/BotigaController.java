@@ -52,7 +52,7 @@ public class BotigaController {
 
 	@Autowired
 	UsuariService u_service;
-	
+
 	@Autowired
 	ProducteService p_service;
 
@@ -161,55 +161,67 @@ public class BotigaController {
 		return "new_product";
 	}
 
-	/*@Secured("ROLE_ADMIN")
-	@RequestMapping(value = "/uploadcsv", method = RequestMethod.POST)
-	public String saveCSV(@RequestParam("file") String name, @RequestParam("file") MultipartFile file,
-			RedirectAttributes redirectAttributes) throws IllegalStateException, IOException {
-
-		System.out.println("Entra");
-
-		
-		 * if (!file.isEmpty()) {
-		 * 
-		 * BufferedReader br = null;
-		 * 
-		 * File convFile = new File(file.getOriginalFilename());
-		 * file.transferTo(convFile);
-		 * 
-		 * String line = "";
-		 * 
-		 * try {
-		 * 
-		 * br = new BufferedReader(new FileReader(convFile));
-		 * 
-		 * while ((line = br.readLine()) != null) {
-		 * 
-		 * System.out.println(line);
-		 * 
-		 * }
-		 * 
-		 * } catch (FileNotFoundException e) { e.printStackTrace(); } catch
-		 * (IOException e) { e.printStackTrace(); } finally { if (br != null) {
-		 * try { br.close(); } catch (IOException e) { e.printStackTrace(); } }
-		 * } } else { redirectAttributes.addFlashAttribute("message",
-		 * "You failed to upload " + name + " because the file was empty"); }
-		 
-
-		return "redirect:/dashboard";
-
-	}*/
+	/*
+	 * @Secured("ROLE_ADMIN")
+	 * 
+	 * @RequestMapping(value = "/uploadcsv", method = RequestMethod.POST) public
+	 * String saveCSV(@RequestParam("file") String name, @RequestParam("file")
+	 * MultipartFile file, RedirectAttributes redirectAttributes) throws
+	 * IllegalStateException, IOException {
+	 * 
+	 * System.out.println("Entra");
+	 * 
+	 * 
+	 * if (!file.isEmpty()) {
+	 * 
+	 * BufferedReader br = null;
+	 * 
+	 * File convFile = new File(file.getOriginalFilename());
+	 * file.transferTo(convFile);
+	 * 
+	 * String line = "";
+	 * 
+	 * try {
+	 * 
+	 * br = new BufferedReader(new FileReader(convFile));
+	 * 
+	 * while ((line = br.readLine()) != null) {
+	 * 
+	 * System.out.println(line);
+	 * 
+	 * }
+	 * 
+	 * } catch (FileNotFoundException e) { e.printStackTrace(); } catch
+	 * (IOException e) { e.printStackTrace(); } finally { if (br != null) { try
+	 * { br.close(); } catch (IOException e) { e.printStackTrace(); } } } } else
+	 * { redirectAttributes.addFlashAttribute("message", "You failed to upload "
+	 * + name + " because the file was empty"); }
+	 * 
+	 * 
+	 * return "redirect:/dashboard";
+	 * 
+	 * }
+	 */
 
 	@Secured("ROLE_ADMIN")
-	@RequestMapping(value = "/addproduct", method = RequestMethod.POST)
+	@RequestMapping(value = "/singleProd", method = RequestMethod.POST)
 	public String saveProduct(@RequestParam("name") String nombre, @RequestParam("price") String price,
 			@RequestParam("total") String quantity, @RequestParam("generos") String genero,
 			@RequestParam("distribuidoras") String distribuidora, @RequestParam("plataformas") String plataforma,
-			@RequestParam("edad") String edad, @RequestParam("imagen") String imagen,
+			@RequestParam("edad") String edad, @RequestParam("caja") String caja, @RequestParam("juego") String juego,
+			@RequestParam("escena1") String escena1, @RequestParam("escena2") String escena2,
 			@RequestParam("activar") String activar, Model model) {
 
 		model.addAttribute("generos", p_service.ordenarLista(p_service.listarAllProd("genero")));
 		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
 		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
+
+		caja = "/images/" + caja;
+		juego = "/images/" + juego;
+		escena1 = "/images/" + escena1;
+		escena2 = "/images/" + escena2;
+		
+		String[] imagenes = { caja, juego, escena1, escena2 };
 
 		Double precio = null;
 		Integer cantidad = null;
@@ -226,18 +238,16 @@ public class BotigaController {
 			return "new_product";
 		}
 
-		if (!imagen.contains(".")) {
-
-			String error = "NOPE";
-			model.addAttribute("error_img", error);
-			return "new_product";
-
-		} else {
-			imagen = "/images/" + imagen;
+		for (String img : imagenes) {
+			if (!img.contains(".")) {
+				String error = "NOPE";
+				model.addAttribute("error_img", error);
+				return "new_product";
+			} 
 		}
-
+		
 		Producte newProd = p_service.crearProducte(nombre, genero, distribuidora, plataforma, edad, cantidad, precio,
-				activar, imagen);
+				activar, imagenes);
 
 		if (newProd == null) {
 			String error = "NOPE";
@@ -273,7 +283,7 @@ public class BotigaController {
 			model.addAttribute("error", error);
 			return "newAdmin";
 		}
-		
+
 		return "redirect:/dashboard";
 	}
 
@@ -312,6 +322,8 @@ public class BotigaController {
 		return "category";
 	}
 
+	//Zoom http://www.elevateweb.co.uk/image-zoom/examples
+	
 	@RequestMapping(value = "/producto/{product_id}", method = RequestMethod.GET)
 	public String product(@PathVariable String product_id, Model model) {
 

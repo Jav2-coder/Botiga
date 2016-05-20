@@ -4,7 +4,7 @@
 	outline: 0;
 }
 
-form.btn_prod{
+form.btn_prod {
 	display: inline-block;
 }
 
@@ -16,8 +16,22 @@ body {
 	color: #5e5e5e;
 }
 
-div#select0, div#select1, div#select2, div#select3, div#select4, div#select5, div#select6, div#select7{
+div#select0a, div#select1a, div#select2a, div#select3a, div#select4a,
+	div#select5a, div#select6a {
 	display: inline-block;
+	padding-bottom: 15px;
+	padding-right: 15px;
+}
+
+div#select0, div#select1, div#select2, div#select4, div#select5, div#select7,
+	div#select8, div#select9, div#select10 {
+	display: inline-block;
+	padding-bottom: 15px;
+	padding-right: 15px;
+}
+
+div#select3, div#select6 {
+	display: block !important;
 	padding-bottom: 15px;
 	padding-right: 15px;
 }
@@ -56,7 +70,7 @@ textarea {
 	top: 2px;
 }
 
-input#btn_1, input#btn_2{
+input#btn_1, input#btn_2 {
 	display: inline-block;
 	width: 35%;
 	text-align: center;

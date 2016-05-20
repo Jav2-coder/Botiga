@@ -10,7 +10,8 @@ public class Producte {
 	private String id;
 
 	private String nom;
-	private String imagen;
+	private String portada;
+	private String [] imagenes;
 	private String genero;
 	private String distribuidora;
 	private String plataforma;
@@ -95,12 +96,20 @@ public class Producte {
 		this.id = id;
 	}
 
-	public String getImagen() {
-		return imagen;
+	public String getPortada (){
+		return portada;
+	}
+	
+	public void setPortada(String portada){
+		this.portada = portada;
+	}
+	
+	public String [] getImagenes() {
+		return imagenes;
 	}
 
-	public void setImagen(String imagen) {
-		this.imagen = imagen;
+	public void setImagenes(String [] imagenes) {
+		this.imagenes = imagenes;
 	}
 	
 }

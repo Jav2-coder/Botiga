@@ -69,15 +69,6 @@
 							</input>
 						</div>
 						<div id="select3">
-							<label>Plataforma</label> <input class="field" list="plataformas"
-								name="plataformas">
-							<datalist id="plataformas">
-								<option th:each="plataforma : ${plataformas}"
-									th:value="${plataforma}" th:text="${plataforma}">x</option>
-							</datalist>
-							</input>
-						</div>
-						<div id="select4">
 							<label>Edad Recomendada</label> <select name="edad">
 								<option>3+</option>
 								<option>7+</option>
@@ -86,19 +77,40 @@
 								<option>18+</option>
 							</select>
 						</div>
+						<div id="select4">
+							<label>Plataforma</label> <input class="field" list="plataformas"
+								name="plataformas">
+							<datalist id="plataformas">
+								<option th:each="plataforma : ${plataformas}"
+									th:value="${plataforma}" th:text="${plataforma}">x</option>
+							</datalist>
+							</input>
+						</div>
 						<div id="select5">
 							<label>Cantidad</label><input class="field" name="total"
 								type="text" required="required"></input>
 						</div>
 						<div id="select6">
-							<label>Imagen<span> (No olvidar formato)</span></label><input
-								class="field" name="imagen" type="text" required="required" />
-						</div>
-						<div id="select7">
 							<label>Activar</label> <select name="activar">
 								<option value="Si">Si</option>
 								<option value="No">No</option>
 							</select>
+						</div>
+						<div id="select7">
+							<label>Imagen Portada<span> (No olvidar formato)</span></label><input
+								class="field" name="caja" type="text" required="required" />
+						</div>
+						<div id="select8">
+							<label>Imagen Juego<span> (No olvidar formato)</span></label><input
+								class="field" name="juego" type="text" required="required" />
+						</div>
+						<div id="select9">
+							<label>Escena 1<span> (No olvidar formato)</span></label><input
+								class="field" name="escena1" type="text" required="required" />
+						</div>
+						<div id="select10">
+							<label>Escena 2<span> (No olvidar formato)</span></label><input
+								class="field" name="escena2" type="text" required="required" />
 						</div>
 					</div>
 					<!-- End Form -->

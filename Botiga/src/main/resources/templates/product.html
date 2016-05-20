@@ -39,14 +39,20 @@
 		<div class="content">
 			<h3 id="prod_nombre" th:text="${product.nom}">Nombre Producto</h3>
 			<div class="col-md-7">
-				<img src="/images/dummy.jpg"></img>
+				<img th:src="@{${product.portada}}"></img>
+				<div class="row">
+					<div class="col-md-3" th:each="img : ${product.imagenes}">
+						<img width="80" th:src="@{${img}}" />
+					</div>
+				</div>
 			</div>
 			<div class="col-md-5">
 				<table>
 					<tbody>
 						<tr>
 							<td>Precio</td>
-							<td><div th:text="${#numbers.formatDecimal(product.precio, 0, 'DEFAULT', 2, 'DEFAULT')}">X</div></td>
+							<td><div
+									th:text="${#numbers.formatDecimal(product.precio, 0, 'DEFAULT', 2, 'DEFAULT')}">X</div></td>
 						</tr>
 						<tr>
 							<td>Género</td>
