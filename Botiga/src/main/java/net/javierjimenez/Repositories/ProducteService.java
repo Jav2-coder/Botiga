@@ -93,16 +93,32 @@ public class ProducteService {
 		return listaOrdenada;
 	}
 
-	public List<Producte> buscarProductosCat(String category, String cat_name) {
+	public List<Producte> buscarProductosCat(String category, String cat_name, String activo) {
 
 		List<Producte> lista = null;
 
 		if (category.equals("Genero")) {	
 			lista = product.findByGenero(cat_name);
+			
+			for(int i = lista.size()-1; i >= 0; i--){
+				if(!lista.get(i).getActivado().equals(activo)){
+					lista.remove(i);
+				}
+			}
 		} else if (category.equals("Plataforma")) {
 			lista = product.findByPlataforma(cat_name);
+			for(int i = lista.size()-1; i >= 0; i--){
+				if(!lista.get(i).getActivado().equals(activo)){
+					lista.remove(i);
+				}
+			}
 		} else {
 			lista = product.findByDistribuidora(cat_name);
+			for(int i = lista.size()-1; i >= 0; i--){
+				if(!lista.get(i).getActivado().equals(activo)){
+					lista.remove(i);
+				}
+			}
 		}
 		
 		return lista;

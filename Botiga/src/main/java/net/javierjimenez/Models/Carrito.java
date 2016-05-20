@@ -17,14 +17,17 @@ public class Carrito {
 	private List<Sell> sells;
 	private String username;
 	private Double pago;
+	private boolean tieneCosas;
 
 	public Carrito() {
 		fecha = new Date();
 		sells = new ArrayList<Sell>();
 		username = "anomymous";
+		tieneCosas = false;
 	}
 
 	public void addProducto(Sell venta){
+		tieneCosas = true;
 		sells.add(venta);
 	}
 	
@@ -79,5 +82,13 @@ public class Carrito {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public boolean isTieneCosas() {
+		return tieneCosas;
+	}
+
+	public void setTieneCosas(boolean tieneCosas) {
+		this.tieneCosas = tieneCosas;
 	}
 }

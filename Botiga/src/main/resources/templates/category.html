@@ -38,13 +38,16 @@
 			th:replace="fragment/header :: header-bottom"></div>
 		<div class="content">
 			<div class="row">
-				<div class="col-md-3 prod_game" th:each="juego : ${juegos}"
-					th:if="${juego.activado} == 'Si'">
+				<div th:if="!${vacio}" class="col-md-3 prod_game" th:each="juego : ${juegos}" >
 					<a th:href="@{'/producto/'+${juego.id}}"> <img width="250"
 						th:src="@{${juego.imagen}}" /><br /> <span
 						th:text="${juego.nom}" /><br /> <span>Precio: </span><strong><span
-							th:text="${juego.precio}" /><span> €</span></strong>
+							th:text="${#numbers.formatDecimal(juego.precio, 0, 'DEFAULT', 2, 'DEFAULT')}" /><span>
+								€</span></strong>
 					</a>
+				</div>
+				<div th:if="${vacio}">
+				<label>No hay productos!</label>
 				</div>
 			</div>
 		</div>

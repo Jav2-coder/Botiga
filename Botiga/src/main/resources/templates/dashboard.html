@@ -55,7 +55,7 @@
 									<th>Precio</th>
 									<th width="110" class="ac">Content Control</th>
 								</tr>
-								<tr th:each="juego : ${juegos}" th:attr="data-id=${juego.id}" >
+								<tr th:each="juego : ${juegos}" th:attr="data-id=${juego.id}">
 									<td th:text="${juego.nom}">x</td>
 									<td th:text="${juego.genero}">x</td>
 									<td th:text="${juego.distribuidora}">x</td>
@@ -72,14 +72,14 @@
 									</td>
 								</tr>
 							</table>
-							<!-- Pagging 
+							<!-- Pagging -->
 							<div class="pagging">
-								<a th:if="${pagina > 0}" href="/dashboard"
-									th:href="@{'/dashboard?page=' + ${pagina - 1}}">Anterior</a> 
-								<a th:if="${#lists.size(productos) == 5}" href="/dashboard"
+								<a th:if="${pagina} > 0" href="/dashboard"
+									th:href="@{'/dashboard?page=' + ${pagina - 1}}">Anterior</a> <a
+									th:if="${#lists.size(juegos) == 4}" href="/dashboard"
 									th:href="@{'/dashboard?page=' + ${pagina + 1}}">Siguiente</a>
 							</div>
-							End Pagging -->
+							<!-- End Pagging -->
 						</div>
 						<!-- Table -->
 					</div>
@@ -89,8 +89,8 @@
 							<strong>Error: El precio/la cantidad ha de ser un valor
 								numérico!</strong>
 						</p>
+						<br />
 					</div>
-					<br />
 					<div class="box">
 						<!-- Box Head -->
 						<div class="box-head">

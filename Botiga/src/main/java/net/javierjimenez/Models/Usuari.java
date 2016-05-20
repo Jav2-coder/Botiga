@@ -22,6 +22,7 @@ public class Usuari{
 	private String password;
 	private String direccion;
 	private List<String> roles;
+	private List<Carrito> compras;
 
 	public Usuari() {
 		roles = Arrays.asList("ROLE_USER");
@@ -78,12 +79,20 @@ public class Usuari{
 		this.direccion = direccion;
 	}
 
-	public List<String> getRol() {
+	public List<String> getRoles() {
 		return roles;
 	}
 
-	public void setRol(List<String> r) {
-		this.roles = r;
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
+	}
+
+	public List<Carrito> getCompras() {
+		return compras;
+	}
+
+	public void setCompras(List<Carrito> compras) {
+		this.compras = compras;
 	}
 
 	public List<GrantedAuthority> getAutorizacion() {

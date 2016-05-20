@@ -3,9 +3,9 @@ package net.javierjimenez.Controllers;
 /*import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;*/
+import java.io.FileReader;
 import java.io.IOException;
-/*import java.io.BufferedReader;
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;*/
@@ -15,8 +15,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.data.domain.Page;
-//import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -28,8 +28,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+/*import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;*/
 
 import net.javierjimenez.Models.Carrito;
 import net.javierjimenez.Models.Producte;
@@ -46,13 +46,13 @@ public class BotigaController {
 
 	@Autowired
 	ProducteRepositori producteRepositori;
-	
+
 	@Autowired
 	CarritoRepositori compra;
 
 	@Autowired
 	UsuariService u_service;
-
+	
 	@Autowired
 	ProducteService p_service;
 
@@ -66,58 +66,28 @@ public class BotigaController {
 	public String dashboard(@RequestParam(required = false) String keyword,
 			@RequestParam(required = false) Integer page, Model model) {
 
-		/*
-		 * List<Producte> productos = null; Page<Producte> pagina = null;
-		 */
-
-		model.addAttribute("juegos", p_service.allProducts());
+		List<Producte> productos = null;
+		Page<Producte> pagina = null;
 
 		model.addAttribute("generos", p_service.ordenarLista(p_service.listarAllProd("genero")));
 		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
 		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
 
-		/*
-		 * if (page == null) page = 0;
-		 * 
-		 * if (keyword == null) {
-		 * 
-		 * pagina = producteRepositori.findAll(new PageRequest(page, 5));
-		 * 
-		 * } else {
-		 * 
-		 * muere aqui -> pagina = producteRepositori.findByNom(keyword, new
-		 * PageRequest(page, 5));
-		 * 
-		 * }
-		 * 
-		 * productos = pagina.getContent();
-		 * 
-		 * model.addAttribute("pagina", page); model.addAttribute("productos",
-		 * productos);
-		 */
+		if (page == null)
+			page = 0;
 
-		return "dashboard";
-	}
-
-	@Secured("ROLE_ADMIN")
-	@RequestMapping(value = "/dashboard", method = RequestMethod.POST)
-	public String editProduct(@RequestParam("price") String p, @RequestParam("name") String n,
-			@RequestParam("total") String t, Model model) {
-
-		model.addAttribute("generos", p_service.ordenarLista(p_service.listarAllProd("genero")));
-		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
-		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
-
-		if (ProducteService.isNumeric(t) && ProducteService.isNumeric(p)) {
-			Integer tot = (int) Double.parseDouble(t);
-			Double preu = Double.parseDouble(p);
-			System.out.println(n + " | " + tot + " | " + preu);
+		if (keyword == null) {
+			pagina = producteRepositori.findAll(new PageRequest(page, 4));
 		} else {
-			System.out.println("Mal: Valor no numérico");
+			pagina = producteRepositori.findByNom(keyword, new PageRequest(page, 4));
 		}
 
-		return "redirect:/dashboard";
+		productos = pagina.getContent();
 
+		model.addAttribute("pagina", page);
+		model.addAttribute("juegos", productos);
+
+		return "dashboard";
 	}
 
 	@Secured("ROLE_ADMIN")
@@ -191,14 +161,14 @@ public class BotigaController {
 		return "new_product";
 	}
 
-	@Secured("ROLE_ADMIN")
+	/*@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/uploadcsv", method = RequestMethod.POST)
 	public String saveCSV(@RequestParam("file") String name, @RequestParam("file") MultipartFile file,
 			RedirectAttributes redirectAttributes) throws IllegalStateException, IOException {
 
 		System.out.println("Entra");
 
-		/*
+		
 		 * if (!file.isEmpty()) {
 		 * 
 		 * BufferedReader br = null;
@@ -223,11 +193,11 @@ public class BotigaController {
 		 * try { br.close(); } catch (IOException e) { e.printStackTrace(); } }
 		 * } } else { redirectAttributes.addFlashAttribute("message",
 		 * "You failed to upload " + name + " because the file was empty"); }
-		 */
+		 
 
 		return "redirect:/dashboard";
 
-	}
+	}*/
 
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/addproduct", method = RequestMethod.POST)
@@ -303,6 +273,7 @@ public class BotigaController {
 			model.addAttribute("error", error);
 			return "newAdmin";
 		}
+		
 		return "redirect:/dashboard";
 	}
 
@@ -327,7 +298,7 @@ public class BotigaController {
 		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
 		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
 
-		List<Producte> juegos = p_service.buscarProductosCat(category, cat_name);
+		List<Producte> juegos = p_service.buscarProductosCat(category, cat_name, "Si");
 
 		for (Producte p : juegos) {
 			if (p.getNom().length() > 20) {
@@ -335,6 +306,7 @@ public class BotigaController {
 			}
 		}
 
+		model.addAttribute("vacio", juegos.isEmpty());
 		model.addAttribute("juegos", juegos);
 
 		return "category";
@@ -386,12 +358,12 @@ public class BotigaController {
 
 	@RequestMapping(value = "/checkout", method = RequestMethod.POST)
 	public String pedido(@ModelAttribute("carrito") Carrito carrito, SessionStatus status) {
-		
+
 		compra.save(carrito);
-		
+
 		return "checkout";
 	}
-	
+
 	@RequestMapping("/register")
 	public String register() {
 		return "register";

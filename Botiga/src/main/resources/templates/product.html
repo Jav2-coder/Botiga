@@ -46,7 +46,7 @@
 					<tbody>
 						<tr>
 							<td>Precio</td>
-							<td><div th:text="${product.precio}">X</div></td>
+							<td><div th:text="${#numbers.formatDecimal(product.precio, 0, 'DEFAULT', 2, 'DEFAULT')}">X</div></td>
 						</tr>
 						<tr>
 							<td>Género</td>

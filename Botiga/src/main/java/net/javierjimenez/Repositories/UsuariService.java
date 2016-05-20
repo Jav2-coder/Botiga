@@ -64,13 +64,13 @@ public class UsuariService {
 		
 		if(rol == "ROLE_ADMIN"){
 			while (userIterator.hasNext()) {
-				if (!userIterator.next().getRol().contains(rol)) {
+				if (!userIterator.next().getRoles().contains(rol)) {
 					userIterator.remove();
 				}
 			}
 		} else {
 			while (userIterator.hasNext()) {		
-				if (userIterator.next().getRol().contains("ROLE_ADMIN")) {
+				if (userIterator.next().getRoles().contains("ROLE_ADMIN")) {
 					userIterator.remove();
 				}
 			}
