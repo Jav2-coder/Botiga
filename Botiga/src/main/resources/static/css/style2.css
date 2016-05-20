@@ -98,6 +98,14 @@ a#right_carousel {
 }
 
 /*--header--*/
+.dropdown-menu {
+	width: 300px;
+}
+
+.btn_centrar {
+	text-align: center;
+}
+
 .logo {
 	margin-top: 10px;
 }

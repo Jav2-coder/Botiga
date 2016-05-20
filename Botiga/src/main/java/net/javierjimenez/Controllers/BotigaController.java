@@ -21,31 +21,45 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import net.javierjimenez.Models.Carrito;
 import net.javierjimenez.Models.Producte;
+import net.javierjimenez.Models.Sell;
 import net.javierjimenez.Models.Usuari;
+import net.javierjimenez.Repositories.CarritoRepositori;
 import net.javierjimenez.Repositories.ProducteRepositori;
 import net.javierjimenez.Repositories.ProducteService;
-import net.javierjimenez.Repositories.UsuariRepositori;
 import net.javierjimenez.Repositories.UsuariService;
 
 @Controller
+@SessionAttributes({ "carrito" })
 public class BotigaController {
 
+	@Autowired
 	ProducteRepositori producteRepositori;
-	UsuariRepositori usuarirepositori;
+	
+	@Autowired
+	CarritoRepositori compra;
 
 	@Autowired
 	UsuariService u_service;
 
 	@Autowired
 	ProducteService p_service;
+
+	@ModelAttribute("carrito")
+	public Carrito getCarrito() {
+		return new Carrito();
+	}
 
 	@Secured("ROLE_ADMIN")
 	@RequestMapping("/dashboard")
@@ -108,10 +122,11 @@ public class BotigaController {
 
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/editProd", method = RequestMethod.POST)
-	public String editar(@RequestParam("_hidden_id") String id, @RequestParam("name") String nombre, @RequestParam("price") String price,
-			@RequestParam("total") String quantity, @RequestParam("generos") String genero,
-			@RequestParam("distribuidoras") String distribuidora, @RequestParam("plataformas") String plataforma,
-			@RequestParam("edad") String edad, @RequestParam("activar") String activar,
+	public String editar(@RequestParam("_hidden_id") String id, @RequestParam("name") String nombre,
+			@RequestParam("price") String price, @RequestParam("total") String quantity,
+			@RequestParam("generos") String genero, @RequestParam("distribuidoras") String distribuidora,
+			@RequestParam("plataformas") String plataforma, @RequestParam("edad") String edad,
+			@RequestParam("activar") String activar,
 			Model model/* , final RedirectAttributes redirectAttributes */) {
 
 		Double precio = null;
@@ -129,9 +144,9 @@ public class BotigaController {
 
 			return "redirect:/dashboard";
 		}
-		
+
 		p_service.editarProd(id, nombre, precio, cantidad, genero, distribuidora, plataforma, edad, activar);
-		
+
 		return "redirect:/dashboard";
 	}
 
@@ -291,7 +306,6 @@ public class BotigaController {
 		return "redirect:/dashboard";
 	}
 
-	@Secured("ROLE_USER")
 	@RequestMapping("/account")
 	public String account(Model model) {
 
@@ -315,12 +329,12 @@ public class BotigaController {
 
 		List<Producte> juegos = p_service.buscarProductosCat(category, cat_name);
 
-		for(Producte p : juegos){
-			if(p.getNom().length() > 20){
+		for (Producte p : juegos) {
+			if (p.getNom().length() > 20) {
 				p.setNom(p.getNom().substring(0, 20) + "...");
 			}
 		}
-		
+
 		model.addAttribute("juegos", juegos);
 
 		return "category";
@@ -335,9 +349,29 @@ public class BotigaController {
 
 		Producte product = p_service.buscarProdId(product_id);
 
+		String[] values = new String[product.getCantidad()];
+
+		for (int i = 0; i < values.length; i++) {
+			values[i] = "" + (i + 1);
+		}
+
 		model.addAttribute("product", product);
+		model.addAttribute("cantidad", values);
 
 		return "product";
+	}
+
+	@RequestMapping(value = "/new_venta/{id}", method = RequestMethod.POST)
+	public String addShopCart(@ModelAttribute("carrito") Carrito carrito, @PathVariable String id,
+			@RequestParam("cantidad") String quantity, Model model) {
+
+		Producte p = p_service.buscarProdId(id);
+		Integer cantidad = Integer.parseInt(quantity);
+
+		carrito.addProducto(new Sell(p, cantidad));
+		model.addAttribute("carrito", carrito);
+
+		return "redirect:/producto/" + id;
 	}
 
 	@RequestMapping("/")
@@ -350,6 +384,14 @@ public class BotigaController {
 		return "home";
 	}
 
+	@RequestMapping(value = "/checkout", method = RequestMethod.POST)
+	public String pedido(@ModelAttribute("carrito") Carrito carrito, SessionStatus status) {
+		
+		compra.save(carrito);
+		
+		return "checkout";
+	}
+	
 	@RequestMapping("/register")
 	public String register() {
 		return "register";

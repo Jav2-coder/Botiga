@@ -64,13 +64,20 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown">Carrito</a>
-					<ul class="dropdown-menu">
-						<li class="sub-icon1 list"><div id="carrito_id">
-								<label>Nombre: <span id="nom_carro"></span></label> <label><span
-									id="tot_carro"></span>x <span id="pre_carro"></span></label>
-							</div></li>
+					<ul th:if="${carrito}" class="dropdown-menu">
+						<li th:each="ventas : ${carrito.sells}" class="sub-icon1 list"><label>Nombre:&nbsp;</label><label
+							th:text="${ventas.producte.nom}">x</label><br /> <label>Total:&nbsp;</label><label
+							th:text="${ventas.cantidad}">x</label><label>&nbsp;X&nbsp;</label><label
+							th:text="${ventas.producte.precio}"></label><label> €</label></li>
 						<li role="separator" class="divider"></li>
-						<li><span>Total + Envío: </span><span id="total"></span><b>€</b></li>
+						<li><span>Total + Envío(20%): </span><span
+							th:text="${carrito.pago}"></span><b> €</b></li>
+						<li role="separator" class="divider"></li>
+						<li class="btn_centrar"><form th:action="@{/checkout}" method="post">
+								<button type="submit" class="exclusive btn">
+									<span>Checkout</span>
+								</button>
+							</form></li>
 					</ul></li>
 			</ul>
 		</div>
