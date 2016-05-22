@@ -220,7 +220,7 @@ public class BotigaController {
 		juego = "/images/" + juego;
 		escena1 = "/images/" + escena1;
 		escena2 = "/images/" + escena2;
-		
+
 		String[] imagenes = { caja, juego, escena1, escena2 };
 
 		Double precio = null;
@@ -243,9 +243,9 @@ public class BotigaController {
 				String error = "NOPE";
 				model.addAttribute("error_img", error);
 				return "new_product";
-			} 
+			}
 		}
-		
+
 		Producte newProd = p_service.crearProducte(nombre, genero, distribuidora, plataforma, edad, cantidad, precio,
 				activar, imagenes);
 
@@ -322,8 +322,8 @@ public class BotigaController {
 		return "category";
 	}
 
-	//Zoom http://www.elevateweb.co.uk/image-zoom/examples
-	
+	// Zoom http://www.elevateweb.co.uk/image-zoom/examples
+
 	@RequestMapping(value = "/producto/{product_id}", method = RequestMethod.GET)
 	public String product(@PathVariable String product_id, Model model) {
 
@@ -369,10 +369,31 @@ public class BotigaController {
 	}
 
 	@RequestMapping(value = "/checkout", method = RequestMethod.POST)
-	public String pedido(@ModelAttribute("carrito") Carrito carrito, SessionStatus status) {
+	public String pedido(@ModelAttribute("carrito") Carrito carrito, SessionStatus status, Model model) {
 
-		compra.save(carrito);
+		model.addAttribute("carrito",carrito);
 
+		// compra.save(carrito);
+
+		return "checkout";
+	}
+	
+	@RequestMapping(value = "/delCart/{id}", method = RequestMethod.POST)
+	public String delSell(@PathVariable String id, @ModelAttribute("carrito") Carrito carrito){
+		
+		for(int i = carrito.getSells().size() - 1; i >= 0; i--){
+			if(carrito.getSells().get(i).getId().equals(id)){
+				carrito.getSells().remove(i);
+			}
+		}
+		
+		if(carrito.getSells().size() == 0){
+			
+			carrito.setTieneCosas(false);
+			
+			return "redirect:/";
+		}
+		
 		return "checkout";
 	}
 

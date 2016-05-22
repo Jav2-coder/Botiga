@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "carrito")
+@Document(collection = "cart")
 public class Carrito {
 
 	@Id
@@ -43,7 +43,7 @@ public class Carrito {
 			pago = pago + (venta.getCantidad() * venta.getProducte().getPrecio());
 		}
 		
-		pago = pago + ((pago*20)/100);
+		pago = pago + ((pago*5)/100);
 		
 		return pago;
 	}

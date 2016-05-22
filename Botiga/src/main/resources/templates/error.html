@@ -22,30 +22,14 @@
 	<div class="container">
 		<div class="header" th:replace="fragment/header :: header"></div>
 		<div class="header-top" th:replace="fragment/header :: header-top"></div>
-		<div class="content">
-			<h3>
-				<span>Número Pedido:&nbsp;</span><span th:text="${carrito.id}"></span>
-			</h3>
-			<div>
-				<table>
-					<tr th:each="ventas : ${carrito.sells}">
-						<td><span th:text="${ventas.producte.nom}">x</span></td>
-						<td><span
-							th:text="${#numbers.formatDecimal(ventas.producte.precio, 0, 'DEFAULT', 2, 'DEFAULT')}">x</span><span>€</span></td>
-						<td th:text="${ventas.cantidad}"></td>
-						<td><form th:action="@{'/delCart/' + ${ventas.id}}"
-								method="post">
-								<button type="submit">Eliminar</button>
-							</form></td>
-					</tr>
-				</table>
-				<div>
-					<span>Total + Envío(5%):&nbsp;</span><span
-						th:text="${#numbers.formatDecimal(carrito.pago, 0, 'DEFAULT', 2, 'DEFAULT')}">x</span><span>€</span>
-					<form th:action="@{/buyCart}" method="post">
-						<button type="submit">Comprar</button>
-					</form>
-				</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-6">
+				<p style="padding: 20px;"></p>
+				<h3>Si veus aquesta pàgina és que alguna cosa no ha anat del
+					tot bé. Et prometo que ens ho mirarem ...</h3>
+				<p></p>
+				<p>quan faci menys fred</p>
+				<p></p>
 			</div>
 		</div>
 	</div>

@@ -70,7 +70,7 @@
 							th:text="${ventas.cantidad}">x</label><label>&nbsp;X&nbsp;</label><label
 							th:text="${#numbers.formatDecimal(ventas.producte.precio, 0, 'DEFAULT', 2, 'DEFAULT')}"></label><label> €</label></li>
 						<li role="separator" class="divider"></li>
-						<li><span>Total + Envío(20%): </span><span
+						<li><span>Total + Envío(5%): </span><span
 							th:text="${#numbers.formatDecimal(carrito.pago, 0, 'DEFAULT', 2, 'DEFAULT')}"></span><b> €</b></li>
 						<li role="separator" class="divider"></li>
 						<li class="btn_centrar"><form th:action="@{/checkout}" method="post">
