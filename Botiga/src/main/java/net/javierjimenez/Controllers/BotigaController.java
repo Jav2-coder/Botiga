@@ -216,10 +216,10 @@ public class BotigaController {
 		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
 		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
 
-		caja = "/images/" + caja;
-		juego = "/images/" + juego;
-		escena1 = "/images/" + escena1;
-		escena2 = "/images/" + escena2;
+		caja = "/images/products/" + caja;
+		juego = "/images/products/" + juego;
+		escena1 = "/images/products/" + escena1;
+		escena2 = "/images/products/" + escena2;
 
 		String[] imagenes = { caja, juego, escena1, escena2 };
 

@@ -9,6 +9,10 @@
 	crossorigin="anonymous"></link>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+	<script
+	src="/js/jquery.elevateZoom-3.0.8.min.js"></script>
+	<script
+	src="/js/jquery.elevatezoom.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
 	integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
@@ -19,6 +23,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
 <script type="text/javascript" src="/js/move-top.js"></script>
 <script type="text/javascript" src="/js/easing.js"></script>
+<script type="text/javascript" src="/js/edit.js"></script>
 <script type="text/javascript">
 	jQuery(document).ready(function($) {
 		$(".scroll").click(function(event) {
@@ -39,10 +44,10 @@
 		<div class="content">
 			<h3 id="prod_nombre" th:text="${product.nom}">Nombre Producto</h3>
 			<div class="col-md-7">
-				<img th:src="@{${product.portada}}"></img>
+				<img id="img_portada" th:src="@{${product.portada}}" data-zoom-image="@{${product.portada}}"></img>
 				<div class="row">
 					<div class="col-md-3" th:each="img : ${product.imagenes}">
-						<img width="80" th:src="@{${img}}" />
+						<img class="editImg" width="80" th:src="@{${img}}" />
 					</div>
 				</div>
 			</div>

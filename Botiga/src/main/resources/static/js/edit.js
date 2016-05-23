@@ -25,4 +25,19 @@ jQuery(document).ready(function(){
 		$("#hidden_id").val(id);
 		
 	});
+	
+	$(".editImg").on("click", function (e) {
+        
+		var src = $(this).attr("src");
+       
+        $("#img_portada").attr("src", src);
+        
+	 });
+	
+	$("#img_portada").elevateZoom({
+		  zoomType: "lens",
+		  lensShape: "round",
+		  lensSize: 200
+		});
+	
 });
