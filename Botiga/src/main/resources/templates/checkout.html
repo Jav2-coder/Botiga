@@ -32,7 +32,15 @@
 						<td><span th:text="${ventas.producte.nom}">x</span></td>
 						<td><span
 							th:text="${#numbers.formatDecimal(ventas.producte.precio, 0, 'DEFAULT', 2, 'DEFAULT')}">x</span><span>€</span></td>
-						<td th:text="${ventas.cantidad}"></td>
+						<td th:text="${ventas.cantidad}" ><!-- <select name="cantidad">
+								<option
+									th:each="i: ${#numbers.sequence(1, ventas.producte.cantidad)}"
+									th:text="${i}" th:if="${i} == ${ventas.cantidad}"
+									selected="selected">x</option>
+								<option
+									th:each="i: ${#numbers.sequence(1, ventas.producte.cantidad)}"
+									th:text="${i}" th:if="${i} != ${ventas.cantidad}">x</option>
+						</select>--></td>
 						<td><form th:action="@{'/delCart/' + ${ventas.id}}"
 								method="post">
 								<button type="submit">Eliminar</button>

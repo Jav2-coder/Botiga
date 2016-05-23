@@ -4,14 +4,14 @@ jQuery(document).ready(function(){
 		
 		e.preventDefault();
 		
-		var nombre = $(this).closest("tr").children(":nth-child(1)").html();
-		var precio = $(this).closest("tr").children(":nth-child(8)").html();
-		var genero = $(this).closest("tr").children(":nth-child(2)").html();
-		var distribuidora = $(this).closest("tr").children(":nth-child(3)").html();
-		var plataforma = $(this).closest("tr").children(":nth-child(4)").html();
-		var edad = $(this).closest("tr").children(":nth-child(5)").html();
-		var cantidad = $(this).closest("tr").children(":nth-child(6)").html();
-		var activar = $(this).closest("tr").children(":nth-child(7)").html();
+		var nombre = $(this).closest("tr").children(":nth-child(1)").text();
+		var precio = $(this).closest("tr").children(":nth-child(8)").text();
+		var genero = $(this).closest("tr").children(":nth-child(2)").text();
+		var distribuidora = $(this).closest("tr").children(":nth-child(3)").text();
+		var plataforma = $(this).closest("tr").children(":nth-child(4)").text();
+		var edad = $(this).closest("tr").children(":nth-child(5)").text();
+		var cantidad = $(this).closest("tr").children(":nth-child(6)").text();
+		var activar = $(this).closest("tr").children(":nth-child(7)").text();
 		var id = $(this).closest("tr").data("id");
 		
 		$("#nom_juego").val(nombre);

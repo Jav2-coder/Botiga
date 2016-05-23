@@ -322,8 +322,6 @@ public class BotigaController {
 		return "category";
 	}
 
-	// Zoom http://www.elevateweb.co.uk/image-zoom/examples
-
 	@RequestMapping(value = "/producto/{product_id}", method = RequestMethod.GET)
 	public String product(@PathVariable String product_id, Model model) {
 
@@ -333,14 +331,7 @@ public class BotigaController {
 
 		Producte product = p_service.buscarProdId(product_id);
 
-		String[] values = new String[product.getCantidad()];
-
-		for (int i = 0; i < values.length; i++) {
-			values[i] = "" + (i + 1);
-		}
-
 		model.addAttribute("product", product);
-		model.addAttribute("cantidad", values);
 
 		return "product";
 	}
@@ -371,30 +362,56 @@ public class BotigaController {
 	@RequestMapping(value = "/checkout", method = RequestMethod.POST)
 	public String pedido(@ModelAttribute("carrito") Carrito carrito, SessionStatus status, Model model) {
 
-		model.addAttribute("carrito",carrito);
+		model.addAttribute("carrito", carrito);
 
 		// compra.save(carrito);
 
 		return "checkout";
 	}
-	
+
 	@RequestMapping(value = "/delCart/{id}", method = RequestMethod.POST)
-	public String delSell(@PathVariable String id, @ModelAttribute("carrito") Carrito carrito){
-		
-		for(int i = carrito.getSells().size() - 1; i >= 0; i--){
-			if(carrito.getSells().get(i).getId().equals(id)){
+	public String delSell(@PathVariable String id, @ModelAttribute("carrito") Carrito carrito) {
+
+		for (int i = carrito.getSells().size() - 1; i >= 0; i--) {
+			if (carrito.getSells().get(i).getId().equals(id)) {
 				carrito.getSells().remove(i);
 			}
 		}
-		
-		if(carrito.getSells().size() == 0){
-			
+
+		if (carrito.getSells().size() == 0) {
+
 			carrito.setTieneCosas(false);
-			
+
 			return "redirect:/";
 		}
-		
+
 		return "checkout";
+	}
+
+	@RequestMapping(value = "/buyCart", method = RequestMethod.POST)
+	public String buyCart(@ModelAttribute("carrito") Carrito carrito) {
+
+		String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+		
+		carrito.setUsername(username);
+		
+		compra.save(carrito);
+
+		for (Sell s : carrito.getSells()) {
+			Integer restarStock = s.getCantidad();
+			p_service.editarProd(s.getProducte().getId(), s.getProducte().getNom(), s.getProducte().getPrecio(),
+					(s.getProducte().getCantidad() - restarStock), s.getProducte().getGenero(),
+					s.getProducte().getDistribuidora(), s.getProducte().getPlataforma(), s.getProducte().getEdad(),
+					s.getProducte().getActivado());
+		}
+
+		Usuari u = u_service.buscaUsuari(username);
+		u.afegirCarrito(carrito);
+		u_service.editInfo(u);
+		
+		carrito.setTieneCosas(false);
+
+		return "redirect:/";
 	}
 
 	@RequestMapping("/register")

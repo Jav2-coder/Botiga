@@ -1,6 +1,7 @@
 package net.javierjimenez.Repositories;
 
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Service;
 
+import net.javierjimenez.Models.Carrito;
 import net.javierjimenez.Models.Usuari;
 
 @Service
@@ -29,6 +31,7 @@ public class UsuariService {
 		newUser.setPassword(base64Encode(password));
 		newUser.setEmail(email);
 		newUser.setDireccion(base64Encode(address));
+		newUser.setCompras(new ArrayList<Carrito>());
 
 		return user.save(newUser);
 	}
@@ -91,6 +94,10 @@ public class UsuariService {
 		return userFound;
 	}
 
+	public void editInfo(Usuari usuari){
+		user.save(usuari);
+	}
+	
 	public static String base64Encode(String token) {
 		byte[] encodedBytes = Base64.encode(token.getBytes());
 		return new String(encodedBytes, Charset.forName("UTF-8"));

@@ -94,6 +94,10 @@ public class Usuari{
 	public void setCompras(List<Carrito> compras) {
 		this.compras = compras;
 	}
+	
+	public void afegirCarrito(Carrito compra){
+		this.compras.add(compra);
+	}
 
 	public List<GrantedAuthority> getAutorizacion() {
 		List<GrantedAuthority> authorityList = new ArrayList<>();

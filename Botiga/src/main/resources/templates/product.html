@@ -9,10 +9,6 @@
 	crossorigin="anonymous"></link>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-	<script
-	src="/js/jquery.elevateZoom-3.0.8.min.js"></script>
-	<script
-	src="/js/jquery.elevatezoom.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
 	integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
@@ -44,7 +40,7 @@
 		<div class="content">
 			<h3 id="prod_nombre" th:text="${product.nom}">Nombre Producto</h3>
 			<div class="col-md-7">
-				<img id="img_portada" th:src="@{${product.portada}}" data-zoom-image="@{${product.portada}}"></img>
+				<img id="img_portada" th:src="@{${product.portada}}" />
 				<div class="row">
 					<div class="col-md-3" th:each="img : ${product.imagenes}">
 						<img class="editImg" width="80" th:src="@{${img}}" />
@@ -79,8 +75,8 @@
 				</table>
 				<form th:action="@{'/new_venta/'+${product.id}}" method="post">
 					<select name="cantidad">
-						<option th:each="valor, num : ${cantidad}" th:value="${valor}"
-							th:text="${num.count}">x</option>
+						<option th:each="i: ${#numbers.sequence(1, product.cantidad)}"
+							th:text="${i}">x</option>
 					</select><br />
 					<button type="submit" class="exclusive btn añadir_carrito">
 						<span>Añadir al carrito</span>
