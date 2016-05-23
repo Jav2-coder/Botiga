@@ -33,11 +33,4 @@ jQuery(document).ready(function(){
         $("#img_portada").attr("src", src);
         
 	 });
-	
-	$("#img_portada").elevateZoom({
-		  zoomType: "lens",
-		  lensShape: "round",
-		  lensSize: 200
-		});
-	
 });

@@ -1,14 +1,9 @@
 package net.javierjimenez.Controllers;
 
-/*import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;*/
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
@@ -28,8 +23,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
-/*import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;*/
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import net.javierjimenez.Models.Carrito;
 import net.javierjimenez.Models.Producte;
@@ -38,6 +33,7 @@ import net.javierjimenez.Models.Usuari;
 import net.javierjimenez.Repositories.CarritoRepositori;
 import net.javierjimenez.Repositories.ProducteRepositori;
 import net.javierjimenez.Repositories.ProducteService;
+import net.javierjimenez.Repositories.UsuariRepositori;
 import net.javierjimenez.Repositories.UsuariService;
 
 @Controller
@@ -46,6 +42,9 @@ public class BotigaController {
 
 	@Autowired
 	ProducteRepositori producteRepositori;
+
+	@Autowired
+	UsuariRepositori usuariRepositori;
 
 	@Autowired
 	CarritoRepositori compra;
@@ -115,7 +114,17 @@ public class BotigaController {
 			return "redirect:/dashboard";
 		}
 
-		p_service.editarProd(id, nombre, precio, cantidad, genero, distribuidora, plataforma, edad, activar);
+		Producte p = p_service.buscarProdId(id);
+		p.setNom(nombre);
+		p.setPrecio(precio);
+		p.setCantidad(cantidad);
+		p.setGenero(genero);
+		p.setDistribuidora(distribuidora);
+		p.setPlataforma(plataforma);
+		p.setEdad(edad);
+		p.setActivado(activar);
+
+		p_service.editProd(p);
 
 		return "redirect:/dashboard";
 	}
@@ -131,17 +140,25 @@ public class BotigaController {
 
 	@Secured("ROLE_ADMIN")
 	@RequestMapping("/listClients")
-	public String listClients(Model model) {
+	public String listClients(@RequestParam(required = false) Integer page, Model model) {
 
-		List<Usuari> clientes = u_service.listUsuaris("");
+		List<Usuari> usuarios = null;
+		Page<Usuari> pagina = null;
 
-		model.addAttribute("clientes", clientes);
+		if (page == null)
+			page = 0;
+
+		pagina = usuariRepositori.findByEsAdmin(false, new PageRequest(page, 8));
+		usuarios = pagina.getContent();
+
+		model.addAttribute("pagina", page);
+		model.addAttribute("usuarios", usuarios);
 
 		return "listClients";
 	}
 
 	@Secured("ROLE_ADMIN")
-	@RequestMapping(value = "/listClients", method = RequestMethod.POST)
+	@RequestMapping(value = "/delClient", method = RequestMethod.POST)
 	public String delClient(@RequestParam("nom_user") String n) {
 
 		u_service.eliminarUsuari(n);
@@ -161,47 +178,38 @@ public class BotigaController {
 		return "new_product";
 	}
 
-	/*
-	 * @Secured("ROLE_ADMIN")
-	 * 
-	 * @RequestMapping(value = "/uploadcsv", method = RequestMethod.POST) public
-	 * String saveCSV(@RequestParam("file") String name, @RequestParam("file")
-	 * MultipartFile file, RedirectAttributes redirectAttributes) throws
-	 * IllegalStateException, IOException {
-	 * 
-	 * System.out.println("Entra");
-	 * 
-	 * 
-	 * if (!file.isEmpty()) {
-	 * 
-	 * BufferedReader br = null;
-	 * 
-	 * File convFile = new File(file.getOriginalFilename());
-	 * file.transferTo(convFile);
-	 * 
-	 * String line = "";
-	 * 
-	 * try {
-	 * 
-	 * br = new BufferedReader(new FileReader(convFile));
-	 * 
-	 * while ((line = br.readLine()) != null) {
-	 * 
-	 * System.out.println(line);
-	 * 
-	 * }
-	 * 
-	 * } catch (FileNotFoundException e) { e.printStackTrace(); } catch
-	 * (IOException e) { e.printStackTrace(); } finally { if (br != null) { try
-	 * { br.close(); } catch (IOException e) { e.printStackTrace(); } } } } else
-	 * { redirectAttributes.addFlashAttribute("message", "You failed to upload "
-	 * + name + " because the file was empty"); }
-	 * 
-	 * 
-	 * return "redirect:/dashboard";
-	 * 
-	 * }
-	 */
+	@Secured("ROLE_ADMIN")
+	@RequestMapping(value = "/uploadcsv", method = RequestMethod.POST)
+	public String saveCSV(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes)
+			throws IllegalStateException, IOException {
+
+		BufferedReader br = null;
+		InputStream f = file.getInputStream();
+
+		try {
+
+			br = new BufferedReader(new InputStreamReader(f));
+
+			String line = null;
+
+			while ((line = br.readLine()) != null) {
+
+				System.out.println(line);
+			}
+
+		} catch (Exception e) {
+			System.out.println("NOPE");
+		} finally {
+			try {
+				br.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return "redirect:/dashboard";
+
+	}
 
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/singleProd", method = RequestMethod.POST)
@@ -259,11 +267,20 @@ public class BotigaController {
 	}
 
 	@Secured("ROLE_ADMIN")
-	@RequestMapping("/newAdmin")
-	public String newAdmin(Model model) {
+	@RequestMapping(value = "/listAdmin")
+	public String newAdmin(@RequestParam(required = false) Integer page, Model model) {
 
-		List<Usuari> admins = u_service.listUsuaris("ROLE_ADMIN");
+		List<Usuari> admins = null;
+		Page<Usuari> pagina = null;
 
+		if (page == null)
+			page = 0;
+
+		pagina = usuariRepositori.findByEsAdmin(true, new PageRequest(page, 8));
+
+		admins = pagina.getContent();
+
+		model.addAttribute("pagina", page);
 		model.addAttribute("admins", admins);
 
 		return "newAdmin";
@@ -274,7 +291,7 @@ public class BotigaController {
 	public String saveAdmin(@RequestParam("username") String name, @RequestParam("passwd") String password,
 			@RequestParam("email") String email, Model model) {
 
-		Usuari result = u_service.crearAdmin(name, password, email);
+		Usuari result = u_service.crearAdmin(name, password, email, true);
 
 		if (result == null) {
 
@@ -364,8 +381,6 @@ public class BotigaController {
 
 		model.addAttribute("carrito", carrito);
 
-		// compra.save(carrito);
-
 		return "checkout";
 	}
 
@@ -392,23 +407,21 @@ public class BotigaController {
 	public String buyCart(@ModelAttribute("carrito") Carrito carrito) {
 
 		String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-		
+
 		carrito.setUsername(username);
-		
+
 		compra.save(carrito);
 
 		for (Sell s : carrito.getSells()) {
+
 			Integer restarStock = s.getCantidad();
-			p_service.editarProd(s.getProducte().getId(), s.getProducte().getNom(), s.getProducte().getPrecio(),
-					(s.getProducte().getCantidad() - restarStock), s.getProducte().getGenero(),
-					s.getProducte().getDistribuidora(), s.getProducte().getPlataforma(), s.getProducte().getEdad(),
-					s.getProducte().getActivado());
+
+			Producte p = s.getProducte();
+			p.setCantidad(p.getCantidad() - restarStock);
+			p_service.editProd(p);
+
 		}
 
-		Usuari u = u_service.buscaUsuari(username);
-		u.afegirCarrito(carrito);
-		u_service.editInfo(u);
-		
 		carrito.setTieneCosas(false);
 
 		return "redirect:/";
@@ -423,7 +436,7 @@ public class BotigaController {
 	public String saveUser(@RequestParam("nombre") String name, @RequestParam("email") String mail,
 			@RequestParam("passwd") String password, @RequestParam("direccion") String address, Model model) {
 
-		Usuari result = u_service.crearUsuari(name, password, mail, address);
+		Usuari result = u_service.crearUsuari(name, password, mail, address, false);
 
 		if (result == null) {
 

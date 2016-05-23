@@ -39,25 +39,21 @@
 									<th>Dirección</th>
 									<th width="110" class="ac">Content Control</th>
 								</tr>
-								<tr th:field="*{clientes}" th:each="cliente : ${clientes}">
+								<tr th:field="*{clientes}" th:each="cliente : ${usuarios}">
 									<td th:text="${cliente.nom}">x</td>
 									<td th:text="${cliente.email}">x</td>
 									<td th:text="${cliente.direccion}">x</td>
-									<td><form th:action="@{/listClients}" method="post">
+									<td><form th:action="@{/delClient}" method="post">
 											<button class="btn btn-default navbar-btn">Eliminar</button>
 										</form></td>
 								</tr>
 							</table>
-
-
 							<!-- Pagging -->
 							<div class="pagging">
-								<div class="left">Showing 1-12 of 44</div>
-								<div class="right">
-									<a href="#">Previous</a> <a href="#">1</a> <a href="#">2</a> <a
-										href="#">3</a> <a href="#">4</a> <a href="#">245</a> <span>...</span>
-									<a href="#">Next</a> <a href="#">View all</a>
-								</div>
+								<a th:if="${pagina} > 0" href="/listClients"
+									th:href="@{'/listClients?page=' + ${pagina - 1}}">Anterior</a> <a
+									th:if="${#lists.size(usuarios) == 8}" href="/listClients"
+									th:href="@{'/listClients?page=' + ${pagina + 1}}">Siguiente</a>
 							</div>
 							<!-- End Pagging -->
 						</div>

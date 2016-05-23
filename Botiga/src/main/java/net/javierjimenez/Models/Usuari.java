@@ -22,7 +22,7 @@ public class Usuari{
 	private String password;
 	private String direccion;
 	private List<String> roles;
-	private List<Carrito> compras;
+	private boolean esAdmin;
 
 	public Usuari() {
 		roles = Arrays.asList("ROLE_USER");
@@ -87,16 +87,12 @@ public class Usuari{
 		this.roles = roles;
 	}
 
-	public List<Carrito> getCompras() {
-		return compras;
+	public boolean isEsAdmin() {
+		return esAdmin;
 	}
 
-	public void setCompras(List<Carrito> compras) {
-		this.compras = compras;
-	}
-	
-	public void afegirCarrito(Carrito compra){
-		this.compras.add(compra);
+	public void setEsAdmin(boolean esAdmin) {
+		this.esAdmin = esAdmin;
 	}
 
 	public List<GrantedAuthority> getAutorizacion() {
@@ -105,5 +101,10 @@ public class Usuari{
 			authorityList.add(new SimpleGrantedAuthority(role));
 		}
 		return authorityList;
+	}
+
+	@Override
+	public String toString() {
+		return "Usuari [nom=" + nom + ", esAdmin=" + esAdmin + "]";
 	}
 }

@@ -45,22 +45,8 @@ public class ProducteService {
 		return product.findById(id);
 	}
 	
-	public void editarProd(String id, String nombre, Double precio, Integer cantidad, String genero,
-			String distribuidora, String plataforma, String edad, String activar) {
-		
-		Producte p = product.findById(id);
-		
-		p.setNom(nombre);
-		p.setPrecio(precio);
-		p.setCantidad(cantidad);
-		p.setGenero(genero);
-		p.setDistribuidora(distribuidora);
-		p.setPlataforma(plataforma);
-		p.setEdad(edad);
-		p.setActivado(activar);
-		
+	public void editProd(Producte p){
 		product.save(p);
-		
 	}
 	
 	public void eliminarProd(String id){

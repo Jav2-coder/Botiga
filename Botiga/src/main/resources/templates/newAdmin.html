@@ -15,8 +15,10 @@
 		<div class="shell">
 			<div id="main">
 				<div id="content">
-					<div th:if="${error}" class="msg msg-error"><p>
-						<strong>Error: El nombre/correo ya estan en uso!</strong></p>
+					<div th:if="${error}" class="msg msg-error">
+						<p>
+							<strong>Error: El nombre/correo ya estan en uso!</strong>
+						</p>
 					</div>
 					<div class="box">
 						<!-- Box Head -->
@@ -42,13 +44,11 @@
 								</tr>
 							</table>
 							<!-- Pagging -->
-							<div class="pagging">
-								<div class="left">Showing 1-12 of 44</div>
-								<div class="right">
-									<a href="#">Previous</a> <a href="#">1</a> <a href="#">2</a> <a
-										href="#">3</a> <a href="#">4</a> <a href="#">245</a> <span>...</span>
-									<a href="#">Next</a> <a href="#">View all</a>
-								</div>
+							<div class="pagging buttons">
+								<a th:if="${pagina} > 0" href="/newAdmin"
+									th:href="@{'/newAdmin?page=' + ${pagina - 1}}">Anterior</a> <a
+									th:if="${#lists.size(admins) == 8}" href="/newAdmin"
+									th:href="@{'/newAdmin?page=' + ${pagina + 1}}">Siguiente</a>
 							</div>
 							<!-- End Pagging -->
 						</div>
