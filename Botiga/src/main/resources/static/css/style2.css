@@ -19,7 +19,21 @@ p {
 }
 
 ul, h3 {
-	color: #337ab7;
+	color: #2a00b4;
+}
+
+/*--pago realizado--*/
+#img_gracias img{
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 10px;
+}
+
+#btn_thanks button{
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /*--product--*/
@@ -107,6 +121,10 @@ a#right_carousel {
 }
 
 /*--header--*/
+#header-bottom div{
+	background-color: #285090;
+}
+
 .dropdown-menu {
 	width: 300px;
 }
@@ -134,23 +152,9 @@ footer {
 	width: 100%;
 }
 
-/*--404--*/
-img.displayed {
-	display: block;
-	margin: 0 auto;
-	margin-top: 3%;
-	border: solid 3px;
-	border-radius: 20px;
-}
-
-.go_back {
-	text-align: center;
-	font-size: 1.8em;
-}
-
 /*--login--*/
 #login {
-	background-image: url("/images/arcade.jpg");
+	background-image: url("/images/arcade.png");
 	background-repeat: no-repeat;
 	background-position: 50% 20%;
 }

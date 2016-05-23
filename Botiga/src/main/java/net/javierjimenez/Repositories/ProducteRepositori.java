@@ -16,6 +16,8 @@ public interface ProducteRepositori extends PagingAndSortingRepository<Producte,
 	
 	public Producte findById(String id);
 	
+	public List<Producte> findByActivado(String activado);
+	
 	public List<Producte> findByPlataforma(String plataforma);
 	
 	public List<Producte> findByGenero(String genero);

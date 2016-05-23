@@ -34,7 +34,7 @@ public class ProducteService {
 		newProduct.setImagenes(i);
 
 		return product.save(newProduct);
-
+		
 	}
 
 	public Producte buscaProducte(String name) {

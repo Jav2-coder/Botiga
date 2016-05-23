@@ -276,7 +276,7 @@ public class BotigaController {
 		if (page == null)
 			page = 0;
 
-		pagina = usuariRepositori.findByEsAdmin(true, new PageRequest(page, 8));
+		pagina = usuariRepositori.findByEsAdmin(true, new PageRequest(page, 5));
 
 		admins = pagina.getContent();
 
@@ -373,6 +373,8 @@ public class BotigaController {
 		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
 		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
 
+		//List<Product> products = p_servic
+		
 		return "home";
 	}
 
@@ -418,15 +420,24 @@ public class BotigaController {
 
 			Producte p = s.getProducte();
 			p.setCantidad(p.getCantidad() - restarStock);
+			
+			if(p.getCantidad() == 0){
+				p.setActivado("No");
+			}
 			p_service.editProd(p);
-
 		}
 
 		carrito.setTieneCosas(false);
 
-		return "redirect:/";
+		return "redirect:/compraPagada";
 	}
 
+	@RequestMapping("/compraPagada")
+	public String compraPagada() {
+		
+		return "compra_realizada";
+	}
+	
 	@RequestMapping("/register")
 	public String register() {
 		return "register";

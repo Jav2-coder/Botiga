@@ -47,7 +47,7 @@
 							<div class="pagging buttons">
 								<a th:if="${pagina} > 0" href="/newAdmin"
 									th:href="@{'/newAdmin?page=' + ${pagina - 1}}">Anterior</a> <a
-									th:if="${#lists.size(admins) == 8}" href="/newAdmin"
+									th:if="${#lists.size(admins) == 5}" href="/newAdmin"
 									th:href="@{'/newAdmin?page=' + ${pagina + 1}}">Siguiente</a>
 							</div>
 							<!-- End Pagging -->
