@@ -26,6 +26,12 @@ jQuery(document).ready(function(){
 		
 	});
 	
+	setTimeout(escondeError, 5000);
+	
+	function escondeError() {
+		$("#err_number").slideUp();
+	}
+	
 	$(".editImg").on("click", function (e) {
         
 		var src = $(this).attr("src");

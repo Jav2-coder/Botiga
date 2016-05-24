@@ -96,7 +96,7 @@ public class BotigaController {
 			@RequestParam("generos") String genero, @RequestParam("distribuidoras") String distribuidora,
 			@RequestParam("plataformas") String plataforma, @RequestParam("edad") String edad,
 			@RequestParam("activar") String activar,
-			Model model/* , final RedirectAttributes redirectAttributes */) {
+			Model model , final RedirectAttributes redirectAttributes) {
 
 		Double precio = null;
 		Integer cantidad = null;
@@ -109,7 +109,7 @@ public class BotigaController {
 		} catch (Exception e) {
 
 			String error = "NOPE";
-			model.addAttribute("error_number", error);
+			redirectAttributes.addFlashAttribute("error_number", error);
 
 			return "redirect:/dashboard";
 		}
@@ -185,7 +185,7 @@ public class BotigaController {
 		// http://opencsv.sourceforge.net/
 
 		if(!file.getOriginalFilename().matches(".+\\.csv$")){
-			System.out.println(file.getOriginalFilename());
+			
 			return "redirect:/";
 		}
 		
@@ -195,18 +195,24 @@ public class BotigaController {
 		String[] nextLine;
 		while ((nextLine = reader.readNext()) != null) {
 
-			if (nextLine.length != 12) {
+			System.out.println(nextLine.length + " 1");
+			
+			if (nextLine.length > 12 || nextLine.length < 12) {
 
 				reader.close();
 
-				return "redirect:/addproduct";
+				return "new_product";
 			}
+			
+			System.out.println(nextLine.length + " 2");
 			
 			String[] imagenes = {"/images/products/" + nextLine[8], "/images/products/" + nextLine[9], "/images/products/" + nextLine[10], "/images/products/" + nextLine[11]};
 			
 			Double precio = null;
 			Integer cantidad = null;
 
+			System.out.println(nextLine[0] + " 1");
+			
 			try {
 
 				precio = Double.parseDouble(nextLine[7]);
@@ -221,6 +227,8 @@ public class BotigaController {
 				return "new_product";
 			}
 			
+			System.out.println(nextLine[0] + " 2");
+			
 			for (String img : imagenes) {
 				if (!img.contains(".")) {
 					reader.close();
@@ -229,6 +237,16 @@ public class BotigaController {
 					return "new_product";
 				}
 			}
+			
+			System.out.println(nextLine[0] + " 3");
+			
+			if(!nextLine[6].equals("Si") && !nextLine[6].equals("No")){
+				
+				reader.close();
+				return "new_product";
+			}
+			
+			System.out.println(nextLine[0] + " 4");
 			
 			Producte newProd = p_service.crearProducte(nextLine[0], nextLine[1], nextLine[2], nextLine[3], nextLine[4],
 					cantidad, precio, nextLine[6], imagenes, 0);
@@ -241,6 +259,8 @@ public class BotigaController {
 			}
 		}
 
+		System.out.println("FIN");
+		
 		reader.close();
 
 		return "redirect:/dashboard";

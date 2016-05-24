@@ -3,8 +3,13 @@
 <head>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 <title>Press Start - Admin Zone</title>
+<script type="text/javascript" src="/js/pnotify.custom.min.js"></script>
+<link href="/css/pnotify.custom.min.css" media="all" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="/css/styleAdmin.css" type="text/css"
 	media="all" />
+<script
+	src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script type="text/javascript" src="/js/edit.js"></script>
 </head>
 <body>
 	<!-- Header -->
@@ -14,7 +19,7 @@
 	<!-- Container -->
 	<div id="container">
 		<div class="shell">
-			<div th:if="${error_number}" class="msg msg-error">
+			<div th:if="${error_number}" id="err_number" class="msg msg-error">
 				<p>
 					<strong>Error: El precio/la cantidad ha de ser un valor
 						numérico!</strong>
@@ -84,13 +89,6 @@
 						<!-- Table -->
 					</div>
 					<!-- End Box -->
-					<div th:if="${error_number}" class="msg msg-error">
-						<p>
-							<strong>Error: El precio/la cantidad ha de ser un valor
-								numérico!</strong>
-						</p>
-						<br />
-					</div>
 					<div class="box">
 						<!-- Box Head -->
 						<div class="box-head">
@@ -175,8 +173,5 @@
 		<!-- End Footer -->
 	</div>
 	<!-- End Container -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-	<script type="text/javascript" src="/js/edit.js"></script>
 </body>
 </html>
