@@ -1,6 +1,5 @@
 package net.javierjimenez.Controllers;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -26,6 +25,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import au.com.bytecode.opencsv.CSVReader;
 import net.javierjimenez.Models.Carrito;
 import net.javierjimenez.Models.Producte;
 import net.javierjimenez.Models.Sell;
@@ -180,32 +180,68 @@ public class BotigaController {
 
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/uploadcsv", method = RequestMethod.POST)
-	public String saveCSV(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes)
-			throws IllegalStateException, IOException {
+	public String saveCSV(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes, Model model) throws IOException{
 
-		BufferedReader br = null;
+		// http://opencsv.sourceforge.net/
+
+		if(!file.getOriginalFilename().matches(".+\\.csv$")){
+			System.out.println(file.getOriginalFilename());
+			return "redirect:/";
+		}
+		
 		InputStream f = file.getInputStream();
+		CSVReader reader = new CSVReader(new InputStreamReader(f), ',');
 
-		try {
+		String[] nextLine;
+		while ((nextLine = reader.readNext()) != null) {
 
-			br = new BufferedReader(new InputStreamReader(f));
+			if (nextLine.length != 12) {
 
-			String line = null;
+				reader.close();
 
-			while ((line = br.readLine()) != null) {
-
-				System.out.println(line);
+				return "redirect:/addproduct";
 			}
+			
+			String[] imagenes = {"/images/products/" + nextLine[8], "/images/products/" + nextLine[9], "/images/products/" + nextLine[10], "/images/products/" + nextLine[11]};
+			
+			Double precio = null;
+			Integer cantidad = null;
 
-		} catch (Exception e) {
-			System.out.println("NOPE");
-		} finally {
 			try {
-				br.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+
+				precio = Double.parseDouble(nextLine[7]);
+				cantidad = Integer.parseInt(nextLine[5]);
+
+			} catch (Exception e) {
+
+				reader.close();
+				String error = "NOPE";
+				model.addAttribute("error_number", error);
+				
+				return "new_product";
+			}
+			
+			for (String img : imagenes) {
+				if (!img.contains(".")) {
+					reader.close();
+					String error = "NOPE";
+					model.addAttribute("error_img", error);
+					return "new_product";
+				}
+			}
+			
+			Producte newProd = p_service.crearProducte(nextLine[0], nextLine[1], nextLine[2], nextLine[3], nextLine[4],
+					cantidad, precio, nextLine[6], imagenes, 0);
+
+			if (newProd == null) {
+				reader.close();
+				String error = "NOPE";
+				model.addAttribute("error_product", error);
+				return "new_product";
 			}
 		}
+
+		reader.close();
 
 		return "redirect:/dashboard";
 
@@ -255,7 +291,7 @@ public class BotigaController {
 		}
 
 		Producte newProd = p_service.crearProducte(nombre, genero, distribuidora, plataforma, edad, cantidad, precio,
-				activar, imagenes);
+				activar, imagenes, 0);
 
 		if (newProd == null) {
 			String error = "NOPE";
@@ -373,8 +409,8 @@ public class BotigaController {
 		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
 		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
 
-		//List<Product> products = p_servic
-		
+		// List<Product> products = p_servic
+
 		return "home";
 	}
 
@@ -420,8 +456,8 @@ public class BotigaController {
 
 			Producte p = s.getProducte();
 			p.setCantidad(p.getCantidad() - restarStock);
-			
-			if(p.getCantidad() == 0){
+
+			if (p.getCantidad() == 0) {
 				p.setActivado("No");
 			}
 			p_service.editProd(p);
@@ -434,10 +470,10 @@ public class BotigaController {
 
 	@RequestMapping("/compraPagada")
 	public String compraPagada() {
-		
+
 		return "compra_realizada";
 	}
-	
+
 	@RequestMapping("/register")
 	public String register() {
 		return "register";

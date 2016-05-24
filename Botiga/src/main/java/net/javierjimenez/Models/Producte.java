@@ -17,6 +17,7 @@ public class Producte {
 	private String plataforma;
 	private String edad;
 	private Integer cantidad;
+	private Integer ventas;
 	private String activado;
 	private Double precio;
 	
@@ -110,6 +111,14 @@ public class Producte {
 
 	public void setImagenes(String [] imagenes) {
 		this.imagenes = imagenes;
+	}
+
+	public Integer getVentas() {
+		return ventas;
+	}
+
+	public void setVentas(Integer ventas) {
+		this.ventas = ventas;
 	}
 	
 }
