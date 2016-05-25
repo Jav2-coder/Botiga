@@ -140,7 +140,6 @@ public class BotigaController {
 		paginaCarritos = compra.findAll(new PageRequest(page, 8));
 		compras = paginaCarritos.getContent();
 
-		
 		// model.addAttribute("pagina", page);
 		model.addAttribute("carritos", compras);
 
@@ -188,20 +187,20 @@ public class BotigaController {
 	public String downloadProducts() throws IOException {
 
 		String ruta = System.getProperty("user.home");
-		
+
 		CSVWriter writer = new CSVWriter(new FileWriter(new File(ruta, "productos.csv")), ',');
 
 		List<Producte> todos = p_service.allProducts();
 
 		for (Producte p : todos) {
 			String[] lineaCSV = { p.getNom(), p.getGenero(), p.getDistribuidora(), p.getPlataforma(), p.getEdad(),
-					Integer.toString(p.getCantidad()), p.getActivado(), Double.toString(p.getPrecio()),
-					p.getPortada(), p.getImagenes()[1], p.getImagenes()[2], p.getImagenes()[3]};
+					Integer.toString(p.getCantidad()), p.getActivado(), Double.toString(p.getPrecio()), p.getPortada(),
+					p.getImagenes()[1], p.getImagenes()[2], p.getImagenes()[3] };
 			writer.writeNext(lineaCSV);
 		}
 
 		writer.close();
-		
+
 		return "redirect:/security";
 	}
 

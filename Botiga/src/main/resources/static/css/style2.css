@@ -65,7 +65,6 @@ input.qtyminus {
 /*--category--*/
 div.prod_game {
 	text-align: center;
-	padding-bottom: 10px;
 	border-style: solid;
 	border-color: #0052CC;
 	background-color: #003D99;
@@ -79,6 +78,18 @@ div.prod_game img {
 }
 
 /*--home--*/
+div.prod_game2 {
+	ext-align: center;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	border-style: solid;
+	border-color: #0052CC;
+	background-color: #003D99;
+	margin-right: 10px;
+	margin-left: 10px;
+	margin-bottom: 30px;
+}
+
 .carousel-inner>.item>img, .carousel-inner>.item>a>img {
 	width: 70%;
 	margin: auto;

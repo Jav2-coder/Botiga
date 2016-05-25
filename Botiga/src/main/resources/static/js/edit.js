@@ -39,5 +39,11 @@ jQuery(document).ready(function(){
         $("#img_portada").attr("src", src);
         $("#img_portada").attr("data-zoom-image", src);
         
+        $("#img_portada").elevateZoom({
+			zoomType : "lens",
+			lensShape : "round",
+			lensSize : 200
+		})
+        
 	 });
 });
