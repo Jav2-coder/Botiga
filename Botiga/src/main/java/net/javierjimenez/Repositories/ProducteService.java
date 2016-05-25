@@ -34,8 +34,6 @@ public class ProducteService {
 		newProduct.setImagenes(i);
 		newProduct.setVentas(v);
 
-		System.out.println(n);
-		
 		return product.save(newProduct);
 		
 	}
