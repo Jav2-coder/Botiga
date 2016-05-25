@@ -75,12 +75,8 @@ public class BotigaController {
 		if (page == null)
 			page = 0;
 
-		if (keyword == null) {
-			pagina = producteRepositori.findAll(new PageRequest(page, 4));
-		} else {
-			pagina = producteRepositori.findByNom(keyword, new PageRequest(page, 4));
-		}
-
+		pagina = producteRepositori.findAll(new PageRequest(page, 4));
+		
 		productos = pagina.getContent();
 
 		model.addAttribute("pagina", page);
@@ -141,7 +137,7 @@ public class BotigaController {
 	@RequestMapping("/listCarts")
 	public String listCarts(@RequestParam(required = false) Integer page, Model model) {
 
-		/*List<Carrito> carritos = null;
+		List<Carrito> carritos = null;
 		Page<Carrito> paginaCarritos = null;
 
 		if (page == null)
@@ -151,7 +147,7 @@ public class BotigaController {
 		carritos = paginaCarritos.getContent();
 
 		model.addAttribute("pagina", page);
-		model.addAttribute("carritos", carritos);*/
+		model.addAttribute("carritos", carritos);
 
 		return "listCarts";
 	}
