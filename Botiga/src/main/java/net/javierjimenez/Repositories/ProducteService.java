@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ public class ProducteService {
 	@Autowired
 	ProducteRepositori product;
 
-	public Producte crearProducte(String n, String g, String d, String p, String e, Integer c, Double m, String a, String [] i, Integer v) {
+	public Producte crearProducte(String n, String g, String d, String p, String e, Integer c, Double m, String a, String [] i, Long v) {
 
 		if (product.findByNom(n) != null && product.findByPlataforma(p) != null)
 			return null;
@@ -39,6 +40,11 @@ public class ProducteService {
 		
 	}
 
+	public Page<Producte> paginarProductos(PageRequest pageRequest){
+		
+		return product.findAll(pageRequest);
+	}
+	
 	public Producte buscaProducte(String name) {
 		return product.findByNom(name);
 	}
@@ -49,7 +55,7 @@ public class ProducteService {
 	
 	public List<Producte> prodMasVendidos(){
 		
-		List<Producte> p = product.findByVentasOrderByVentasAsc(new PageRequest(0,4));
+		List<Producte> p = product.findTop3ByOrderByVentasDesc();
 		
 		return p;
 		

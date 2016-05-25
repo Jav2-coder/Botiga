@@ -84,6 +84,10 @@ div.prod_game img {
 	margin: auto;
 }
 
+#row_home{
+	text-align: center;
+}
+
 a#left_carousel {
 	background: rgba(0, 0, 0, 1);
 	background: -moz-linear-gradient(left, rgba(0, 0, 0, 1) 0%,

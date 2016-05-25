@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +41,11 @@ public class UsuariService {
 		Usuari del = user.findById(id);
 		
 		user.delete(del);
+	}
+	
+	public Page<Usuari> esAdmin(boolean b, PageRequest pageRequest){
+		
+		return user.findByEsAdmin(b, pageRequest);
 	}
 	
 	public Usuari crearAdmin(String username, String password, String email, boolean esAdmin) {

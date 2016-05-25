@@ -1,5 +1,6 @@
 package net.javierjimenez.Controllers;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,20 +34,12 @@ import net.javierjimenez.Models.Producte;
 import net.javierjimenez.Models.Sell;
 import net.javierjimenez.Models.Usuari;
 import net.javierjimenez.Repositories.CarritoRepositori;
-import net.javierjimenez.Repositories.ProducteRepositori;
 import net.javierjimenez.Repositories.ProducteService;
-import net.javierjimenez.Repositories.UsuariRepositori;
 import net.javierjimenez.Repositories.UsuariService;
 
 @Controller
 @SessionAttributes({ "carrito" })
 public class BotigaController {
-
-	@Autowired
-	ProducteRepositori producteRepositori;
-
-	@Autowired
-	UsuariRepositori usuariRepositori;
 
 	@Autowired
 	CarritoRepositori compra;
@@ -77,8 +70,7 @@ public class BotigaController {
 		if (page == null)
 			page = 0;
 
-		pagina = producteRepositori.findAll(new PageRequest(page, 4));
-
+		pagina = p_service.paginarProductos(new PageRequest(page, 4));
 		productos = pagina.getContent();
 
 		model.addAttribute("pagina", page);
@@ -139,17 +131,18 @@ public class BotigaController {
 	@RequestMapping("/listCarts")
 	public String listCarts(@RequestParam(required = false) Integer page, Model model) {
 
-		List<Carrito> carritos = null;
+		List<Carrito> compras = null;
 		Page<Carrito> paginaCarritos = null;
 
 		if (page == null)
 			page = 0;
 
 		paginaCarritos = compra.findAll(new PageRequest(page, 8));
-		carritos = paginaCarritos.getContent();
+		compras = paginaCarritos.getContent();
 
-		model.addAttribute("pagina", page);
-		model.addAttribute("carritos", carritos);
+		
+		// model.addAttribute("pagina", page);
+		model.addAttribute("carritos", compras);
 
 		return "listCarts";
 	}
@@ -164,7 +157,7 @@ public class BotigaController {
 		if (page == null)
 			page = 0;
 
-		paginaClientes = usuariRepositori.findByEsAdmin(false, new PageRequest(page, 8));
+		paginaClientes = u_service.esAdmin(false, new PageRequest(page, 8));
 		usuarios = paginaClientes.getContent();
 
 		model.addAttribute("pagina", page);
@@ -194,7 +187,9 @@ public class BotigaController {
 	@RequestMapping(value = "/downloadProdDB", method = RequestMethod.POST)
 	public String downloadProducts() throws IOException {
 
-		CSVWriter writer = new CSVWriter(new FileWriter("productos.csv"), ',');
+		String ruta = System.getProperty("user.home");
+		
+		CSVWriter writer = new CSVWriter(new FileWriter(new File(ruta, "productos.csv")), ',');
 
 		List<Producte> todos = p_service.allProducts();
 
@@ -246,8 +241,7 @@ public class BotigaController {
 				return "new_product";
 			}
 
-			String[] imagenes = { "/images/products/" + nextLine[8], "/images/products/" + nextLine[9],
-					"/images/products/" + nextLine[10], "/images/products/" + nextLine[11] };
+			String[] imagenes = { nextLine[8], nextLine[9], nextLine[10], nextLine[11] };
 
 			Double precio = null;
 			Integer cantidad = null;
@@ -282,7 +276,7 @@ public class BotigaController {
 			}
 
 			Producte newProd = p_service.crearProducte(nextLine[0], nextLine[1], nextLine[2], nextLine[3], nextLine[4],
-					cantidad, precio, nextLine[6], imagenes, 0);
+					cantidad, precio, nextLine[6], imagenes, 0L);
 
 			if (newProd == null) {
 				reader.close();
@@ -311,11 +305,6 @@ public class BotigaController {
 		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
 		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
 
-		caja = "/images/products/" + caja;
-		juego = "/images/products/" + juego;
-		escena1 = "/images/products/" + escena1;
-		escena2 = "/images/products/" + escena2;
-
 		String[] imagenes = { caja, juego, escena1, escena2 };
 
 		Double precio = null;
@@ -342,7 +331,7 @@ public class BotigaController {
 		}
 
 		Producte newProd = p_service.crearProducte(nombre, genero, distribuidora, plataforma, edad, cantidad, precio,
-				activar, imagenes, 0);
+				activar, imagenes, 0L);
 
 		if (newProd == null) {
 			String error = "NOPE";
@@ -363,8 +352,7 @@ public class BotigaController {
 		if (page == null)
 			page = 0;
 
-		pagina = usuariRepositori.findByEsAdmin(true, new PageRequest(page, 5));
-
+		pagina = u_service.esAdmin(true, new PageRequest(page, 5));
 		admins = pagina.getContent();
 
 		model.addAttribute("pagina", page);

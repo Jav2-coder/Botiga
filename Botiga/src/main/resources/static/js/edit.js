@@ -37,6 +37,7 @@ jQuery(document).ready(function(){
 		var src = $(this).attr("src");
        
         $("#img_portada").attr("src", src);
+        $("#img_portada").attr("data-zoom-image", src);
         
 	 });
 });

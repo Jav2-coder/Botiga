@@ -8,7 +8,8 @@
 	integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
 	crossorigin="anonymous"></link>
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+	src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="/js/jquery.elevatezoom.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
 	integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
@@ -40,10 +41,20 @@
 		<div class="content">
 			<h3 id="prod_nombre" th:text="${product.nom}">Nombre Producto</h3>
 			<div id="prod_imagenes" class="col-md-4 col-md-offset-2">
-				<img width="100%" class="img-responsive" id="img_portada" th:src="@{${product.portada}}" />
+				<img width="100%" class="img-responsive" id="img_portada"
+					th:src="@{'/images/products/' + ${product.portada}}"
+					th:attr="data-zoom-image=@{'/images/products/' + ${product.portada}}" />
+				<script>
+					$("#img_portada").elevateZoom({
+						zoomType : "lens",
+						lensShape : "round",
+						lensSize : 200
+					})
+				</script>
 				<div class="row">
 					<div class="col-md-3" th:each="img : ${product.imagenes}">
-						<img class="editImg" width="100%" th:src="@{${img}}" />
+						<img class="editImg" width="100%"
+							th:src="@{'/images/products/' + ${img}}" />
 					</div>
 				</div>
 			</div>
