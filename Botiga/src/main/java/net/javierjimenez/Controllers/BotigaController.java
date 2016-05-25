@@ -1,5 +1,6 @@
 package net.javierjimenez.Controllers;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -26,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import au.com.bytecode.opencsv.CSVReader;
+import au.com.bytecode.opencsv.CSVWriter;
 import net.javierjimenez.Models.Carrito;
 import net.javierjimenez.Models.Producte;
 import net.javierjimenez.Models.Sell;
@@ -76,7 +78,7 @@ public class BotigaController {
 			page = 0;
 
 		pagina = producteRepositori.findAll(new PageRequest(page, 4));
-		
+
 		productos = pagina.getContent();
 
 		model.addAttribute("pagina", page);
@@ -151,7 +153,7 @@ public class BotigaController {
 
 		return "listCarts";
 	}
-	
+
 	@Secured("ROLE_ADMIN")
 	@RequestMapping("/listClients")
 	public String listClients(@RequestParam(required = false) Integer page, Model model) {
@@ -180,7 +182,36 @@ public class BotigaController {
 		return "redirect:/listClients";
 
 	}
-	
+
+	@Secured("ROLE_ADMIN")
+	@RequestMapping("/security")
+	public String security() {
+
+		return "security";
+	}
+
+	@Secured("ROLE_ADMIN")
+	@RequestMapping(value = "/downloadProdDB", method = RequestMethod.POST)
+	public String downloadProducts() throws IOException {
+
+		CSVWriter writer = new CSVWriter(new FileWriter("productos.csv"), ',');
+
+		List<Producte> todos = p_service.allProducts();
+
+		for (Producte p : todos) {
+			String[] lineaCSV = { p.getNom(), p.getGenero(), p.getDistribuidora(), p.getPlataforma(), p.getEdad(),
+					Integer.toString(p.getCantidad()), p.getActivado(), Double.toString(p.getPrecio()),
+					p.getPortada(), p.getImagenes()[1], p.getImagenes()[2], p.getImagenes()[3]};
+			writer.writeNext(lineaCSV);
+		}
+
+		System.out.println("HOLA");
+		
+		writer.close();
+		
+		return "redirect:/security";
+	}
+
 	@Secured("ROLE_ADMIN")
 	@RequestMapping("/addproduct")
 	public String newProd(Model model) {
@@ -431,7 +462,9 @@ public class BotigaController {
 		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
 		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
 
-		// List<Product> products = p_servic
+		List<Producte> masVendidos = p_service.prodMasVendidos();
+
+		model.addAttribute("juegos", masVendidos);
 
 		return "home";
 	}

@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import net.javierjimenez.Models.Producte;
@@ -44,6 +45,14 @@ public class ProducteService {
 
 	public Producte buscarProdId(String id) {
 		return product.findById(id);
+	}
+	
+	public List<Producte> prodMasVendidos(){
+		
+		List<Producte> p = product.findByVentasOrderByVentasAsc(new PageRequest(0,4));
+		
+		return p;
+		
 	}
 	
 	public void editProd(Producte p){

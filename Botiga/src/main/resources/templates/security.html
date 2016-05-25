@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ca" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<title>Press Start - Admin Zone</title>
+<link rel="stylesheet" href="/css/styleAdmin.css" type="text/css"
+	media="all" />
+</head>
+<body>
+	<!-- Header -->
+	<div class="header" th:replace="fragment/dashboard_header :: header"></div>
+	<!-- End Header -->
+
+	<!-- Container -->
+	<div id="container">
+		<div class="shell">
+			<div th:if="${error_number}" class="msg msg-error">
+				<p>
+					<strong>Error: El precio/la cantidad ha de ser un valor
+						numérico!</strong>
+				</p>
+			</div>
+			<div th:if="${error_product}" class="msg msg-error">
+				<p>
+					<strong>Error: El producto ya existe!</strong>
+				</p>
+			</div>
+			<div th:if="${error_img}" class="msg msg-error">
+				<p>
+					<strong>Error: Se ha de escribir el formato de la imagen!</strong>
+				</p>
+			</div>
+			<br />
+			<!-- Box -->
+			<div class="box">
+				<div class="box-head">
+					<h2>CSV Productos</h2>
+				</div>
+				<form method="post" th:action="@{/downloadProdDB}"
+					enctype="multipart/form-data">
+					<div class="form">
+						<label>Archivo</label><button type="submit">Descargar</button>
+					</div>
+				</form>
+				<form method="post" th:action="@{/prodDB}"
+					enctype="multipart/form-data">
+					<div class="form">
+						<label>Archivo</label><input type="file" name="file" id="file" />
+					</div>
+					<div class="buttons">
+						<input type="submit" value="submit" class="button" />
+					</div>
+				</form>
+			</div>
+			<!-- End Box -->
+			<!-- Box -->
+			<div class="box">
+				<div class="box-head">
+					<h2>Subir CSV Clientes</h2>
+				</div>
+				<form method="post" th:action="@{/clientDB}"
+					enctype="multipart/form-data">
+					<div class="form">
+						<label>Archivo</label><input type="file" name="file" id="file" />
+					</div>
+					<div class="buttons">
+						<input type="submit" value="submit" class="button" />
+					</div>
+				</form>
+			</div>
+			<!-- End Box -->
+			<!-- Box -->
+			<div class="box">
+				<div class="box-head">
+					<h2>Subir CSV Compras</h2>
+				</div>
+				<form method="post" th:action="@{/cartsDB}"
+					enctype="multipart/form-data">
+					<div class="form">
+						<label>Archivo</label><input type="file" name="file" id="file" />
+					</div>
+					<div class="buttons">
+						<input type="submit" value="submit" class="button" />
+					</div>
+				</form>
+			</div>
+			<!-- End Box -->
+		</div>
+	</div>
+</body>
+</html>
