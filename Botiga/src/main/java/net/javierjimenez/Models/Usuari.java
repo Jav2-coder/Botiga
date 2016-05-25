@@ -15,7 +15,7 @@ import org.springframework.security.crypto.codec.Base64;
 public class Usuari{
 
 	@Id
-	private String id_persona;
+	private String id;
 
 	private String nom;
 	private String email;
@@ -44,12 +44,12 @@ public class Usuari{
 		this.nom = nom;
 	}
 
-	public String getId_persona() {
-		return id_persona;
+	public String getId() {
+		return id;
 	}
 
-	public void setId_persona(String _id) {
-		this.id_persona = _id;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getEmail() {

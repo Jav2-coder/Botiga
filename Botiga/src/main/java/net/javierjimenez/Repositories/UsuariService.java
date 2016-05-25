@@ -34,9 +34,9 @@ public class UsuariService {
 		return user.save(newUser);
 	}
 
-	public void eliminarUsuari(String username){
+	public void eliminarUsuari(String id){
 		
-		Usuari del = user.findByNom(username);
+		Usuari del = user.findById(id);
 		
 		user.delete(del);
 	}

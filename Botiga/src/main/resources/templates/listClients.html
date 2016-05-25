@@ -43,7 +43,7 @@
 									<td th:text="${cliente.nom}">x</td>
 									<td th:text="${cliente.email}">x</td>
 									<td th:text="${cliente.direccion}">x</td>
-									<td><form th:action="@{/delClient}" method="post">
+									<td><form th:action="@{'/delClient/' + ${cliente.id}}" method="post">
 											<button class="btn btn-default navbar-btn">Eliminar</button>
 										</form></td>
 								</tr>
@@ -59,7 +59,6 @@
 						</div>
 						<!-- Table -->
 					</div>
-					<!-- End Box -->
 				</div>
 			</div>
 		</div>

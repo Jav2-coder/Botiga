@@ -95,8 +95,7 @@ public class BotigaController {
 			@RequestParam("price") String price, @RequestParam("total") String quantity,
 			@RequestParam("generos") String genero, @RequestParam("distribuidoras") String distribuidora,
 			@RequestParam("plataformas") String plataforma, @RequestParam("edad") String edad,
-			@RequestParam("activar") String activar,
-			Model model , final RedirectAttributes redirectAttributes) {
+			@RequestParam("activar") String activar, Model model, final RedirectAttributes redirectAttributes) {
 
 		Double precio = null;
 		Integer cantidad = null;
@@ -139,17 +138,36 @@ public class BotigaController {
 	}
 
 	@Secured("ROLE_ADMIN")
-	@RequestMapping("/listClients")
-	public String listClients(@RequestParam(required = false) Integer page, Model model) {
+	@RequestMapping("/listCarts")
+	public String listCarts(@RequestParam(required = false) Integer page, Model model) {
 
-		List<Usuari> usuarios = null;
-		Page<Usuari> pagina = null;
+		/*List<Carrito> carritos = null;
+		Page<Carrito> paginaCarritos = null;
 
 		if (page == null)
 			page = 0;
 
-		pagina = usuariRepositori.findByEsAdmin(false, new PageRequest(page, 8));
-		usuarios = pagina.getContent();
+		paginaCarritos = compra.findAll(new PageRequest(page, 8));
+		carritos = paginaCarritos.getContent();
+
+		model.addAttribute("pagina", page);
+		model.addAttribute("carritos", carritos);*/
+
+		return "listCarts";
+	}
+	
+	@Secured("ROLE_ADMIN")
+	@RequestMapping("/listClients")
+	public String listClients(@RequestParam(required = false) Integer page, Model model) {
+
+		List<Usuari> usuarios = null;
+		Page<Usuari> paginaClientes = null;
+
+		if (page == null)
+			page = 0;
+
+		paginaClientes = usuariRepositori.findByEsAdmin(false, new PageRequest(page, 8));
+		usuarios = paginaClientes.getContent();
 
 		model.addAttribute("pagina", page);
 		model.addAttribute("usuarios", usuarios);
@@ -158,15 +176,15 @@ public class BotigaController {
 	}
 
 	@Secured("ROLE_ADMIN")
-	@RequestMapping(value = "/delClient", method = RequestMethod.POST)
-	public String delClient(@RequestParam("nom_user") String n) {
+	@RequestMapping(value = "/delClient/{id}", method = RequestMethod.POST)
+	public String delClient(@PathVariable("id") String id) {
 
-		u_service.eliminarUsuari(n);
+		u_service.eliminarUsuari(id);
 
 		return "redirect:/listClients";
 
 	}
-
+	
 	@Secured("ROLE_ADMIN")
 	@RequestMapping("/addproduct")
 	public String newProd(Model model) {
@@ -180,15 +198,16 @@ public class BotigaController {
 
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/uploadcsv", method = RequestMethod.POST)
-	public String saveCSV(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes, Model model) throws IOException{
+	public String saveCSV(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes, Model model)
+			throws IOException {
 
 		// http://opencsv.sourceforge.net/
 
-		if(!file.getOriginalFilename().matches(".+\\.csv$")){
-			
+		if (!file.getOriginalFilename().matches(".+\\.csv$")) {
+
 			return "redirect:/";
 		}
-		
+
 		InputStream f = file.getInputStream();
 		CSVReader reader = new CSVReader(new InputStreamReader(f), ',');
 
@@ -201,9 +220,10 @@ public class BotigaController {
 
 				return "new_product";
 			}
-			
-			String[] imagenes = {"/images/products/" + nextLine[8], "/images/products/" + nextLine[9], "/images/products/" + nextLine[10], "/images/products/" + nextLine[11]};
-			
+
+			String[] imagenes = { "/images/products/" + nextLine[8], "/images/products/" + nextLine[9],
+					"/images/products/" + nextLine[10], "/images/products/" + nextLine[11] };
+
 			Double precio = null;
 			Integer cantidad = null;
 
@@ -217,10 +237,10 @@ public class BotigaController {
 				reader.close();
 				String error = "NOPE";
 				model.addAttribute("error_number", error);
-				
+
 				return "new_product";
 			}
-			
+
 			for (String img : imagenes) {
 				if (!img.contains(".")) {
 					reader.close();
@@ -229,13 +249,13 @@ public class BotigaController {
 					return "new_product";
 				}
 			}
-			
-			if(!nextLine[6].equals("Si") && !nextLine[6].equals("No")){
-				
+
+			if (!nextLine[6].equals("Si") && !nextLine[6].equals("No")) {
+
 				reader.close();
 				return "new_product";
 			}
-			
+
 			Producte newProd = p_service.crearProducte(nextLine[0], nextLine[1], nextLine[2], nextLine[3], nextLine[4],
 					cantidad, precio, nextLine[6], imagenes, 0);
 
@@ -463,7 +483,7 @@ public class BotigaController {
 			Producte p = s.getProducte();
 			p.setCantidad(p.getCantidad() - restarStock);
 			p.setVentas(p.getVentas() + restarStock);
-			
+
 			if (p.getCantidad() == 0) {
 				p.setActivado("No");
 			}

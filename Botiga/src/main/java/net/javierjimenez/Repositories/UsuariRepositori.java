@@ -10,6 +10,8 @@ public interface UsuariRepositori extends PagingAndSortingRepository<Usuari, Str
 
 	public Usuari findByNom(String Nom);
 	
+	public Usuari findById(String id);
+	
 	public Page<Usuari> findByNom(String nom, Pageable page);
 	
 	public Page<Usuari> findByEsAdmin(boolean admin, Pageable page);

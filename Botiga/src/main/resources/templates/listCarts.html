@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<title>Press Start - Admin Zone</title>
+<link rel="stylesheet" href="/css/styleAdmin.css" type="text/css"
+	media="all" />
+</head>
+<body>
+	<!-- Header -->
+	<div class="header" th:replace="fragment/dashboard_header :: header"></div>
+	<!-- End Header -->
+
+	<!-- Container -->
+	<div id="container">
+		<div class="shell">
+
+			<!-- Main -->
+			<div id="main">
+				<div class="cl">&nbsp;</div>
+
+				<!-- Content -->
+				<div id="content">
+
+					<!-- Box -->
+					<div class="box">
+						<!-- Box Head -->
+						<div class="box-head">
+							<h2 class="left">Compras Realizadas</h2>
+						</div>
+						<!-- End Box Head -->
+
+						<!-- Table -->
+						<div class="table">
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+								<tr>
+									<th>Nº Pedido</th>
+									<th>Usuario</th>
+									<th>Total</th>
+									<th width="110" class="ac">Content Control</th>
+								</tr>
+								<tr th:each="carrito : ${carritos}">
+									<td th:text="${carrito.id}">x</td>
+									<td th:text="${carrito.username}">x</td>
+									<td th:text="${carrito.pago}">x</td>
+									<td><form th:action="@{'/delCompra/' + ${carrito.id}}" method="post">
+											<button class="btn btn-default navbar-btn">Eliminar</button>
+										</form></td>
+								</tr>
+							</table>
+							<!-- Pagging
+							<div class="pagging">
+								<a th:if="${pagina} > 0" href="/listCarts"
+									th:href="@{'/listCarts?page=' + ${pagina - 1}}">Anterior</a> <a
+									th:if="${#lists.size(carritos) == 8}" href="/listCarts"
+									th:href="@{'/listCarts?page=' + ${pagina + 1}}">Siguiente</a>
+							</div>
+							 End Pagging -->
+						</div>
+						<!-- Table -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Footer -->
+		<div class="footer" th:replace="fragment/dashboard_header :: footer"></div>
+		<!-- End Footer -->
+	</div>
+</body>
+</html>
