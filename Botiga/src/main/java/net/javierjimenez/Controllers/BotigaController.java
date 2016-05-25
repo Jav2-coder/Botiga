@@ -205,8 +205,6 @@ public class BotigaController {
 			writer.writeNext(lineaCSV);
 		}
 
-		System.out.println("HOLA");
-		
 		writer.close();
 		
 		return "redirect:/security";
