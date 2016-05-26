@@ -8,7 +8,7 @@
 	media="all"></link>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 <!-- Custom Theme files -->
 <!--theme-style-->
 <link href="/css/style2.css" rel="stylesheet" type="text/css"
@@ -25,14 +25,16 @@
 	<div id="login_form">
 		<h2 class="prova_font">LOGIN</h2>
 		<div class="row">
-			<form id="btn_form" method="POST" class="form-horizontal" th:action="@{/login}">
+			<form id="btn_form" method="POST" class="form-horizontal"
+				th:action="@{/login}">
 				<div class="form-group">
-					<span id="login_name" class="col-md-2">NAME</span><input class="col-md-10"
-						name="username" type="text" required="required" ></input>
+					<span id="login_name" class="col-md-2">NAME</span><input
+						class="col-md-10" name="username" type="text" required="required"></input>
 				</div>
 				<div class="form-group">
-					<span id="login_passwrd" class="pass col-md-2">PASSWORD</span><input class="col-md-10"
-						name="password" type="password" required="required" ></input>
+					<span id="login_passwrd" class="pass col-md-2">PASSWORD</span><input
+						class="col-md-10" name="password" type="password"
+						required="required"></input>
 				</div>
 			</form>
 			<button type="submit" id="login-button" class="col-md-offset-2"
@@ -41,6 +43,14 @@
 			</button>
 			<button id="register-button" class="col-md-offset-5"
 				onclick="redirect()">REG</button>
+		</div>
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<a href="/" id="btn_thanks"><button
+						class="exclusive btn go_home">
+						<span>Página principal</span>
+					</button></a>
+			</div>
 		</div>
 	</div>
 </body>

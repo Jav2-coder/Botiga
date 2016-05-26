@@ -68,7 +68,7 @@
 									<td th:text="${juego.edad}">x</td>
 									<td th:text="${juego.cantidad}">x</td>
 									<td th:text="${juego.activado}">x</td>
-									<td th:text="${juego.precio}">x</td>
+									<td th:text="${#numbers.formatDecimal(juego.precio, 0, 'DEFAULT', 2, 'DEFAULT')}">x</td>
 									<td style="text-align: center;">
 										<button class="editBtn">Editar</button>
 										<form th:action="@{'/delete/'+${juego.id}}" method="post">

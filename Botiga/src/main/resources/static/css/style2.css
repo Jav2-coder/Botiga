@@ -99,6 +99,15 @@ input.qtyminus {
 	height: 25px;
 }
 
+/*--error-*/
+#error_info{
+	text-align: center;
+}
+
+#error_info span{
+	color: #337ab7;
+}
+
 /*--category--*/
 div.prod_game {
 	text-align: center;

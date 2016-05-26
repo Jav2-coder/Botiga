@@ -23,16 +23,13 @@
 		<div class="header" th:replace="fragment/header :: header"></div>
 		<div class="header-top" th:replace="fragment/header :: header-top"></div>
 		<div class="row">
-			<div class="col-xs-12 col-sm-4">
-				<p style="padding: 20px;"></p>
-			</div>
-			<div class="col-xs-12 col-sm-6">
-				<p style="padding: 20px;"></p>
-				<h1>¡Problemas!</h1>
-				<h2 th:text="${status} + ' ' + ${error} +'! : ' + ${message}"></h2>
-				<p>Parece ser que el Gremlin del Glitch se ha colado en la web. Date un respiro mientras solucionamos el problema.</p>
-				<p></p>
-				<blockquote th:text="${exception}"></blockquote>
+			<div id="error_info" class="col-md-8 col-md-offset-2">
+				<h1><span>¡Problemas!</span></h1>
+				<h2><span th:text="${status} + ' ' + ${error} +'! : ' + ${message}">x</span></h2>
+				<h4><span>Parece ser que el Gremlin del Glitch se ha colado en la web. Date un respiro mientras solucionamos el problema.</span></h4>
+				<img src="/images/error.png" />
+				<input type="hidden" th:text="${exception}"/>
+				<!-- <blockquote th:text="${exception}"></blockquote>-->
 			</div>
 		</div>
 	</div>

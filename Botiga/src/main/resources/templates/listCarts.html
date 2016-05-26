@@ -42,7 +42,7 @@
 								<tr th:each="carrito : ${carritos}">
 									<td th:text="${carrito.id}">x</td>
 									<td th:text="${carrito.username}">x</td>
-									<td th:text="${carrito.pago}">x</td>
+									<td th:text="${#numbers.formatDecimal(carrito.pago, 0, 'DEFAULT', 2, 'DEFAULT')}">x</td>
 									<td><form th:action="@{'/delCompra/' + ${carrito.id}}" method="post">
 											<button class="btn btn-default navbar-btn">Eliminar</button>
 										</form></td>
