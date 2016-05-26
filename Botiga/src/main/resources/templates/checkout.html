@@ -29,10 +29,10 @@
 			<div>
 				<table>
 					<tr th:each="ventas : ${carrito.sells}">
-						<td><span th:text="${ventas.producte.nom}">x</span></td>
+						<td><span th:text="${ventas.producte.nom}">x</span>&nbsp;</td>
 						<td><span
-							th:text="${#numbers.formatDecimal(ventas.producte.precio, 0, 'DEFAULT', 2, 'DEFAULT')}">x</span><span>€</span></td>
-						<td th:text="${ventas.cantidad}" ><!-- <select name="cantidad">
+							th:text="${#numbers.formatDecimal(ventas.producte.precio, 0, 'DEFAULT', 2, 'DEFAULT')}">x</span><span>€&nbsp;</span></td>
+						<td><span>Cantidad:&nbsp;</span><span th:text="${ventas.cantidad}"></span>&nbsp;<!-- <select name="cantidad">
 								<option
 									th:each="i: ${#numbers.sequence(1, ventas.producte.cantidad)}"
 									th:text="${i}" th:if="${i} == ${ventas.cantidad}"

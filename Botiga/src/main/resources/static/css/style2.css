@@ -77,6 +77,10 @@ div.prod_game img {
 	margin-top: 15px;
 	margin-bottom: 5px;
 }
+/*_about-*/
+#map_about{
+	text-align:center;
+}
 
 /*--home--*/
 #mas_vendido{
@@ -175,6 +179,10 @@ footer {
 	background-image: url("/images/arcade.png");
 	background-repeat: no-repeat;
 	background-position: 50% 20%;
+}
+
+.prova_font, #login_name, #login_passwrd {
+	color: white
 }
 
 #login_form {

@@ -27,11 +27,11 @@
 		<div class="row">
 			<form id="btn_form" method="POST" class="form-horizontal" th:action="@{/login}">
 				<div class="form-group">
-					<span class="col-md-2">NAME</span><input class="col-md-10"
+					<span id="login_name" class="col-md-2">NAME</span><input class="col-md-10"
 						name="username" type="text" required="required" ></input>
 				</div>
 				<div class="form-group">
-					<span class="pass col-md-2">PASSWORD</span><input class="col-md-10"
+					<span id="login_passwrd" class="pass col-md-2">PASSWORD</span><input class="col-md-10"
 						name="password" type="password" required="required" ></input>
 				</div>
 			</form>
