@@ -48,12 +48,24 @@
 					</a>
 				</div>
 				<div th:if="${vacio}" id="no_products">
-					<span>No hay productos!</span>
+					<span>¡No hay productos!</span>
 				</div>
 			</div>
 		</div>
-		<div class="clearfix"></div>
-		<footer th:replace="fragment/header :: footer"></footer>
+		<div th:if="!${vacio}">
+			<nav>
+				<ul class="pagination">
+					<li th:each="numero: ${#numbers.sequence( 1, pagines )}"><a
+						href="/products"
+						th:href="@{'/products?page=' + ${numero-1} + ${url} }"
+						th:text="${numero}">1</a></li>
+				</ul>
+			</nav>
+		</div>
+		<div th:if="!${vacio}">
+			<div class="clearfix"></div>
+			<footer th:replace="fragment/header :: footer"></footer>
+		</div>
 	</div>
 </body>
 </html>

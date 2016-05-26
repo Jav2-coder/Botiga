@@ -38,10 +38,10 @@
 				<div class="box-head">
 					<h2>XML Productos</h2>
 				</div>
-				<form method="post" th:action="@{/xmlProductos}"
+				<form method="get" th:action="@{/xmlProductos}"
 					enctype="multipart/form-data">
 					<div class="form">
-						<label>Archivo</label><button type="submit">Descargar</button>
+						<label>Enlace al documento XML</label><button type="submit">Mostrar XML</button>
 					</div>
 				</form>
 			</div>
@@ -49,12 +49,25 @@
 			<!-- Box -->
 			<div class="box">
 				<div class="box-head">
-					<h2>XML Productos</h2>
+					<h2>XML Clientes</h2>
 				</div>
-				<form method="post" th:action="@{/xmlClientes}"
+				<form method="get" th:action="@{/xmlClientes}"
 					enctype="multipart/form-data">
 					<div class="form">
-						<label>Archivo</label><button type="submit">Descargar</button>
+						<label>Enlace al documento XML</label><button type="submit">Mostrar XML</button>
+					</div>
+				</form>
+			</div>
+			<!-- End Box -->
+			<!-- Box -->
+			<div class="box">
+				<div class="box-head">
+					<h2>XML Compras</h2>
+				</div>
+				<form method="get" th:action="@{/xmlCompras}"
+					enctype="multipart/form-data">
+					<div class="form">
+						<label>Enlace al documento XML</label><button type="submit">Mostrar XML</button>
 					</div>
 				</form>
 			</div>

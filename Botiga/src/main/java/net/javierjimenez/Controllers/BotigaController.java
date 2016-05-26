@@ -116,6 +116,16 @@ public class BotigaController {
 	}
 
 	@Secured("ROLE_ADMIN")
+	@RequestMapping(value = "/delCompra/{id}", method = RequestMethod.POST)
+	public String eliminarCompra(@PathVariable("id") String id) {
+
+		Carrito delCarro = compra.findById(id);
+		compra.delete(delCarro);
+
+		return "redirect:/listCarts";
+	}
+	
+	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
 	public String eliminar(@PathVariable("id") String id) {
 
@@ -137,7 +147,7 @@ public class BotigaController {
 		paginaCarritos = compra.findAll(new PageRequest(page, 8));
 		compras = paginaCarritos.getContent();
 
-		// model.addAttribute("pagina", page);
+		model.addAttribute("pagina", page);
 		model.addAttribute("carritos", compras);
 
 		return "listCarts";
@@ -489,6 +499,48 @@ public class BotigaController {
 	public String compraPagada() {
 
 		return "compra_realizada";
+	}
+
+	@RequestMapping("/products")
+	public String llistaProductes(@RequestParam(required = false) String keyword,
+			@RequestParam(required = false) Integer page, Model model) {
+
+		model.addAttribute("generos", p_service.ordenarLista(p_service.listarAllProd("genero")));
+		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
+		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
+		
+		List<Producte> listaProductos;
+		long totalProductos;
+
+		int pagina = 0;
+
+		if (page != null) {
+			pagina = page;
+		}
+
+		if (keyword == null) {
+			model.addAttribute("url", "");
+			listaProductos = p_service.todosProductosPagina(pagina, 8);
+
+		} else {
+			
+			model.addAttribute("url", "&keyword=" + keyword);
+			listaProductos = p_service.buscarNombreProductoPagina(keyword, pagina, 8);
+		}
+
+		for(Producte p : listaProductos){
+			if (p.getNom().length() > 20) {
+				p.setNom(p.getNom().substring(0, 20) + "...");
+			}
+		}
+		
+		totalProductos = p_service.countProductos(keyword);
+
+		model.addAttribute("vacio", listaProductos.isEmpty());
+		model.addAttribute("pagines", (totalProductos / 8) + 1);
+		model.addAttribute("pagina", pagina);
+		model.addAttribute("juegos", listaProductos);
+		return "products";
 	}
 
 	@RequestMapping("/register")

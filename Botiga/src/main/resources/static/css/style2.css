@@ -7,6 +7,13 @@
 	font-family: determination;
 }
 
+#no_products{
+	margin-top: 40px;
+	text-align:center;
+	font-size:200%;
+	color: #FFFFFF;
+}
+
 body {
 	background-image: url("/images/top-banner.png");
 	background-repeat: repeat-x;
@@ -37,6 +44,31 @@ ul, h3 {
 }
 
 /*--product--*/
+#table_product{
+	width: 65%;
+	margin: 0 auto;
+}
+
+#form_quantity{
+	margin-top: 10px;
+}
+
+#form_quantity span{
+	color: #337ab7;
+}
+
+#select_quantity{
+	margin-right: 10px;
+}
+
+#table_product td, #table_product th {
+    border: 5px solid #337ab7;
+    padding: 5px;
+	margin: 10px;
+	text-align: center;
+	color: #337ab7;
+}
+
 #img_portada{
 	padding-bottom: 5px;
 	padding-top: 15px;
@@ -45,6 +77,10 @@ ul, h3 {
 #prod_imagenes{
 	background-color: #6495ED;
 	padding-bottom: 15px;
+}
+
+#prod_nombre{
+	text-align: center;
 }
 
 .qty {
@@ -69,7 +105,6 @@ div.prod_game {
 	border-style: solid;
 	border-color: #0052CC;
 	background-color: #003D99;
-	margin-right: 30px;
 	margin-bottom: 30px;
 }
 
@@ -77,6 +112,7 @@ div.prod_game img {
 	margin-top: 15px;
 	margin-bottom: 5px;
 }
+
 /*_about-*/
 #map_about{
 	text-align:center;
@@ -147,8 +183,20 @@ a#right_carousel {
 	background-color: #285090;
 }
 
+#header-bottom span{
+	color: #FFFFFF;
+}
+
+#header-bottom a:hover span{
+	color: #337ab7;
+}
+
 .dropdown-menu {
 	width: 300px;
+}
+
+li.open span{
+	color: #337ab7 !important;
 }
 
 .btn_centrar {
@@ -164,6 +212,18 @@ div#top {
 	height: 150px;
 }
 
+#top span{
+	color: #FFFFFF;
+}
+
+#top button span{
+	color: #337ab7 !important;
+}
+
+#top a:hover span{
+	color: #337ab7;
+}
+
 .nav {
 	list-style: none;
 }
@@ -172,6 +232,24 @@ div#top {
 footer {
 	display: block;
 	width: 100%;
+}
+
+/*--account--*/
+#account_content{
+	margin-top: 30px;
+}
+
+#account_info {
+	width: 65%;
+	margin: 0 auto;
+}
+
+#account_info td, #account_info th {
+    border: 5px solid #337ab7;
+    padding: 5px;
+	margin: 10px;
+	text-align: center;
+	color: #337ab7;
 }
 
 /*--login--*/

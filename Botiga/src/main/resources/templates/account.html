@@ -34,26 +34,22 @@
 		<div class="header-top" th:replace="fragment/header :: header-top"></div>
 		<div class="header-bottom"
 			th:replace="fragment/header :: header-bottom"></div>
-		<div class="content">
-			<table>
+		<div id="account_content" class="content">
+			<table id="account_info">
 				<tbody>
 					<tr>
-						<td>Nom:</td>
-						<td><div th:text="${usuario.nom}">X</div></td>
+						<th><span><b>Nombre</b></span></th>
+						<th><span><b>Email</b></span></th>
+						<th><span><b>Dirección</b></span></th>
 					</tr>
 					<tr>
-						<td>Email:</td>
-						<td><div th:text="${usuario.email}">X</div></td>
-					</tr>
-					<tr>
-						<td>Dirección:</td>
-						<td><div th:text="${usuario.direccion}">X</div></td>
+						<td><span th:text="${usuario.nom}">X</span></td>
+						<td><span th:text="${usuario.email}">X</span></td>
+						<td><span th:text="${usuario.direccion}">X</span></td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
-		<div class="clearfix"></div>
-		<footer th:replace="fragment/header :: footer"></footer>
 	</div>
 </body>
 </html>

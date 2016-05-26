@@ -1,5 +1,7 @@
 package net.javierjimenez.Controllers;
 
+import java.util.Date;
+
 //import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,10 +20,10 @@ public class ErrorController {
         
         ModelAndView mav = new ModelAndView();
 
-        //mav.addObject("datetime", new Date());
-        //mav.addObject("exception", e);
-        //mav.addObject("url", request.getRequestURL());
-        //mav.setViewName(DEFAULT_ERROR_VIEW);
+        mav.addObject("datetime", new Date());
+        mav.addObject("exception", e);
+        mav.addObject("url", request.getRequestURL());
+        mav.setViewName(DEFAULT_ERROR_VIEW);
         return mav;
         
     }

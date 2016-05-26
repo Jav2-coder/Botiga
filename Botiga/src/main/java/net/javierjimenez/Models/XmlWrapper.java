@@ -20,6 +20,10 @@ public class XmlWrapper {
 	@XmlElementWrapper
 	@XmlElement(name = "usuario", type = Usuari.class)
 	List<Usuari> clientes;
+	
+	@XmlElementWrapper
+	@XmlElement(name = "carrito", type = Carrito.class)
+	List<Carrito> compras;
 
 	public XmlWrapper() {
 	}
@@ -38,6 +42,14 @@ public class XmlWrapper {
 
 	public void setClientes(List<Usuari> clientes) {
 		this.clientes = clientes;
+	}
+
+	public List<Carrito> getCompras() {
+		return compras;
+	}
+
+	public void setCompras(List<Carrito> compras) {
+		this.compras = compras;
 	}
 	
 }

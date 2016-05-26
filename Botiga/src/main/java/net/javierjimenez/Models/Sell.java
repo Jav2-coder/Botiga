@@ -6,6 +6,9 @@ public class Sell {
 	private Integer cantidad;
 	private String id;
 	
+	public Sell() {		
+	}
+	
 	public Sell(Producte p, Integer quantity){
 		producte = p;
 		cantidad = quantity;	

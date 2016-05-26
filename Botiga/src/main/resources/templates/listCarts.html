@@ -48,14 +48,14 @@
 										</form></td>
 								</tr>
 							</table>
-							<!-- Pagging
+							<!-- Pagging -->
 							<div class="pagging">
 								<a th:if="${pagina} > 0" href="/listCarts"
 									th:href="@{'/listCarts?page=' + ${pagina - 1}}">Anterior</a> <a
 									th:if="${#lists.size(carritos) == 8}" href="/listCarts"
 									th:href="@{'/listCarts?page=' + ${pagina + 1}}">Siguiente</a>
 							</div>
-							 End Pagging -->
+							<!--  End Pagging -->
 						</div>
 						<!-- Table -->
 					</div>

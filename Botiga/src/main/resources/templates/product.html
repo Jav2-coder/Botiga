@@ -7,8 +7,7 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
 	integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
 	crossorigin="anonymous"></link>
-<script
-	src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script src="/js/jquery.elevatezoom.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
@@ -39,7 +38,10 @@
 		<div class="header-bottom"
 			th:replace="fragment/header :: header-bottom"></div>
 		<div class="content">
-			<h3 id="prod_nombre" th:text="${product.nom}">Nombre Producto</h3>
+			<h3 id="prod_nombre">
+				<span th:text="${product.nom}">x</span>
+			</h3>
+			<br />
 			<div id="prod_imagenes" class="col-md-4 col-md-offset-2">
 				<img width="100%" class="img-responsive" id="img_portada"
 					th:src="@{'/images/products/' + ${product.portada}}"
@@ -58,37 +60,31 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-5 col-md-offset-1">
-				<table>
+			<div class="col-md-4">
+				<table id="table_product">
 					<tbody>
 						<tr>
-							<td>Precio</td>
-							<td><div
-									th:text="${#numbers.formatDecimal(product.precio, 0, 'DEFAULT', 2, 'DEFAULT')}">X</div></td>
+							<th><span>Precio</span></th>
+							<th><span>Género</span></th>
+							<th><span>Distribuidora</span></th>
+							<th><span>Plataforma</span></th>
+							<th><span>PEGI</span></th>
 						</tr>
 						<tr>
-							<td>Género</td>
-							<td><div th:text="${product.genero}">X</div></td>
-						</tr>
-						<tr>
-							<td>Distribuidora</td>
-							<td><div th:text="${product.distribuidora}">X</div></td>
-						</tr>
-						<tr>
-							<td>Plataforma</td>
-							<td><div th:text="${product.plataforma}">X</div></td>
-						</tr>
-						<tr>
-							<td>PEGI</td>
-							<td><div th:text="${product.edad}">X</div></td>
+							<td><span th:text="${#numbers.formatDecimal(product.precio, 0, 'DEFAULT', 2, 'DEFAULT')}">x</span></td>
+							<td><span th:text="${product.genero}">x</span></td>
+							<td><span th:text="${product.distribuidora}">x</span></td>
+							<td><span th:text="${product.plataforma}">x</span></td>
+							<td><span th:text="${product.edad}">x</span></td>
 						</tr>
 					</tbody>
 				</table>
-				<form th:action="@{'/new_venta/'+${product.id}}" method="post">
-					<select name="cantidad">
+				<form id="form_quantity" th:action="@{'/new_venta/'+${product.id}}" method="post">
+					<span>Cantidad:</span>
+					<select id="select_quantity" name="cantidad">
 						<option th:each="i: ${#numbers.sequence(1, product.cantidad)}"
 							th:text="${i}">x</option>
-					</select><br />
+					</select>
 					<button type="submit" class="exclusive btn añadir_carrito">
 						<span>Añadir al carrito</span>
 					</button>

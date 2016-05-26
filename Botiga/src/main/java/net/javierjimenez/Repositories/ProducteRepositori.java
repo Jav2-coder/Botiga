@@ -26,6 +26,8 @@ public interface ProducteRepositori extends PagingAndSortingRepository<Producte,
 	
 	public List<Producte> findByDistribuidora(String distribuidora);
 	
+	public Page<Producte> findByNomContainingIgnoreCase(String nom, Pageable page);
 	
+	public long countByNomContainingIgnoreCase(String nom);
 	
 }
