@@ -55,7 +55,7 @@ public class ProducteService {
 	
 	public List<Producte> prodMasVendidos(){
 		
-		List<Producte> p = product.findTop3ByOrderByVentasDesc();
+		List<Producte> p = product.findTop4ByOrderByVentasDesc();
 		
 		return p;
 		

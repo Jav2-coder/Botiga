@@ -44,6 +44,7 @@ ul, h3 {
 
 #prod_imagenes{
 	background-color: #6495ED;
+	padding-bottom: 15px;
 }
 
 .qty {
@@ -78,6 +79,10 @@ div.prod_game img {
 }
 
 /*--home--*/
+#mas_vendido{
+	color: #6495ED !important;
+}
+
 div.prod_game2 {
 	ext-align: center;
 	padding-bottom: 10px;
@@ -85,8 +90,6 @@ div.prod_game2 {
 	border-style: solid;
 	border-color: #0052CC;
 	background-color: #003D99;
-	margin-right: 10px;
-	margin-left: 10px;
 	margin-bottom: 30px;
 }
 

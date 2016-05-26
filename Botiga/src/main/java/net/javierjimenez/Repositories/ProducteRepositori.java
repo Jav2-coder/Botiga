@@ -14,7 +14,7 @@ public interface ProducteRepositori extends PagingAndSortingRepository<Producte,
 	
 	public Page<Producte> findByNom(String nom, Pageable page);
 	
-	public List<Producte> findTop3ByOrderByVentasDesc();
+	public List<Producte> findTop4ByOrderByVentasDesc();
 	
 	public Producte findById(String id);
 	
