@@ -3,16 +3,12 @@ package net.javierjimenez.Controllers;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,23 +16,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import au.com.bytecode.opencsv.CSVReader;
 import net.javierjimenez.Models.Carrito;
 import net.javierjimenez.Models.Producte;
-import net.javierjimenez.Models.Sell;
 import net.javierjimenez.Models.Usuari;
 import net.javierjimenez.Repositories.CarritoRepositori;
 import net.javierjimenez.Repositories.ProducteService;
 import net.javierjimenez.Repositories.UsuariService;
 
 @Controller
-@SessionAttributes({ "carrito" })
-public class BotigaController {
+public class AdminController {
 
 	@Autowired
 	CarritoRepositori compra;
@@ -205,8 +197,6 @@ public class BotigaController {
 	public String saveCSV(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes, Model model)
 			throws IOException {
 
-		// http://opencsv.sourceforge.net/
-
 		if (!file.getOriginalFilename().matches(".+\\.csv$")) {
 
 			return "redirect:/";
@@ -361,237 +351,5 @@ public class BotigaController {
 		}
 
 		return "redirect:/dashboard";
-	}
-
-	@RequestMapping("/account")
-	public String account(Model model) {
-
-		model.addAttribute("generos", p_service.ordenarLista(p_service.listarAllProd("genero")));
-		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
-		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
-
-		String nom = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-		Usuari usuariRecuperat = u_service.buscaUsuari(nom);
-		model.addAttribute("usuario", usuariRecuperat);
-
-		return "account";
-	}
-
-	@RequestMapping(value = "/categoria/{category}/{cat_name}")
-	public String categoriaProd(@PathVariable String category, @PathVariable String cat_name, Model model) {
-
-		model.addAttribute("generos", p_service.ordenarLista(p_service.listarAllProd("genero")));
-		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
-		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
-
-		List<Producte> juegos = p_service.buscarProductosCat(category, cat_name, "Si");
-
-		for (Producte p : juegos) {
-			if (p.getNom().length() > 20) {
-				p.setNom(p.getNom().substring(0, 20) + "...");
-			}
-		}
-
-		model.addAttribute("vacio", juegos.isEmpty());
-		model.addAttribute("juegos", juegos);
-
-		return "category";
-	}
-
-	@RequestMapping(value = "/producto/{product_id}", method = RequestMethod.GET)
-	public String product(@PathVariable String product_id, Model model) {
-
-		model.addAttribute("generos", p_service.ordenarLista(p_service.listarAllProd("genero")));
-		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
-		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
-
-		Producte product = p_service.buscarProdId(product_id);
-
-		model.addAttribute("product", product);
-
-		return "product";
-	}
-
-	@RequestMapping(value = "/new_venta/{id}", method = RequestMethod.POST)
-	public String addShopCart(@ModelAttribute("carrito") Carrito carrito, @PathVariable String id,
-			@RequestParam("cantidad") String quantity, Model model) {
-
-		Producte p = p_service.buscarProdId(id);
-		Integer cantidad = Integer.parseInt(quantity);
-
-		carrito.addProducto(new Sell(p, cantidad));
-		model.addAttribute("carrito", carrito);
-
-		return "redirect:/producto/" + id;
-	}
-
-	@RequestMapping("/")
-	public String home(Model model) throws UnsupportedEncodingException {
-
-		model.addAttribute("generos", p_service.ordenarLista(p_service.listarAllProd("genero")));
-		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
-		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
-
-		List<Producte> masVendidos = p_service.prodMasVendidos();
-
-		model.addAttribute("juegos", masVendidos);
-
-		return "home";
-	}
-
-	@RequestMapping(value = "/checkout", method = RequestMethod.POST)
-	public String pedido(@ModelAttribute("carrito") Carrito carrito, SessionStatus status, Model model) {
-
-		model.addAttribute("carrito", carrito);
-
-		return "checkout";
-	}
-
-	@RequestMapping(value = "/delCart/{id}", method = RequestMethod.POST)
-	public String delSell(@PathVariable String id, @ModelAttribute("carrito") Carrito carrito) {
-
-		for (int i = carrito.getSells().size() - 1; i >= 0; i--) {
-			if (carrito.getSells().get(i).getId().equals(id)) {
-				carrito.getSells().remove(i);
-			}
-		}
-
-		if (carrito.getSells().size() == 0) {
-
-			carrito.setTieneCosas(false);
-
-			return "redirect:/";
-		}
-
-		return "checkout";
-	}
-
-	@RequestMapping(value = "/buyCart", method = RequestMethod.POST)
-	public String buyCart(@ModelAttribute("carrito") Carrito carrito, SessionStatus status) {
-
-		String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-
-		carrito.setUsername(username);
-
-		compra.save(carrito);
-
-		for (Sell s : carrito.getSells()) {
-
-			Integer restarStock = s.getCantidad();
-
-			Producte p = s.getProducte();
-			p.setCantidad(p.getCantidad() - restarStock);
-			p.setVentas(p.getVentas() + restarStock);
-
-			if (p.getCantidad() == 0) {
-				p.setActivado("No");
-			}
-			p_service.editProd(p);
-		}
-
-		carrito.setTieneCosas(false);
-		status.setComplete();
-
-		return "redirect:/compraPagada";
-	}
-
-	@RequestMapping("/compraPagada")
-	public String compraPagada() {
-
-		return "compra_realizada";
-	}
-
-	@RequestMapping("/products")
-	public String llistaProductes(@RequestParam(required = false) String keyword,
-			@RequestParam(required = false) Integer page, Model model) {
-
-		model.addAttribute("generos", p_service.ordenarLista(p_service.listarAllProd("genero")));
-		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
-		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
-		
-		List<Producte> listaProductos;
-		long totalProductos;
-
-		int pagina = 0;
-
-		if (page != null) {
-			pagina = page;
-		}
-
-		if (keyword == null) {
-			model.addAttribute("url", "");
-			listaProductos = p_service.todosProductosPagina(pagina, 8);
-
-		} else {
-			
-			model.addAttribute("url", "&keyword=" + keyword);
-			listaProductos = p_service.buscarNombreProductoPagina(keyword, pagina, 8);
-		}
-
-		for(Producte p : listaProductos){
-			if (p.getNom().length() > 20) {
-				p.setNom(p.getNom().substring(0, 20) + "...");
-			}
-		}
-		
-		totalProductos = p_service.countProductos(keyword);
-
-		model.addAttribute("vacio", listaProductos.isEmpty());
-		model.addAttribute("pagines", (totalProductos / 8) + 1);
-		model.addAttribute("pagina", pagina);
-		model.addAttribute("juegos", listaProductos);
-		return "products";
-	}
-
-	@RequestMapping("/register")
-	public String register() {
-		return "register";
-	}
-
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String saveUser(@RequestParam("nombre") String name, @RequestParam("email") String mail,
-			@RequestParam("passwd") String password, @RequestParam("direccion") String address, Model model) {
-
-		Usuari result = u_service.crearUsuari(name, password, mail, address, false);
-
-		if (result == null) {
-
-			String error = "Error: El nombre/correo ya existe!";
-
-			model.addAttribute("error", error);
-			return "register";
-		}
-		return "redirect:/";
-	}
-
-	@RequestMapping("/contact")
-	public String contact(Model model) {
-
-		model.addAttribute("generos", p_service.ordenarLista(p_service.listarAllProd("genero")));
-		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
-		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
-
-		return "contact";
-	}
-
-	@RequestMapping("/about")
-	public String about(Model model) {
-
-		model.addAttribute("generos", p_service.ordenarLista(p_service.listarAllProd("genero")));
-		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
-		model.addAttribute("plataformas", p_service.ordenarLista(p_service.listarAllProd("plataforma")));
-
-		return "about";
-	}
-
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String loginRequest(@RequestParam(value = "error", required = false) String error,
-			HttpServletRequest request) {
-
-		if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymousUser") {
-			return "redirect:/account";
-		}
-
-		return "login";
 	}
 }
