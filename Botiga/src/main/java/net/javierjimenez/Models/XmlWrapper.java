@@ -16,6 +16,10 @@ public class XmlWrapper {
 	@XmlElementWrapper
 	@XmlElement(name = "producte", type = Producte.class)
 	List<Producte> productes;
+	
+	@XmlElementWrapper
+	@XmlElement(name = "usuario", type = Usuari.class)
+	List<Usuari> clientes;
 
 	public XmlWrapper() {
 	}
@@ -27,4 +31,13 @@ public class XmlWrapper {
 	public void setProductes(List<Producte> productes) {
 		this.productes = productes;
 	}
+
+	public List<Usuari> getClientes() {
+		return clientes;
+	}
+
+	public void setClientes(List<Usuari> clientes) {
+		this.clientes = clientes;
+	}
+	
 }

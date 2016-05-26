@@ -36,53 +36,25 @@
 			<!-- Box -->
 			<div class="box">
 				<div class="box-head">
-					<h2>CSV Productos</h2>
+					<h2>XML Productos</h2>
 				</div>
-				<form method="post" th:action="@{/downloadProdDB}"
+				<form method="post" th:action="@{/xmlProductos}"
 					enctype="multipart/form-data">
 					<div class="form">
 						<label>Archivo</label><button type="submit">Descargar</button>
 					</div>
 				</form>
-				<form method="post" th:action="@{/prodDB}"
-					enctype="multipart/form-data">
-					<div class="form">
-						<label>Archivo</label><input type="file" name="file" id="file" />
-					</div>
-					<div class="buttons">
-						<input type="submit" value="submit" class="button" />
-					</div>
-				</form>
 			</div>
 			<!-- End Box -->
 			<!-- Box -->
 			<div class="box">
 				<div class="box-head">
-					<h2>Subir CSV Clientes</h2>
+					<h2>XML Productos</h2>
 				</div>
-				<form method="post" th:action="@{/clientDB}"
+				<form method="post" th:action="@{/xmlClientes}"
 					enctype="multipart/form-data">
 					<div class="form">
-						<label>Archivo</label><input type="file" name="file" id="file" />
-					</div>
-					<div class="buttons">
-						<input type="submit" value="submit" class="button" />
-					</div>
-				</form>
-			</div>
-			<!-- End Box -->
-			<!-- Box -->
-			<div class="box">
-				<div class="box-head">
-					<h2>Subir CSV Compras</h2>
-				</div>
-				<form method="post" th:action="@{/cartsDB}"
-					enctype="multipart/form-data">
-					<div class="form">
-						<label>Archivo</label><input type="file" name="file" id="file" />
-					</div>
-					<div class="buttons">
-						<input type="submit" value="submit" class="button" />
+						<label>Archivo</label><button type="submit">Descargar</button>
 					</div>
 				</form>
 			</div>

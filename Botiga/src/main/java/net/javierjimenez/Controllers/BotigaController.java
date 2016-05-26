@@ -1,7 +1,5 @@
 package net.javierjimenez.Controllers;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -28,7 +26,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import au.com.bytecode.opencsv.CSVReader;
-import au.com.bytecode.opencsv.CSVWriter;
 import net.javierjimenez.Models.Carrito;
 import net.javierjimenez.Models.Producte;
 import net.javierjimenez.Models.Sell;
@@ -180,28 +177,6 @@ public class BotigaController {
 	public String security() {
 
 		return "security";
-	}
-
-	@Secured("ROLE_ADMIN")
-	@RequestMapping(value = "/downloadProdDB", method = RequestMethod.POST)
-	public String downloadProducts() throws IOException {
-
-		String ruta = System.getProperty("user.home");
-
-		CSVWriter writer = new CSVWriter(new FileWriter(new File(ruta, "productos.csv")), ',');
-
-		List<Producte> todos = p_service.allProducts();
-
-		for (Producte p : todos) {
-			String[] lineaCSV = { p.getNom(), p.getGenero(), p.getDistribuidora(), p.getPlataforma(), p.getEdad(),
-					Integer.toString(p.getCantidad()), p.getActivado(), Double.toString(p.getPrecio()), p.getPortada(),
-					p.getImagenes()[1], p.getImagenes()[2], p.getImagenes()[3] };
-			writer.writeNext(lineaCSV);
-		}
-
-		writer.close();
-
-		return "redirect:/security";
 	}
 
 	@Secured("ROLE_ADMIN")
@@ -482,7 +457,7 @@ public class BotigaController {
 	}
 
 	@RequestMapping(value = "/buyCart", method = RequestMethod.POST)
-	public String buyCart(@ModelAttribute("carrito") Carrito carrito) {
+	public String buyCart(@ModelAttribute("carrito") Carrito carrito, SessionStatus status) {
 
 		String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
 
@@ -505,6 +480,7 @@ public class BotigaController {
 		}
 
 		carrito.setTieneCosas(false);
+		status.setComplete();
 
 		return "redirect:/compraPagada";
 	}

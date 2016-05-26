@@ -48,6 +48,11 @@ public class UsuariService {
 		return user.findByEsAdmin(b, pageRequest);
 	}
 	
+	public List<Usuari> allClients(){
+		
+		return user.findByEsAdmin(false);
+	}
+	
 	public Usuari crearAdmin(String username, String password, String email, boolean esAdmin) {
 
 		if (user.findByNom(username) != null)
