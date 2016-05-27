@@ -52,8 +52,10 @@
 				</div>
 			</div>
 		</div>
-		<div class="clearfix"></div>
-		<footer th:replace="fragment/header :: footer"></footer>
+		<div th:if="!${vacio}">
+			<div class="clearfix"></div>
+			<footer th:replace="fragment/header :: footer"></footer>
+		</div>
 	</div>
 </body>
 </html>

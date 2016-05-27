@@ -80,7 +80,6 @@ public class ProducteService {
 		List<Producte> p = product.findTop4ByOrderByVentasDesc();
 
 		return p;
-
 	}
 
 	public void editProd(Producte p) {
@@ -109,9 +108,13 @@ public class ProducteService {
 			for (Producte p : products) {
 				listaOrdenada.add(p.getPlataforma());
 			}
-		} else {
+		} else if (x == "distribuidora") {
 			for (Producte p : products) {
 				listaOrdenada.add(p.getDistribuidora());
+			}
+		} else {
+			for (Producte p : products) {
+				listaOrdenada.add(p.getEdad());
 			}
 		}
 
@@ -137,8 +140,15 @@ public class ProducteService {
 					lista.remove(i);
 				}
 			}
-		} else {
+		} else if (category.equals("Distribuidora")) {
 			lista = product.findByDistribuidora(cat_name);
+			for (int i = lista.size() - 1; i >= 0; i--) {
+				if (!lista.get(i).getActivado().equals(activo)) {
+					lista.remove(i);
+				}
+			}
+		} else {
+			lista = product.findByEdad(cat_name);
 			for (int i = lista.size() - 1; i >= 0; i--) {
 				if (!lista.get(i).getActivado().equals(activo)) {
 					lista.remove(i);
