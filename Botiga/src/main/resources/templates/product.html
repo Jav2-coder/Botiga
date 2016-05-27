@@ -22,10 +22,10 @@
 <script type="text/javascript" src="/js/Zoomer.js"></script>
 <script type="text/javascript" src="/js/edit.js"></script>
 <script type="text/javascript">
-			window.addEvent('load', function(){
-				new Zoomer('img_prod');
-			});
-		</script>
+	window.addEvent('load', function() {
+		new Zoomer('img_prod');
+	});
+</script>
 <script type="text/javascript">
 	jQuery(document).ready(function($) {
 		$(".scroll").click(function(event) {
@@ -79,6 +79,15 @@
 						</tr>
 					</tbody>
 				</table>
+				<div class="divspoiler">
+
+					<a href="javascript:void(0);"
+						onclick="if (this.parentNode.parentNode.getElementsByTagName('div')[1].getElementsByTagName('div')[0].style.display != '') { this.parentNode.parentNode.getElementsByTagName('div')[1].getElementsByTagName('div')[0].style.display = ''; } else { this.parentNode.parentNode.getElementsByTagName('div')[1].getElementsByTagName('div')[0].style.display = 'none'; }"><span><b>Mostrar
+							/ Ocultar</b></span> &#9660;&#9650;</a>
+				</div>
+				<div>
+					<div class="spoiler" style="display: none;"><span>YEEEEEEEEEE</span></div>
+				</div>
 				<form id="form_quantity" th:action="@{'/new_venta/'+${product.id}}"
 					method="post">
 					<span>Cantidad:</span> <select id="select_quantity" name="cantidad">
