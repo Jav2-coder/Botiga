@@ -6,7 +6,8 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
 	integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
 	crossorigin="anonymous"></link>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
 	integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
@@ -27,6 +28,18 @@
 		});
 	});
 </script>
+<script type="text/javascript">
+	function comprobarClave() {
+		clave1 = document.forms["form_register"]["passwd"].value;
+		clave2 = document.forms["form_register"]["passwd2"].value;
+		if (clave1 == clave2) {
+			return true
+		} else {
+			alert("WARNING: Las contraseñas no coinciden!")
+			return false
+		}
+	}
+</script>
 </head>
 <body>
 	<!--header-->
@@ -38,26 +51,33 @@
 				<div id="log_error" th:text="${error}"></div>
 				<h2>Register</h2>
 				<div class=" account-top register">
-					<form method="POST" th:action="@{/register}">
+					<form method="POST" th:action="@{/newregister}"
+						onsubmit="return comprobarClave()" name="form_register">
 						<div>
-							<span>Nombre*</span><input name="nombre" type="text"></input>
+							<span>Nombre*</span><input name="nombre" type="text"
+								required="required"></input>
 						</div>
 						<div>
-							<span>Email*</span> <input name="email" type="email"></input>
+							<span>Email*</span> <input name="email" type="email"
+								required="required"></input>
 						</div>
 						<div>
-							<span>Contraseña*</span><input name="passwd" type="password"></input>
+							<span>Contraseña*</span><input name="passwd" type="password"
+								required="required"></input>
 						</div>
 						<div>
-							<span>Dirección*</span><input name="direccion" type="text"></input>
+							<span>Repite la contraseña*</span><input id="passwrd2"
+								name="passwd2" type="password" required="required"></input>
+						</div>
+						<div>
+							<span>Dirección*</span><input name="direccion" type="text"
+								required="required"></input>
 						</div>
 						<input type="submit" value="Submit"></input>
 					</form>
 				</div>
 			</div>
 		</div>
-		<div class="clearfix"></div>
-		<footer th:replace="fragment/header :: footer"></footer>
 	</div>
 </body>
 </html>

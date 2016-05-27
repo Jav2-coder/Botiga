@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import net.javierjimenez.Models.Carrito;
 import net.javierjimenez.Models.Producte;
@@ -34,7 +37,7 @@ public class ClientController {
 
 	@Autowired
 	UsuariService userService;
-	
+
 	@Autowired
 	ProducteService productService;
 
@@ -47,7 +50,8 @@ public class ClientController {
 	public String account(Model model) {
 
 		model.addAttribute("generos", productService.ordenarLista(productService.listarAllProd("genero")));
-		model.addAttribute("distribuidoras", productService.ordenarLista(productService.listarAllProd("distribuidora")));
+		model.addAttribute("distribuidoras",
+				productService.ordenarLista(productService.listarAllProd("distribuidora")));
 		model.addAttribute("plataformas", productService.ordenarLista(productService.listarAllProd("plataforma")));
 
 		String nom = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
@@ -61,7 +65,8 @@ public class ClientController {
 	public String categoriaProd(@PathVariable String category, @PathVariable String cat_name, Model model) {
 
 		model.addAttribute("generos", productService.ordenarLista(productService.listarAllProd("genero")));
-		model.addAttribute("distribuidoras", productService.ordenarLista(productService.listarAllProd("distribuidora")));
+		model.addAttribute("distribuidoras",
+				productService.ordenarLista(productService.listarAllProd("distribuidora")));
 		model.addAttribute("plataformas", productService.ordenarLista(productService.listarAllProd("plataforma")));
 
 		List<Producte> juegos = productService.buscarProductosCat(category, cat_name, "Si");
@@ -82,7 +87,8 @@ public class ClientController {
 	public String product(@PathVariable String product_id, Model model) {
 
 		model.addAttribute("generos", productService.ordenarLista(productService.listarAllProd("genero")));
-		model.addAttribute("distribuidoras", productService.ordenarLista(productService.listarAllProd("distribuidora")));
+		model.addAttribute("distribuidoras",
+				productService.ordenarLista(productService.listarAllProd("distribuidora")));
 		model.addAttribute("plataformas", productService.ordenarLista(productService.listarAllProd("plataforma")));
 
 		Producte product = productService.buscarProdId(product_id);
@@ -90,6 +96,16 @@ public class ClientController {
 		model.addAttribute("product", product);
 
 		return "product";
+	}
+
+	@RequestMapping(value = "/imagenes/producto/{img:.+}", method = RequestMethod.GET)
+	@ResponseBody
+	public FileSystemResource getImatge(@PathVariable String img) {
+
+		FileSystemResource resource;
+		resource = new FileSystemResource("productos/" + img);
+
+		return resource;
 	}
 
 	@RequestMapping(value = "/new_venta/{id}", method = RequestMethod.POST)
@@ -109,7 +125,8 @@ public class ClientController {
 	public String home(Model model) throws UnsupportedEncodingException {
 
 		model.addAttribute("generos", productService.ordenarLista(productService.listarAllProd("genero")));
-		model.addAttribute("distribuidoras", productService.ordenarLista(productService.listarAllProd("distribuidora")));
+		model.addAttribute("distribuidoras",
+				productService.ordenarLista(productService.listarAllProd("distribuidora")));
 		model.addAttribute("plataformas", productService.ordenarLista(productService.listarAllProd("plataforma")));
 
 		List<Producte> masVendidos = productService.prodMasVendidos();
@@ -186,9 +203,10 @@ public class ClientController {
 			@RequestParam(required = false) Integer page, Model model) {
 
 		model.addAttribute("generos", productService.ordenarLista(productService.listarAllProd("genero")));
-		model.addAttribute("distribuidoras", productService.ordenarLista(productService.listarAllProd("distribuidora")));
+		model.addAttribute("distribuidoras",
+				productService.ordenarLista(productService.listarAllProd("distribuidora")));
 		model.addAttribute("plataformas", productService.ordenarLista(productService.listarAllProd("plataforma")));
-		
+
 		List<Producte> listaProductos;
 		long totalProductos;
 
@@ -203,17 +221,17 @@ public class ClientController {
 			listaProductos = productService.todosProductosPagina(pagina, 8);
 
 		} else {
-			
+
 			model.addAttribute("url", "&keyword=" + keyword);
 			listaProductos = productService.buscarNombreProductoPagina(keyword, pagina, 8);
 		}
 
-		for(Producte p : listaProductos){
+		for (Producte p : listaProductos) {
 			if (p.getNom().length() > 20) {
 				p.setNom(p.getNom().substring(0, 20) + "...");
 			}
 		}
-		
+
 		totalProductos = productService.countProductos(keyword);
 
 		model.addAttribute("vacio", listaProductos.isEmpty());
@@ -228,9 +246,10 @@ public class ClientController {
 		return "register";
 	}
 
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@RequestMapping(value = "/newregister", method = RequestMethod.POST)
 	public String saveUser(@RequestParam("nombre") String name, @RequestParam("email") String mail,
-			@RequestParam("passwd") String password, @RequestParam("direccion") String address, Model model) {
+			@RequestParam("passwd") String password, @RequestParam("direccion") String address,
+			final RedirectAttributes redirectAttributes) {
 
 		Usuari result = userService.crearUsuari(name, password, mail, address, false);
 
@@ -238,8 +257,8 @@ public class ClientController {
 
 			String error = "Error: El nombre/correo ya existe!";
 
-			model.addAttribute("error", error);
-			return "register";
+			redirectAttributes.addFlashAttribute("error", error);
+			return "redirect:/register";
 		}
 		return "redirect:/";
 	}
@@ -248,7 +267,8 @@ public class ClientController {
 	public String contact(Model model) {
 
 		model.addAttribute("generos", productService.ordenarLista(productService.listarAllProd("genero")));
-		model.addAttribute("distribuidoras", productService.ordenarLista(productService.listarAllProd("distribuidora")));
+		model.addAttribute("distribuidoras",
+				productService.ordenarLista(productService.listarAllProd("distribuidora")));
 		model.addAttribute("plataformas", productService.ordenarLista(productService.listarAllProd("plataforma")));
 
 		return "contact";
@@ -258,7 +278,8 @@ public class ClientController {
 	public String about(Model model) {
 
 		model.addAttribute("generos", productService.ordenarLista(productService.listarAllProd("genero")));
-		model.addAttribute("distribuidoras", productService.ordenarLista(productService.listarAllProd("distribuidora")));
+		model.addAttribute("distribuidoras",
+				productService.ordenarLista(productService.listarAllProd("distribuidora")));
 		model.addAttribute("plataformas", productService.ordenarLista(productService.listarAllProd("plataforma")));
 
 		return "about";
@@ -274,5 +295,5 @@ public class ClientController {
 
 		return "login";
 	}
-	
+
 }

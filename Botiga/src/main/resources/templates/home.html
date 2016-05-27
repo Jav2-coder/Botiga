@@ -73,7 +73,7 @@
 			<div class="row" id="row_home">
 				<div class="col-md-3 prod_game2" th:each="juego : ${juegos}">
 					<a th:href="@{'/producto/'+${juego.id}}"> <img width="200"
-						th:src="@{'/images/products/' + ${juego.portada}}" /><br /> <span
+						th:src="@{'/imagenes/producto/' + ${juego.portada}}" /><br /> <span
 						th:text="${juego.nom}" /><br /> <span>Precio: </span><strong><span
 							th:text="${#numbers.formatDecimal(juego.precio, 0, 'DEFAULT', 2, 'DEFAULT')}" /><span>
 								€</span></strong>

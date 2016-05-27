@@ -17,11 +17,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/", "/new_venta/**", "/categoria/**", "/products", "/login", "/contact", "/about", "/register", "/producto/**")
-				.permitAll().antMatchers("/newAdmin","/listClients", "/addproduct", "/dashboard")
-				.hasAuthority("ROLE_ADMIN").anyRequest()
-				.authenticated().and().formLogin().loginPage("/login").defaultSuccessUrl("/").permitAll().and().logout()
-				.permitAll();
+		http.authorizeRequests()
+				.antMatchers("/", "/new_venta/**", "/categoria/**", "/products", "/login", "/contact", "/about",
+						"/register", "/newregister", "/producto/**", "/imagenes/**")
+				.permitAll().antMatchers("/newAdmin", "/listClients", "/addproduct", "/dashboard")
+				.hasAuthority("ROLE_ADMIN").anyRequest().authenticated().and().formLogin().loginPage("/login")
+				.defaultSuccessUrl("/").permitAll().and().logout().permitAll();
 	}
 
 	/**

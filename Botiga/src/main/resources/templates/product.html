@@ -8,7 +8,6 @@
 	integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
 	crossorigin="anonymous"></link>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-<script src="/js/jquery.elevatezoom.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
 	integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
@@ -19,7 +18,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
 <script type="text/javascript" src="/js/move-top.js"></script>
 <script type="text/javascript" src="/js/easing.js"></script>
+<script type="text/javascript" src="/js/mootools.js"></script>
+<script type="text/javascript" src="/js/Zoomer.js"></script>
 <script type="text/javascript" src="/js/edit.js"></script>
+<script type="text/javascript">
+			window.addEvent('load', function(){
+				new Zoomer('img_prod');
+			});
+		</script>
 <script type="text/javascript">
 	jQuery(document).ready(function($) {
 		$(".scroll").click(function(event) {
@@ -43,20 +49,13 @@
 			</h3>
 			<br />
 			<div id="prod_imagenes" class="col-md-4 col-md-offset-2">
-				<img width="100%" class="img-responsive" id="img_portada"
-					th:src="@{'/images/products/' + ${product.portada}}"
-					th:attr="data-zoom-image=@{'/images/products/' + ${product.portada}}" />
-				<script>
-					$("#img_portada").elevateZoom({
-						zoomType : "lens",
-						lensShape : "round",
-						lensSize : 200
-					})
-				</script>
+				<img id="img_prod" width="100%" class="img-responsive"
+					th:src="@{'/imagenes/producto/' + ${product.portada}}"
+					th:attr="big=|/imagenes/producto/${product.portada}|" />
 				<div class="row">
 					<div class="col-md-3" th:each="img : ${product.imagenes}">
 						<img class="editImg" width="100%"
-							th:src="@{'/images/products/' + ${img}}" />
+							th:src="@{'/imagenes/producto/' + ${img}}" />
 					</div>
 				</div>
 			</div>
@@ -71,7 +70,8 @@
 							<th><span>PEGI</span></th>
 						</tr>
 						<tr>
-							<td><span th:text="${#numbers.formatDecimal(product.precio, 0, 'DEFAULT', 2, 'DEFAULT')}">x</span></td>
+							<td><span
+								th:text="${#numbers.formatDecimal(product.precio, 0, 'DEFAULT', 2, 'DEFAULT')}">x</span></td>
 							<td><span th:text="${product.genero}">x</span></td>
 							<td><span th:text="${product.distribuidora}">x</span></td>
 							<td><span th:text="${product.plataforma}">x</span></td>
@@ -79,9 +79,9 @@
 						</tr>
 					</tbody>
 				</table>
-				<form id="form_quantity" th:action="@{'/new_venta/'+${product.id}}" method="post">
-					<span>Cantidad:</span>
-					<select id="select_quantity" name="cantidad">
+				<form id="form_quantity" th:action="@{'/new_venta/'+${product.id}}"
+					method="post">
+					<span>Cantidad:</span> <select id="select_quantity" name="cantidad">
 						<option th:each="i: ${#numbers.sequence(1, product.cantidad)}"
 							th:text="${i}">x</option>
 					</select>
