@@ -131,6 +131,12 @@ public class ClientController {
 		model.addAttribute("plataformas", productService.ordenarLista(productService.listarAllProd("plataforma")));
 
 		List<Producte> masVendidos = productService.prodMasVendidos();
+		
+		for(Producte p : masVendidos){
+			if (p.getNom().length() > 20) {
+				p.setNom(p.getNom().substring(0, 20) + "...");
+			}
+		}
 
 		model.addAttribute("juegos", masVendidos);
 

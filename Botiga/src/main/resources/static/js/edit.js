@@ -36,10 +36,34 @@ jQuery(document).ready(
 
 					});
 
-			setTimeout(escondeError, 5000);
+			setTimeout(errorNumber, 5000);
+			setTimeout(errorCSV, 5000);
+			setTimeout(errorActive, 5000);
+			setTimeout(errorImg, 5000);
+			setTimeout(errorProduct, 5000);
+			setTimeout(errorType, 5000);
+			setTimeout(errorEdit, 5000);
 
-			function escondeError() {
+			function errorCSV() {
+				$("#err_csv").slideUp();
+			}
+			function errorNumber() {
 				$("#err_number").slideUp();
+			}
+			function errorActive() {
+				$("#err_active").slideUp();
+			}
+			function errorImg() {
+				$("#err_img").slideUp();
+			}
+			function errorProduct() {
+				$("#err_product").slideUp();
+			}
+			function errorType() {
+				$("#err_type").slideUp();
+			}
+			function errorEdit() {
+				$("#err_edit").slideUp();
 			}
 
 			$(".editImg").on("click", function(e) {

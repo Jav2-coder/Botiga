@@ -76,6 +76,13 @@ public class AdminController {
 			@RequestParam("plataformas") String plataforma, @RequestParam("edad") String edad,
 			@RequestParam("activar") String activar, Model model, final RedirectAttributes redirectAttributes) {
 
+		if (id.equals("")) {
+			String error = "NOPE";
+			redirectAttributes.addFlashAttribute("error_edit", error);
+			
+			return "redirect:/dashboard";
+		}
+		
 		Double precio = null;
 		Integer cantidad = null;
 
@@ -85,7 +92,6 @@ public class AdminController {
 			cantidad = Integer.parseInt(quantity);
 
 		} catch (Exception e) {
-
 			String error = "NOPE";
 			redirectAttributes.addFlashAttribute("error_number", error);
 
@@ -194,23 +200,28 @@ public class AdminController {
 
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/uploadcsv", method = RequestMethod.POST)
-	public String saveCSV(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes, Model model)
+	public String saveCSV(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes)
 			throws IOException {
 
 		if (!file.getOriginalFilename().matches(".+\\.csv$")) {
-			return "redirect:/";
+
+			String error = "NOPE";
+			redirectAttributes.addFlashAttribute("error_type", error);
+			return "redirect:/addproduct";
 		}
 
 		InputStream f = file.getInputStream();
 		CSVReader reader = new CSVReader(new InputStreamReader(f), ',');
 		String[] nextLine;
-		
+
 		while ((nextLine = reader.readNext()) != null) {
 
 			if (nextLine.length != 13) {
 
 				reader.close();
-				return "new_product";
+				String error = "NOPE";
+				redirectAttributes.addFlashAttribute("error_csv", error);
+				return "redirect:/addproduct";
 			}
 
 			String[] imagenes = { nextLine[8], nextLine[9], nextLine[10], nextLine[11] };
@@ -226,34 +237,35 @@ public class AdminController {
 
 				reader.close();
 				String error = "NOPE";
-				model.addAttribute("error_number", error);
-
-				return "new_product";
+				redirectAttributes.addFlashAttribute("error_number", error);
+				return "redirect:/addproduct";
 			}
 
 			for (String img : imagenes) {
-				if (!img.contains(".")) {
+				if (!img.matches(".+\\..+$")) {
 					reader.close();
 					String error = "NOPE";
-					model.addAttribute("error_img", error);
-					return "new_product";
+					redirectAttributes.addFlashAttribute("error_img", error);
+					return "redirect:/addproduct";
 				}
 			}
 
 			if (!nextLine[6].equals("Si") && !nextLine[6].equals("No")) {
 
 				reader.close();
-				return "new_product";
+				String error = "NOPE";
+				redirectAttributes.addFlashAttribute("error_activar", error);
+				return "redirect:/addproduct";
 			}
-			
-			Producte newProd = p_service.crearProducte(nextLine[0], nextLine[12], nextLine[1], nextLine[2], nextLine[3], nextLine[4],
-					cantidad, precio, nextLine[6], imagenes, 0L);
+
+			Producte newProd = p_service.crearProducte(nextLine[0], nextLine[12], nextLine[1], nextLine[2], nextLine[3],
+					nextLine[4], cantidad, precio, nextLine[6], imagenes, 0L);
 
 			if (newProd == null) {
 				reader.close();
 				String error = "NOPE";
-				model.addAttribute("error_product", error);
-				return "new_product";
+				redirectAttributes.addFlashAttribute("error_product", error);
+				return "redirect:/addproduct";
 			}
 		}
 
@@ -269,7 +281,7 @@ public class AdminController {
 			@RequestParam("plataformas") String plataforma, @RequestParam("edad") String edad,
 			@RequestParam("caja") String caja, @RequestParam("juego") String juego,
 			@RequestParam("escena1") String escena1, @RequestParam("escena2") String escena2,
-			@RequestParam("activar") String activar, Model model) {
+			@RequestParam("activar") String activar, RedirectAttributes redirectAttributes, Model model) {
 
 		model.addAttribute("generos", p_service.ordenarLista(p_service.listarAllProd("genero")));
 		model.addAttribute("distribuidoras", p_service.ordenarLista(p_service.listarAllProd("distribuidora")));
@@ -288,15 +300,15 @@ public class AdminController {
 		} catch (Exception e) {
 
 			String error = "NOPE";
-			model.addAttribute("error_number", error);
-			return "new_product";
+			redirectAttributes.addFlashAttribute("error_number", error);
+			return "redirect:/addproduct";
 		}
 
 		for (String img : imagenes) {
-			if (!img.contains(".")) {
+			if (!img.matches(".+\\..+$")) {
 				String error = "NOPE";
-				model.addAttribute("error_img", error);
-				return "new_product";
+				redirectAttributes.addFlashAttribute("error_img", error);
+				return "redirect:/addproduct";
 			}
 		}
 
@@ -305,8 +317,8 @@ public class AdminController {
 
 		if (newProd == null) {
 			String error = "NOPE";
-			model.addAttribute("error_product", error);
-			return "new_product";
+			redirectAttributes.addFlashAttribute("error_product", error);
+			return "redirect:/addproduct";
 		}
 
 		return "redirect:/dashboard";

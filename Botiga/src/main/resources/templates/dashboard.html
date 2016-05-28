@@ -21,8 +21,12 @@
 		<div class="shell">
 			<div th:if="${error_number}" id="err_number" class="msg msg-error">
 				<p>
-					<strong>Error: El precio/la cantidad ha de ser un valor
-						numérico!</strong>
+					<strong>Error: El precio/la cantidad ha de ser un valor numérico!</strong>
+				</p>
+			</div>
+			<div th:if="${error_edit}" id="err_edit" class="msg msg-error">
+				<p>
+					<strong>Error: Se ha intentado editar un producto sin ser seleccionado antes!</strong>
 				</p>
 			</div>
 			<br />

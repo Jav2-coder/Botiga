@@ -17,19 +17,34 @@
 	<!-- Container -->
 	<div id="container">
 		<div class="shell">
-			<div th:if="${error_number}" class="msg msg-error">
+			<div th:if="${error_number}" id="err_number" class="msg msg-error">
 				<p>
 					<strong>Error: El precio/la cantidad ha de ser un valor numérico!</strong>
 				</p>
 			</div>
-			<div th:if="${error_product}" class="msg msg-error">
+			<div th:if="${error_product}" id="err_product" class="msg msg-error">
 				<p>
 					<strong>Error: El producto ya existe!</strong>
 				</p>
 			</div>
-			<div th:if="${error_img}" class="msg msg-error">
+			<div th:if="${error_img}" id="err_img" class="msg msg-error">
 				<p>
 					<strong>Error: Se ha de escribir el formato de la imagen!</strong>
+				</p>
+			</div>
+			<div th:if="${error_activar}" id="err_active" class="msg msg-error">
+				<p>
+					<strong>Error: El atributo "activado" de un producto es erroneo!</strong>
+				</p>
+			</div>
+			<div th:if="${error_csv}" id="err_csv" class="msg msg-error">
+				<p>
+					<strong>Error: El contenido del CSV no se corresponde con el solicitado!</strong>
+				</p>
+			</div>
+			<div th:if="${error_type}" id="err_type" class="msg msg-error">
+				<p>
+					<strong>Error: El formato del archivo subido no es CSV!</strong>
 				</p>
 			</div>
 			<br />
@@ -93,7 +108,7 @@
 						</div>
 						<div id="selectAa">
 							<label>Descripcion</label>
-							<textarea name="descripcion"></textarea>
+							<textarea name="descripcion" required="required"></textarea>
 						</div>
 						<div id="select6">
 							<label>Activar</label> <select name="activar">
