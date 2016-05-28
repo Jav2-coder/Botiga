@@ -140,6 +140,15 @@ public class ClientController {
 	@RequestMapping(value = "/checkout", method = RequestMethod.POST)
 	public String pedido(@ModelAttribute("carrito") Carrito carrito, SessionStatus status, Model model) {
 
+		List<Sell> compra = carrito.getSells();
+		
+		for(int i = 0; i < compra.size(); i++){
+			Producte p = compra.get(i).getProducte();
+			if (p.getNom().length() > 20) {
+				p.setNom(p.getNom().substring(0, 20) + "...");
+			}
+		}
+		
 		model.addAttribute("carrito", carrito);
 
 		return "checkout";
@@ -170,8 +179,6 @@ public class ClientController {
 		String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
 
 		carrito.setPago(carrito.getPago() + (carrito.getPago() * Integer.parseInt(envio)/100));
-		
-		System.out.println(carrito.getPago());
 		
 		carrito.setUsername(username);
 

@@ -42,13 +42,13 @@
 		<div class="header-top" th:replace="fragment/header :: header-top"></div>
 		<div class="content">
 			<h3>
-				<span>Número Pedido:&nbsp;</span><span th:text="${carrito.id}"></span>
+				<span>Nº Pedido:&nbsp;</span><span th:text="${carrito.id}"></span>
 			</h3>
-			<div>
+			<div id="checkout_table">
 				<table>
 					<tr th:each="ventas : ${carrito.sells}">
-						<td><span th:text="${ventas.producte.nom}">x</span>&nbsp;</td>
-						<td><span
+						<td><span th:text="${ventas.producte.nom}">x</span><span>&nbsp;</span></td>
+						<td><span>Precio:&nbsp;</span><span
 							th:text="${#numbers.formatDecimal(ventas.producte.precio, 0, 'DEFAULT', 2, 'DEFAULT')}">x</span><span>€&nbsp;</span></td>
 						<td><span>Cantidad:&nbsp;</span><span
 							th:text="${ventas.cantidad}"></span>&nbsp;</td>
@@ -60,21 +60,23 @@
 				</table>
 				<form th:action="@{/buyCart}" method="post">
 					<div>
+					<br />
 						<table>
 							<tr>
-								<td><span>Envío nacional</span><input id="nacional"
+								<td><span>Envío nacional&nbsp;</span><input id="nacional"
 									type="radio" name="envio" onclick="precioNacional()" value="5" checked="checked" /></td>
 							</tr>
 							<tr>
-								<td><span>Envío internacional</span><input
+								<td><span>Envío internacional&nbsp;</span><input
 									id="internacional" type="radio" name="envio"
 									onclick="precioInternacional()" value="25" /></td>
 							</tr>
 						</table>
 					</div>
+					<br />
 					<span>Total + Envío:&nbsp;</span><span id="pago_envio">Selecciona
 						envío</span><span>€</span>
-					<button type="submit">Comprar</button>
+					<button class="exclusive btn" type="submit">Comprar</button>
 				</form>
 				<input id="hidden_pago" type="hidden"
 					th:value="${#numbers.formatDecimal(carrito.pago, 0, 'DEFAULT', 2, 'DEFAULT')}" />

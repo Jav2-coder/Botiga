@@ -83,7 +83,14 @@ public class ProducteService {
 	}
 
 	public void editProd(Producte p) {
-		product.save(p);
+		
+		Producte edit = product.findById(p.getId());
+		
+		edit.setActivado(p.getActivado());
+		edit.setCantidad(p.getCantidad());
+		edit.setVentas(p.getVentas());
+		
+		product.save(edit);
 	}
 
 	public void eliminarProd(String id) {

@@ -29,6 +29,23 @@ ul, h3 {
 	color: #2a00b4;
 }
 
+/*--checkout--*/
+div#checkout_table{
+	font-size: 150%;
+	color:#337ab7;
+}
+
+/*--register--*/
+div.account-in{
+	font-size: 150%;
+	display: inline-block;
+	color:#337ab7;
+}
+
+div.account-in h2{
+	text-align: center;
+}
+
 /*--pago realizado--*/
 #img_gracias img{
 	display: block;
