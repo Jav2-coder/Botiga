@@ -10,6 +10,7 @@ public class Producte {
 	private String id;
 
 	private String nom;
+	private String descripcion;
 	private String portada;
 	private String [] imagenes;
 	private String genero;
@@ -31,6 +32,14 @@ public class Producte {
 
 	public void setNom(String nom) {
 		this.nom = nom;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 	public String getGenero() {

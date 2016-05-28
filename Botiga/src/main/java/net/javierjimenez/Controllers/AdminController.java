@@ -116,7 +116,7 @@ public class AdminController {
 
 		return "redirect:/listCarts";
 	}
-	
+
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
 	public String eliminar(@PathVariable("id") String id) {
@@ -198,25 +198,22 @@ public class AdminController {
 			throws IOException {
 
 		if (!file.getOriginalFilename().matches(".+\\.csv$")) {
-
 			return "redirect:/";
 		}
 
 		InputStream f = file.getInputStream();
 		CSVReader reader = new CSVReader(new InputStreamReader(f), ',');
-
 		String[] nextLine;
+		
 		while ((nextLine = reader.readNext()) != null) {
 
-			if (nextLine.length > 12 || nextLine.length < 12) {
+			if (nextLine.length != 13) {
 
 				reader.close();
-
 				return "new_product";
 			}
 
 			String[] imagenes = { nextLine[8], nextLine[9], nextLine[10], nextLine[11] };
-
 			Double precio = null;
 			Integer cantidad = null;
 
@@ -248,8 +245,8 @@ public class AdminController {
 				reader.close();
 				return "new_product";
 			}
-
-			Producte newProd = p_service.crearProducte(nextLine[0], nextLine[1], nextLine[2], nextLine[3], nextLine[4],
+			
+			Producte newProd = p_service.crearProducte(nextLine[0], nextLine[12], nextLine[1], nextLine[2], nextLine[3], nextLine[4],
 					cantidad, precio, nextLine[6], imagenes, 0L);
 
 			if (newProd == null) {
@@ -261,17 +258,16 @@ public class AdminController {
 		}
 
 		reader.close();
-
 		return "redirect:/dashboard";
-
 	}
 
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/singleProd", method = RequestMethod.POST)
-	public String saveProduct(@RequestParam("name") String nombre, @RequestParam("price") String price,
-			@RequestParam("total") String quantity, @RequestParam("generos") String genero,
-			@RequestParam("distribuidoras") String distribuidora, @RequestParam("plataformas") String plataforma,
-			@RequestParam("edad") String edad, @RequestParam("caja") String caja, @RequestParam("juego") String juego,
+	public String saveProduct(@RequestParam("name") String nombre, @RequestParam("descripcion") String descripcion,
+			@RequestParam("price") String price, @RequestParam("total") String quantity,
+			@RequestParam("generos") String genero, @RequestParam("distribuidoras") String distribuidora,
+			@RequestParam("plataformas") String plataforma, @RequestParam("edad") String edad,
+			@RequestParam("caja") String caja, @RequestParam("juego") String juego,
 			@RequestParam("escena1") String escena1, @RequestParam("escena2") String escena2,
 			@RequestParam("activar") String activar, Model model) {
 
@@ -304,8 +300,8 @@ public class AdminController {
 			}
 		}
 
-		Producte newProd = p_service.crearProducte(nombre, genero, distribuidora, plataforma, edad, cantidad, precio,
-				activar, imagenes, 0L);
+		Producte newProd = p_service.crearProducte(nombre, descripcion, genero, distribuidora, plataforma, edad,
+				cantidad, precio, activar, imagenes, 0L);
 
 		if (newProd == null) {
 			String error = "NOPE";

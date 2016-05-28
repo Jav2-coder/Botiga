@@ -70,6 +70,11 @@ div.account-in h2{
 	margin-top: 10px;
 }
 
+div#spoiler{
+	color: #337ab7;
+	text-align: justify;
+}
+
 #form_quantity span{
 	color: #337ab7;
 }

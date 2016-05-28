@@ -79,6 +79,17 @@
 						</tr>
 					</tbody>
 				</table>
+				<br />
+				<div>
+					<button class="exclusive btn"
+						onclick="if(document.getElementById('spoiler').style.display=='none'){ document.getElementById('spoiler').style.display=''} else { document.getElementById('spoiler').style.display='none'}"
+						type="button">
+						<span>Monstrar/Ocultar Info</span>
+					</button>
+					<div id="spoiler" style="display: none;">
+						<span th:text="${product.descripcion}"></span>
+					</div>
+				</div>
 				<form id="form_quantity" th:action="@{'/new_venta/'+${product.id}}"
 					method="post">
 					<span>Cantidad:</span> <select id="select_quantity" name="cantidad">
