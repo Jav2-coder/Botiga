@@ -79,16 +79,6 @@
 						</tr>
 					</tbody>
 				</table>
-				<div class="divspoiler">
-					<a id="clickme" href="javascript:void(0);"
-						onclick="if (this.parentNode.parentNode.getElementsByTagName('div')[1].getElementsByTagName('div')[0].style.display != '') {this.parentNode.parentNode.getElementsByTagName('div')[1].getElementsByTagName('div')[0].style.display = '';} else {this.parentNode.parentNode.getElementsByTagName('div')[1].getElementsByTagName('div')[0].style.display='none';}"><span><b>Info
-								producto</b></span> &#9660;&#9650;</a>
-				</div>
-				<div>
-					<div class="spoiler" style="display: none;">
-						<span>YEEEEEEEEEE</span>
-					</div>
-				</div>
 				<form id="form_quantity" th:action="@{'/new_venta/'+${product.id}}"
 					method="post">
 					<span>Cantidad:</span> <select id="select_quantity" name="cantidad">

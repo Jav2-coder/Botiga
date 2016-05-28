@@ -26,25 +26,27 @@ public class Carrito {
 		tieneCosas = false;
 	}
 
-	public void addProducto(Sell venta){
+	public void addProducto(Sell venta) {
 		tieneCosas = true;
 		sells.add(venta);
 	}
-	
+
 	public Carrito(String name) {
 		this();
 		username = name;
 	}
 
-	public Double getPago() {
-		pago = 0.0;
-		
+	public void generateTotal() {
+		Double total = 0.0;
+
 		for (Sell venta : sells) {
-			pago = pago + (venta.getCantidad() * venta.getProducte().getPrecio());
+			total = total + (venta.getCantidad() * venta.getProducte().getPrecio());
 		}
-		
-		pago = pago + ((pago*5)/100);
-		
+		setPago(total);
+	}
+
+	public Double getPago() {
+
 		return pago;
 	}
 

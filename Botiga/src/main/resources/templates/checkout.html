@@ -17,6 +17,24 @@
 	media="all"></link>
 <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+<script type="text/javascript">
+	function precioNacional() {
+
+		var precio = parseFloat($("#hidden_pago").val());
+		var precio_env = precio + ((precio * 5) / 100);
+
+		$("#pago_envio").text(precio_env);
+	}
+</script>
+<script type="text/javascript">
+	function precioInternacional() {
+
+		var precio = parseFloat($("#hidden_pago").val());
+		var precio_env = precio + ((precio * 25) / 100);
+
+		$("#pago_envio").text(precio_env);
+	}
+</script>
 </head>
 <body>
 	<div class="container">
@@ -32,29 +50,45 @@
 						<td><span th:text="${ventas.producte.nom}">x</span>&nbsp;</td>
 						<td><span
 							th:text="${#numbers.formatDecimal(ventas.producte.precio, 0, 'DEFAULT', 2, 'DEFAULT')}">x</span><span>€&nbsp;</span></td>
-						<td><span>Cantidad:&nbsp;</span><span th:text="${ventas.cantidad}"></span>&nbsp;<!-- <select name="cantidad">
-								<option
-									th:each="i: ${#numbers.sequence(1, ventas.producte.cantidad)}"
-									th:text="${i}" th:if="${i} == ${ventas.cantidad}"
-									selected="selected">x</option>
-								<option
-									th:each="i: ${#numbers.sequence(1, ventas.producte.cantidad)}"
-									th:text="${i}" th:if="${i} != ${ventas.cantidad}">x</option>
-						</select>--></td>
+						<td><span>Cantidad:&nbsp;</span><span
+							th:text="${ventas.cantidad}"></span>&nbsp;</td>
 						<td><form th:action="@{'/delCart/' + ${ventas.id}}"
 								method="post">
 								<button type="submit">Eliminar</button>
 							</form></td>
 					</tr>
 				</table>
-				<div>
-					<span>Total + Envío(5%):&nbsp;</span><span
-						th:text="${#numbers.formatDecimal(carrito.pago, 0, 'DEFAULT', 2, 'DEFAULT')}">x</span><span>€</span>
-					<form th:action="@{/buyCart}" method="post">
-						<button type="submit">Comprar</button>
-					</form>
-				</div>
+				<form th:action="@{/buyCart}" method="post">
+					<div>
+						<table>
+							<tr>
+								<td><span>Envío nacional</span><input id="nacional"
+									type="radio" name="envio" onclick="precioNacional()" value="5" checked="checked" /></td>
+							</tr>
+							<tr>
+								<td><span>Envío internacional</span><input
+									id="internacional" type="radio" name="envio"
+									onclick="precioInternacional()" value="25" /></td>
+							</tr>
+						</table>
+					</div>
+					<span>Total + Envío:&nbsp;</span><span id="pago_envio">Selecciona
+						envío</span><span>€</span>
+					<button type="submit">Comprar</button>
+				</form>
+				<input id="hidden_pago" type="hidden"
+					th:value="${#numbers.formatDecimal(carrito.pago, 0, 'DEFAULT', 2, 'DEFAULT')}" />
+				<script>
+					function precioEnvio() {
+						var precio = parseFloat($("#hidden_pago").val());
+						var precio_env = precio + ((precio * 5) / 100);
+
+						return precio_env;
+					}
+					document.getElementById("pago_envio").innerHTML = precioEnvio();
+				</script>
 			</div>
+			<br /> <br />
 		</div>
 	</div>
 </body>

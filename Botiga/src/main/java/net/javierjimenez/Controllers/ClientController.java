@@ -116,6 +116,7 @@ public class ClientController {
 		Integer cantidad = Integer.parseInt(quantity);
 
 		carrito.addProducto(new Sell(p, cantidad));
+		carrito.generateTotal();
 		model.addAttribute("carrito", carrito);
 
 		return "redirect:/producto/" + id;
@@ -164,10 +165,14 @@ public class ClientController {
 	}
 
 	@RequestMapping(value = "/buyCart", method = RequestMethod.POST)
-	public String buyCart(@ModelAttribute("carrito") Carrito carrito, SessionStatus status) {
+	public String buyCart(@ModelAttribute("carrito") Carrito carrito, SessionStatus status, @RequestParam("envio") String envio) {
 
 		String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
 
+		carrito.setPago(carrito.getPago() + (carrito.getPago() * Integer.parseInt(envio)/100));
+		
+		System.out.println(carrito.getPago());
+		
 		carrito.setUsername(username);
 
 		compra.save(carrito);
