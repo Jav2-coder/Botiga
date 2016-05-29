@@ -5,9 +5,12 @@
 <head>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 <title>Press Start - Admin Zone</title>
+<script
+	src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <link rel="stylesheet" href="/css/styleAdmin.css" type="text/css"
 	media="all" />
 <script type="text/javascript" src="/js/edit.js"></script>
+<script type="text/javascript" src="/js/adminAjax.js"></script>
 </head>
 <body>
 	<!-- Header -->
@@ -146,9 +149,9 @@
 				<div class="box-head">
 					<h2>Subir CSV</h2>
 				</div>
-				<form method="post" th:action="@{/uploadcsv}" enctype="multipart/form-data">
+				<form id="csv_form" method="post" enctype="multipart/form-data">
 					<div class="form">
-						<label>Archivo</label><input type="file" name="file" id="file" />
+						<label>Archivo</label><input type="file" name="csvfile" id="file" />
 					</div>
 					<div class="buttons">
 						<input type="submit" value="submit" class="button" />
