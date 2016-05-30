@@ -23,15 +23,9 @@ import net.javierjimenez.Repositories.UsuariService;
 @Component
 public class MongoAuthenticatorProvider implements AuthenticationProvider {
 
-	/**
-	 * 
-	 */
 	@Autowired
 	UsuariService userService;
 
-	/**
-	 * 
-	 */
 	public MongoAuthenticatorProvider() {
 		super();
 	}
@@ -44,19 +38,17 @@ public class MongoAuthenticatorProvider implements AuthenticationProvider {
 	 */
 	protected void additionalAuthenticationChecks(UserDetails arg0, UsernamePasswordAuthenticationToken arg1)
 			throws AuthenticationException {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public Authentication authenticate(final Authentication authentication) throws AuthenticationException {
 		String nomUsuari = authentication.getName();
 		String textContrasenya = authentication.getCredentials().toString();
-		// No ha posat la contrasenya
+		// Devuelve nulo si no se ha escrito la contraseña
 		if (!StringUtils.hasText(textContrasenya)) {
 			return null;
 		}
-		// Localitza l'usuari
+		// Busca el usuario que intenta loguearse
 		Usuari usuariIdentificat = userService.identifica(nomUsuari, textContrasenya);
 		if (usuariIdentificat == null) {
 
