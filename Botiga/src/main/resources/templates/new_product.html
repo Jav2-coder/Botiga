@@ -149,9 +149,9 @@
 				<div class="box-head">
 					<h2>Subir CSV</h2>
 				</div>
-				<form id="csv_form" method="post" enctype="multipart/form-data">
+				<form method="post" th:action="@{/uploadcsv}" enctype="multipart/form-data">
 					<div class="form">
-						<label>Archivo</label><input type="file" name="csvfile" id="file" />
+						<label>Archivo</label><input type="file" name="file" id="file" />
 					</div>
 					<div class="buttons">
 						<input type="submit" value="submit" class="button" />

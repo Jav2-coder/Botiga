@@ -15,16 +15,33 @@ import org.springframework.util.StringUtils;
 import net.javierjimenez.Models.Usuari;
 import net.javierjimenez.Repositories.UsuariService;
 
+/**
+ * 
+ * @author alumne1daw
+ *
+ */
 @Component
 public class MongoAuthenticatorProvider implements AuthenticationProvider {
 
+	/**
+	 * 
+	 */
 	@Autowired
 	UsuariService userService;
 
+	/**
+	 * 
+	 */
 	public MongoAuthenticatorProvider() {
 		super();
 	}
 
+	/**
+	 * 
+	 * @param arg0
+	 * @param arg1
+	 * @throws AuthenticationException
+	 */
 	protected void additionalAuthenticationChecks(UserDetails arg0, UsernamePasswordAuthenticationToken arg1)
 			throws AuthenticationException {
 		// TODO Auto-generated method stub

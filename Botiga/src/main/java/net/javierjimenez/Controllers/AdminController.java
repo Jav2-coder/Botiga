@@ -1,5 +1,6 @@
 package net.javierjimenez.Controllers;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
@@ -7,8 +8,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -202,69 +200,79 @@ public class AdminController {
 
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/uploadcsv", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseEntity<?> saveCSV(@RequestParam("csvfile") MultipartFile file,
-			RedirectAttributes redirectAttributes) {
+	public String saveCSV(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes)
+			throws IOException {
 
-		try {
-			if (!file.getOriginalFilename().matches(".+\\.csv$")) {
-				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-			}
+		System.out.println(file.getOriginalFilename());
+		
+		if (!file.getOriginalFilename().matches(".+\\.csv$")) {
 
-			InputStream f = file.getInputStream();
-			CSVReader reader = new CSVReader(new InputStreamReader(f), ',');
-			String[] nextLine;
-
-			while ((nextLine = reader.readNext()) != null) {
-
-				if (nextLine.length != 13) {
-					reader.close();
-					return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-				}
-
-				String[] imagenes = { nextLine[8], nextLine[9], nextLine[10], nextLine[11] };
-				Double precio = null;
-				Integer cantidad = null;
-
-				try {
-
-					precio = Double.parseDouble(nextLine[7]);
-					cantidad = Integer.parseInt(nextLine[5]);
-
-				} catch (Exception e) {
-					reader.close();
-					System.out.println(e.getMessage());
-					return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-				}
-
-				for (String img : imagenes) {
-					if (!img.matches(".+\\..+$")) {
-						reader.close();
-						return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-					}
-				}
-
-				if (!nextLine[6].equals("Si") && !nextLine[6].equals("No")) {
-					reader.close();
-					return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-				}
-
-				Producte newProd = p_service.crearProducte(nextLine[0], nextLine[12], nextLine[1], nextLine[2],
-						nextLine[3], nextLine[4], cantidad, precio, nextLine[6], imagenes, 0L);
-
-				if (newProd == null) {
-					reader.close();
-					return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-				}
-			}
-
-			reader.close();
-
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			String error = "NOPE";
+			redirectAttributes.addFlashAttribute("error_type", error);
+			return "redirect:/addproduct";
 		}
-		return new ResponseEntity<>(HttpStatus.OK);
+
+		InputStream f = file.getInputStream();
+		CSVReader reader = new CSVReader(new InputStreamReader(f), ',');
+		String[] nextLine;
+
+		while ((nextLine = reader.readNext()) != null) {
+
+			if (nextLine.length != 13) {
+
+				reader.close();
+				String error = "NOPE";
+				redirectAttributes.addFlashAttribute("error_csv", error);
+				return "redirect:/addproduct";
+			}
+
+			String[] imagenes = { nextLine[8], nextLine[9], nextLine[10], nextLine[11] };
+			Double precio = null;
+			Integer cantidad = null;
+
+			try {
+
+				precio = Double.parseDouble(nextLine[7]);
+				cantidad = Integer.parseInt(nextLine[5]);
+
+			} catch (Exception e) {
+
+				reader.close();
+				String error = "NOPE";
+				redirectAttributes.addFlashAttribute("error_number", error);
+				return "redirect:/addproduct";
+			}
+
+			for (String img : imagenes) {
+				if (!img.matches(".+\\..+$")) {
+					reader.close();
+					String error = "NOPE";
+					redirectAttributes.addFlashAttribute("error_img", error);
+					return "redirect:/addproduct";
+				}
+			}
+
+			if (!nextLine[6].equals("Si") && !nextLine[6].equals("No")) {
+
+				reader.close();
+				String error = "NOPE";
+				redirectAttributes.addFlashAttribute("error_activar", error);
+				return "redirect:/addproduct";
+			}
+
+			Producte newProd = p_service.crearProducte(nextLine[0], nextLine[12], nextLine[1], nextLine[2], nextLine[3],
+					nextLine[4], cantidad, precio, nextLine[6], imagenes, 0L);
+
+			if (newProd == null) {
+				reader.close();
+				String error = "NOPE";
+				redirectAttributes.addFlashAttribute("error_product", error);
+				return "redirect:/addproduct";
+			}
+		}
+
+		reader.close();
+		return "redirect:/dashboard";
 	}
 
 	@Secured("ROLE_ADMIN")
