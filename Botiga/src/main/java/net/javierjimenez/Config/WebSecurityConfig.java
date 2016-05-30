@@ -36,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().withUser("usuari").password("contrasenya").roles("USER");
+		auth.inMemoryAuthentication().withUser("admin").password("admin").roles("ADMIN");
 		auth.authenticationProvider(mongoAuthenticationProvider);
 	}
 }
