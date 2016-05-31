@@ -47,13 +47,14 @@ public class ClientController {
 	}
 
 	@RequestMapping("/account")
-	public String account(Model model) {
+	public String account(Model model, Carrito carrito) {
 
 		model.addAttribute("generos", productService.ordenarLista(productService.listarAllProd("genero")));
 		model.addAttribute("distribuidoras",
 				productService.ordenarLista(productService.listarAllProd("distribuidora")));
 		model.addAttribute("plataformas", productService.ordenarLista(productService.listarAllProd("plataforma")));
-
+		model.addAttribute("total_productos", carrito.getSells().size());
+		
 		String nom = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
 		Usuari usuariRecuperat = userService.buscaUsuari(nom);
 		model.addAttribute("usuario", usuariRecuperat);
@@ -62,13 +63,14 @@ public class ClientController {
 	}
 
 	@RequestMapping(value = "/categoria/{category}/{cat_name}")
-	public String categoriaProd(@PathVariable String category, @PathVariable String cat_name, Model model) {
+	public String categoriaProd(@PathVariable String category, @PathVariable String cat_name, Model model, Carrito carrito) {
 
 		model.addAttribute("generos", productService.ordenarLista(productService.listarAllProd("genero")));
 		model.addAttribute("distribuidoras",
 				productService.ordenarLista(productService.listarAllProd("distribuidora")));
 		model.addAttribute("plataformas", productService.ordenarLista(productService.listarAllProd("plataforma")));
-
+		model.addAttribute("total_productos", carrito.getSells().size());
+		
 		List<Producte> juegos = productService.buscarProductosCat(category, cat_name, "Si");
 
 		for (Producte p : juegos) {
@@ -84,13 +86,14 @@ public class ClientController {
 	}
 
 	@RequestMapping(value = "/producto/{product_id}", method = RequestMethod.GET)
-	public String product(@PathVariable String product_id, Model model) {
+	public String product(@PathVariable String product_id, Model model, Carrito carrito) {
 
 		model.addAttribute("generos", productService.ordenarLista(productService.listarAllProd("genero")));
 		model.addAttribute("distribuidoras",
 				productService.ordenarLista(productService.listarAllProd("distribuidora")));
 		model.addAttribute("plataformas", productService.ordenarLista(productService.listarAllProd("plataforma")));
-
+		model.addAttribute("total_productos", carrito.getSells().size());
+		
 		Producte product = productService.buscarProdId(product_id);
 
 		model.addAttribute("product", product);
@@ -110,26 +113,28 @@ public class ClientController {
 
 	@RequestMapping(value = "/new_venta/{id}", method = RequestMethod.POST)
 	public String addShopCart(@ModelAttribute("carrito") Carrito carrito, @PathVariable String id,
-			@RequestParam("cantidad") String quantity, Model model) {
+			@RequestParam("cantidad") String quantity, Model model, final RedirectAttributes redirectAttributes) {
 
 		Producte p = productService.buscarProdId(id);
 		Integer cantidad = Integer.parseInt(quantity);
 
 		carrito.addProducto(new Sell(p, cantidad));
 		carrito.generateTotal();
+		
 		model.addAttribute("carrito", carrito);
 
 		return "redirect:/producto/" + id;
 	}
 
 	@RequestMapping("/")
-	public String home(Model model) throws UnsupportedEncodingException {
+	public String home(Model model, Carrito carrito) throws UnsupportedEncodingException {
 
 		model.addAttribute("generos", productService.ordenarLista(productService.listarAllProd("genero")));
 		model.addAttribute("distribuidoras",
 				productService.ordenarLista(productService.listarAllProd("distribuidora")));
 		model.addAttribute("plataformas", productService.ordenarLista(productService.listarAllProd("plataforma")));
-
+		model.addAttribute("total_productos", carrito.getSells().size());
+		
 		List<Producte> masVendidos = productService.prodMasVendidos();
 		
 		for(Producte p : masVendidos){
@@ -218,13 +223,14 @@ public class ClientController {
 
 	@RequestMapping("/products")
 	public String llistaProductes(@RequestParam(required = false) String keyword,
-			@RequestParam(required = false) Integer page, Model model) {
+			@RequestParam(required = false) Integer page, Model model, Carrito carrito) {
 
 		model.addAttribute("generos", productService.ordenarLista(productService.listarAllProd("genero")));
 		model.addAttribute("distribuidoras",
 				productService.ordenarLista(productService.listarAllProd("distribuidora")));
 		model.addAttribute("plataformas", productService.ordenarLista(productService.listarAllProd("plataforma")));
-
+		model.addAttribute("total_productos", carrito.getSells().size());
+		
 		List<Producte> listaProductos;
 		long totalProductos;
 
@@ -282,24 +288,26 @@ public class ClientController {
 	}
 
 	@RequestMapping("/contact")
-	public String contact(Model model) {
+	public String contact(Model model, Carrito carrito) {
 
 		model.addAttribute("generos", productService.ordenarLista(productService.listarAllProd("genero")));
 		model.addAttribute("distribuidoras",
 				productService.ordenarLista(productService.listarAllProd("distribuidora")));
 		model.addAttribute("plataformas", productService.ordenarLista(productService.listarAllProd("plataforma")));
-
+		model.addAttribute("total_productos", carrito.getSells().size());
+		
 		return "contact";
 	}
 
 	@RequestMapping("/about")
-	public String about(Model model) {
+	public String about(Model model, Carrito carrito) {
 
 		model.addAttribute("generos", productService.ordenarLista(productService.listarAllProd("genero")));
 		model.addAttribute("distribuidoras",
 				productService.ordenarLista(productService.listarAllProd("distribuidora")));
 		model.addAttribute("plataformas", productService.ordenarLista(productService.listarAllProd("plataforma")));
-
+		model.addAttribute("total_productos", carrito.getSells().size());
+		
 		return "about";
 	}
 

@@ -95,7 +95,7 @@
 			</div>
 			<ul class="nav navbar-nav pull-right">
 				<li id="dropdown-carrito" class="dropdown"><a href="#"
-					class="dropdown-toggle" data-toggle="dropdown"><span>Carrito</span></a>
+					class="dropdown-toggle" data-toggle="dropdown"><span>Carrito&nbsp;<span th:text="${total_productos}" >x</span></span></a>
 					<ul th:if="${carrito.tieneCosas}" class="dropdown-menu">
 						<li th:each="ventas : ${carrito.sells}" class="sub-icon1 list"><span>Nombre:&nbsp;</span><span
 							th:text="${ventas.producte.nom}">x</span><br /> <span>Total:&nbsp;</span><span
